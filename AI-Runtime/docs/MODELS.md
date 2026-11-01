@@ -72,3 +72,9 @@ a huge one hides it until the bill arrives.
   tokens, and at what quantisation before accuracy degrades.
 - What the eval harness measures first — tool-call correctness, instruction
   retention across eviction, or groundedness. Pick one before adding the rest.
+
+## Evidence
+
+The measured backing for every claim above — effect sizes, citations, and an
+explicit list of what could **not** be verified — is in
+[`RESEARCH.md`](RESEARCH.md). Read it before citing a number from this file.
