@@ -1,0 +1,105 @@
+from __future__ import annotations
+
+import json
+import subprocess
+from pathlib import Path
+
+import pytest
+
+from scripts.architecture.analyzers.dependencies import _read_requirements
+from scripts.architecture.generator import analyze_repository
+from scripts.architecture.index import SourceIndex
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_source_index_detects_real_app_routes_and_runtime_wiring() -> None:
+    result = analyze_repository(ROOT)
+
+    route_pairs = {
+        (route["method"], route["path"])
+        for route in result["routes"]["routes"]
+    }
+    assert ("POST", "/api/chat") in route_pairs
+    assert ("POST", "/api/runtime/chat") in route_pairs
+    assert any(
+        edge["from"].endswith(".AgentRuntime")
+        and edge["to"] == "AgentLoop"
+        for edge in result["runtime"]["constructor_edges"]
+    )
+    assert any(
+        edge["from"].endswith("ToolExecutor.execute")
+        and edge["to"] == "PermissionManager.authorize"
+        for edge in result["runtime"]["execution_edges"]
+    )
+
+
+def test_parser_and_encoder_diagram_does_not_invent_a_lexer() -> None:
+    result = analyze_repository(ROOT)
+
+    names = {item["name"] for item in result["compiler"]["components"]}
+    assert "parse_tagged_text" in names
+    assert "encode_messages" in names
+    assert "bpe" in names
+    assert not any(name.lower() == "lexer" for name in names)
+    assert "No standalone lexer or parser package was detected." in result["compiler"]["diagram"]
+
+
+def test_source_index_uses_babel_for_javascript_and_python_ast_for_python() -> None:
+    index = SourceIndex.build(ROOT)
+
+    languages = {
+        "Python" if path.suffix == ".py" else "JavaScript/TypeScript"
+        for path in [*index.python_modules, *(Path(item["path"]) for item in index.javascript_modules)]
+    }
+    assert languages == {"Python", "JavaScript/TypeScript"}
+    server = next(
+        item for item in index.javascript_modules
+        if item["path"].endswith("frontend/src/server/index.js")
+    )
+    assert any(item["source"] == "fastify" for item in server["imports"])
+
+
+def test_utf16_requirements_manifest_is_parsed(tmp_path: Path) -> None:
+    manifest = tmp_path / "requirements.txt"
+    manifest.write_text("FastAPI>=0.1\nhttpx==0.2\n# skip\n", encoding="utf-16")
+
+    assert _read_requirements(manifest) == ["FastAPI", "httpx"]
+
+
+def test_analyzer_output_is_json_serializable() -> None:
+    result = analyze_repository(ROOT)
+    summary = {
+        "routes": result["routes"]["routes"],
+        "functions": result["functions"]["functions"],
+        "classes": result["classes"]["classes"],
+    }
+
+    assert json.loads(json.dumps(summary))
+
+
+def test_javascript_indexer_reports_parse_errors(tmp_path: Path) -> None:
+    invalid = tmp_path / "bad.jsx"
+    invalid.write_text("const = ;", encoding="utf-8")
+    indexer = ROOT / "scripts" / "architecture" / "js_indexer.mjs"
+    result = subprocess.run(
+        ["node", str(indexer)],
+        input=json.dumps([str(invalid)]),
+        text=True,
+        capture_output=True,
+        cwd=ROOT,
+        check=True,
+    )
+
+    assert json.loads(result.stdout)[0]["error"]
+
+
+@pytest.mark.parametrize(
+    "filename",
+    ["app.py", "AI-Runtime/agent/agent.py", "src/encoding/encoding.py"],
+)
+def test_python_sources_are_indexed(filename: str) -> None:
+    index = SourceIndex.build(ROOT)
+
+    assert any(path.relative_to(ROOT).as_posix() == filename for path in index.python_modules)

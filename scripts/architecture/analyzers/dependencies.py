@@ -32,11 +32,11 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
         )
 
     package_path = root / "package.json"
-    package: dict[str, Any] = {}
+    package_json: dict[str, Any] = {}
     if package_path.is_file():
-        package = json.loads(package_path.read_text(encoding="utf-8"))
+        package_json = json.loads(package_path.read_text(encoding="utf-8"))
         for section in ("dependencies", "devDependencies", "optionalDependencies"):
-            values = package.get(section, {})
+            values = package_json.get(section, {})
             if values:
                 manifests[f"package.json:{section}"] = sorted(values)
 
@@ -76,7 +76,7 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
     stack = []
     if index.python_modules:
         stack.append("Python")
-    for package, title in (
+    for package_name, title in (
         ("fastapi", "FastAPI"),
         ("pydantic", "Pydantic"),
         ("httpx", "httpx"),
@@ -84,7 +84,7 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
         ("torch", "PyTorch"),
         ("diffusers", "Diffusers"),
     ):
-        if package in declared or package.replace("-", "_") in python_imports:
+        if package_name in declared or package_name.replace("-", "_") in python_imports:
             stack.append(title)
     if "react" in js_imports:
         stack.append("React source")
@@ -92,11 +92,11 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
         stack.append("Fastify source")
     if "sqlite3" in python_imports or "better-sqlite3" in js_imports:
         stack.append("SQLite")
-    if package:
+    if package_json:
         stack.append("Node.js")
-    if "@mermaid-js/mermaid-cli" in package.get("devDependencies", {}):
+    if "@mermaid-js/mermaid-cli" in package_json.get("devDependencies", {}):
         stack.append("Mermaid CLI")
-    if "@babel/parser" in package.get("devDependencies", {}):
+    if "@babel/parser" in package_json.get("devDependencies", {}):
         stack.append("Babel parser")
     return {
         "manifests": manifests,
