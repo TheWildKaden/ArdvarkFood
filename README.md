@@ -28,6 +28,11 @@ image generator. Its existing app now also mounts a modular LLM and agent
 runtime under `/api/runtime`; the runtime does not replace the original chat,
 image, or encoding modules.
 
+The static project site is published with GitHub Pages. Preview it locally
+with `./scripts/preview-pages.sh` (or run the **Start Pages Preview** task in
+VS Code), then open `http://localhost:4173`. The Pages site is a static project
+overview; the interactive AI services require the Python app described below.
+
 ## LLM and agent runtime
 
 The runtime defaults to local GGUF inference through `llama.cpp`. No model
