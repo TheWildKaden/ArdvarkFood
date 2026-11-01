@@ -22,12 +22,8 @@ flowchart LR
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client["_require_client · AI-Runtime/models/adapters/openai_compatible.py:160"]
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url["_url · AI-Runtime/models/adapters/openai_compatible.py:151"]
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream["stream · AI-Runtime/models/adapters/openai_compatible.py:75"]
-  AI_Runtime_models_inference_InferenceEngine__generate_with_adapter["_generate_with_adapter · AI-Runtime/models/inference.py:141"]
   AI_Runtime_models_inference_InferenceEngine_fit_context["fit_context · AI-Runtime/models/inference.py:85"]
-  AI_Runtime_models_inference_InferenceEngine_generate["generate · AI-Runtime/models/inference.py:126"]
-  AI_Runtime_models_inference_InferenceEngine_stream["stream · AI-Runtime/models/inference.py:153"]
   AI_Runtime_storage_storage_manager_StorageManager__connect["_connect · AI-Runtime/storage/storage_manager.py:16"]
-  AI_Runtime_storage_storage_manager_StorageManager__initialize["_initialize · AI-Runtime/storage/storage_manager.py:22"]
   AI_Runtime_storage_storage_manager_StorageManager_add_memory["add_memory · AI-Runtime/storage/storage_manager.py:216"]
   AI_Runtime_storage_storage_manager_StorageManager_new_id["new_id · AI-Runtime/storage/storage_manager.py:72"]
   AI_Runtime_tools_executor_executor_ToolExecutor__register_builtin_tools["_register_builtin_tools · AI-Runtime/tools/executor/executor.py:153"]
@@ -75,6 +71,10 @@ flowchart LR
   src_sample_body["body · src/sample.py:62"]
   src_sample_sample_sequence["sample_sequence · src/sample.py:43"]
   src_sample_top_k_logits["top_k_logits · src/sample.py:5"]
+  static_assets_app_js_callback_126["callback@126 · static/assets/app.js:126"]
+  static_assets_app_js_resizeComposer["resizeComposer · static/assets/app.js:49"]
+  static_assets_app_js_setStatus["setStatus · static/assets/app.js:26"]
+  static_assets_app_js_showView["showView · static/assets/app.js:31"]
   AI_Runtime_agent_agent_AgentRuntime_close -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_cancel
   AI_Runtime_agent_agent_AgentRuntime_execute -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
   AI_Runtime_agent_agent_AgentRuntime_execute -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
@@ -82,8 +82,6 @@ flowchart LR
   AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
   AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
   AI_Runtime_agent_context_context_builder_ContextBuilder_build -->|"detected call"| AI_Runtime_memory_memory_manager_MemoryManager_retrieve
-  AI_Runtime_agent_loop_agent_loop_AgentLoop__generate -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_generate
-  AI_Runtime_agent_loop_agent_loop_AgentLoop__generate -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_stream
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_context_context_builder_ContextBuilder_build
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop__generate
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_tools_executor_executor_ToolExecutor_execute
@@ -102,10 +100,6 @@ flowchart LR
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url
-  AI_Runtime_models_inference_InferenceEngine__generate_with_adapter -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_fit_context
-  AI_Runtime_models_inference_InferenceEngine_generate -->|"detected call"| AI_Runtime_models_inference_InferenceEngine__generate_with_adapter
-  AI_Runtime_models_inference_InferenceEngine_stream -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_fit_context
-  AI_Runtime_storage_storage_manager_StorageManager__initialize -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager__connect
   AI_Runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager__connect
   AI_Runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager_new_id
   frontend_src_server_services_database_js_getWatchlist -->|"detected call"| frontend_src_server_services_database_js_db
@@ -149,6 +143,8 @@ flowchart LR
   src_sample_body -->|"detected call"| src_sample_top_k_logits
   src_sample_sample_sequence -->|"detected call"| src_sample_body
   src_sample_sample_sequence -->|"detected call"| src_sample_top_k_logits
+  static_assets_app_js_callback_126 -->|"detected call"| static_assets_app_js_resizeComposer
+  static_assets_app_js_callback_126 -->|"detected call"| static_assets_app_js_setStatus
   analysis_note_0["Edges resolve direct call syntax to a unique local function or an instance attribute assigned a local class."]
   class analysis_note_0 note
   analysis_note_1["Unqualified calls resolve only within the same source file; dynamic dispatch, reflection, imported calls, unr…"]

@@ -9,6 +9,7 @@ flowchart LR
   frontend["frontend (2 source files)"]
   scripts["scripts (3 source files)"]
   src["src (4 source files)"]
+  static["static (1 source files)"]
   FastAPI__src_web_ -->|"2 detected imports"| src
   Repository_root -->|"1 detected imports"| FastAPI__src_web_
   Repository_root -->|"2 detected imports"| src
