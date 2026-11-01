@@ -96,30 +96,52 @@ class SourceIndex:
         classes: list[dict[str, Any]] = []
         for path, module in self.python_modules.items():
             module_name = self.module_name(path)
-            parent_class: str | None = None
-            class_attributes: dict[str, str] = {}
+            class_attributes: dict[str, dict[str, str]] = {}
             for node in ast.walk(module.tree):
                 if isinstance(node, ast.ClassDef):
-                    parent_class = node.name
+                    class_attributes[node.name] = {}
                     for child in ast.walk(node):
                         if not isinstance(child, (ast.Assign, ast.AnnAssign)):
                             continue
                         targets = child.targets if isinstance(child, ast.Assign) else [child.target]
                         value = child.value
                         if not isinstance(value, ast.Call):
-                            continue
-                        class_name = (
-                            value.func.id if isinstance(value.func, ast.Name) else None
-                        )
-                        if not class_name:
-                            continue
+                            class_name = None
+                        else:
+                            class_name = (
+                                value.func.id
+                                if isinstance(value.func, ast.Name)
+                                else None
+                            )
                         for target in targets:
                             if (
                                 isinstance(target, ast.Attribute)
                                 and isinstance(target.value, ast.Name)
                                 and target.value.id == "self"
                             ):
-                                class_attributes[target.attr] = class_name
+                                if class_name:
+                                    class_attributes[node.name][target.attr] = class_name
+                                elif isinstance(child, ast.AnnAssign):
+                                    annotation = child.annotation
+                                    if isinstance(annotation, ast.Name):
+                                        class_attributes[node.name][target.attr] = annotation.id
+                    init = next(
+                        (
+                            item
+                            for item in node.body
+                            if isinstance(item, (ast.FunctionDef, ast.AsyncFunctionDef))
+                            and item.name == "__init__"
+                        ),
+                        None,
+                    )
+                    if init:
+                        for argument in init.args.args:
+                            if argument.arg == "self" or argument.annotation is None:
+                                continue
+                            if isinstance(argument.annotation, ast.Name):
+                                class_attributes[node.name][argument.arg] = (
+                                    argument.annotation.id
+                                )
                     classes.append(
                         {
                             "name": node.name,
@@ -127,6 +149,8 @@ class SourceIndex:
                             "path": self.relative(path),
                             "line": node.lineno,
                             "bases": [self._name(base) for base in node.bases],
+                            "language": "Python",
+                            "confidence": "detected (Python AST)",
                         }
                     )
 
@@ -137,7 +161,11 @@ class SourceIndex:
                 calls = []
                 for call in (item for item in ast.walk(node) if isinstance(item, ast.Call)):
                     expression = ast.unparse(call.func)
-                    target = self._resolve_self_call(expression, owner, class_attributes)
+                    target = self._resolve_self_call(
+                        expression,
+                        owner,
+                        class_attributes.get(owner or "", {}),
+                    )
                     calls.append(
                         {
                             "expression": expression,

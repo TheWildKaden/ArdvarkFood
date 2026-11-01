@@ -36,6 +36,11 @@ function walk(node, visit, parent = null, className = null, functionRecord = nul
     parent.id?.type === "Identifier"
   ) {
     functionName = parent.id.name;
+  } else if (
+    node.type === "ArrowFunctionExpression" ||
+    node.type === "FunctionExpression"
+  ) {
+    functionName = `callback@${node.loc.start.line}`;
   }
   if (functionName) {
     activeFunction = {
