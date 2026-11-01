@@ -1,0 +1,45 @@
+flowchart LR
+  Application["app.py → src/web/app_factory.py"]
+  AgentRuntime["AgentRuntime"]
+  AgentLoop["AgentLoop"]
+  ContextBuilder["ContextBuilder"]
+  InferenceEngine["InferenceEngine"]
+  ModelManager["ModelManager"]
+  LlamaCppAdapter["LlamaCppAdapter"]
+  OpenAICompatibleAdapter["OpenAICompatibleAdapter"]
+  InputRouter["InputRouter"]
+  ToolRegistry["ToolRegistry"]
+  ToolExecutor["ToolExecutor"]
+  PermissionManager["PermissionManager"]
+  MCPManager["MCPManager"]
+  MemoryManager["MemoryManager"]
+  StorageManager["StorageManager"]
+  AgentRuntime -->|"constructor detected"| InferenceEngine
+  AgentRuntime -->|"constructor detected"| MemoryManager
+  AgentRuntime -->|"constructor detected"| Planner
+  AgentRuntime -->|"constructor detected"| ContextBuilder
+  AgentRuntime -->|"constructor detected"| PermissionManager
+  AgentRuntime -->|"constructor detected"| ToolExecutor
+  AgentRuntime -->|"constructor detected"| MCPManager
+  AgentRuntime -->|"constructor detected"| InputRouter
+  AgentRuntime -->|"constructor detected"| AgentLoop
+  ModelManager -->|"backend branch import"| LlamaCppAdapter
+  ModelManager -->|"backend branch import"| OpenAICompatibleAdapter
+  AgentLoop -->|"direct call"| InferenceEngine
+  AgentLoop -->|"direct call"| InferenceEngine
+  AgentLoop -->|"direct call"| AgentLoop
+  AgentLoop -->|"direct call"| ContextBuilder
+  AgentLoop -->|"direct call"| StorageManager
+  AgentLoop -->|"direct call"| StorageManager
+  AgentLoop -->|"direct call"| StorageManager
+  AgentLoop -->|"direct call"| StorageManager
+  AgentLoop -->|"direct call"| StorageManager
+  AgentLoop -->|"direct call"| ToolExecutor
+  AgentRuntime -->|"direct call"| PermissionManager
+  AgentRuntime -->|"direct call"| PermissionManager
+  AgentRuntime -->|"direct call"| AgentLoop
+  AgentRuntime -->|"direct call"| AgentLoop
+  Application -->|"lifespan mount detected"| AgentRuntime
+  analysis_note_0["Model loading/inference and agent orchestration are separate source modules; arrows are extracted from constr…"]
+  class analysis_note_0 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

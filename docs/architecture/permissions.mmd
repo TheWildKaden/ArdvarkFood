@@ -1,0 +1,24 @@
+flowchart LR
+  Tool_Call["Model-proposed tool call"]
+  Tool_Executor["ToolExecutor.execute"]
+  Tool_Registry["ToolRegistry.get / registered handler"]
+  Permission_Manager["PermissionManager.authorize"]
+  Denied["explicitly denied permission"]
+  Auto_Approved["server-configured auto approval"]
+  Approval_Required["approval request + decision wait"]
+  Handler["validated tool handler"]
+  Audit["tool event and audit record"]
+  Tool_Call -->|"detected dispatch"| Tool_Executor
+  Tool_Executor -->|"name lookup"| Tool_Registry
+  Tool_Executor -->|"authorization gate"| Permission_Manager
+  Permission_Manager -->|"denied permissions"| Denied
+  Permission_Manager -->|"auto-approved permissions"| Auto_Approved
+  Permission_Manager -->|"approval-required permissions"| Approval_Required
+  Auto_Approved -->|"authorization passes"| Handler
+  Approval_Required -->|"only after approval"| Handler
+  Handler -->|"execution outcome"| Audit
+  analysis_note_0["The policy branches and gate sequence are inferred from PermissionManager.authorize and ToolExecutor.execute."]
+  class analysis_note_0 note
+  analysis_note_1["The LLM supplies arguments; server-side schema validation and PermissionManager authorization occur before ha…"]
+  class analysis_note_1 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

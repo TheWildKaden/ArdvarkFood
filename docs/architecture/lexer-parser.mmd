@@ -1,0 +1,27 @@
+flowchart LR
+  src_encoder_bytes_to_unicode["bytes_to_unicode · src/encoder.py:9"]
+  src_encoder_get_pairs["get_pairs · src/encoder.py:30"]
+  src_encoder_Encoder_bpe["bpe · src/encoder.py:55"]
+  src_encoder_Encoder_encode["encode · src/encoder.py:96"]
+  src_encoder_Encoder_decode["decode · src/encoder.py:103"]
+  src_encoding_encoding_parse_tagged_text["parse_tagged_text · src/encoding/encoding.py:269"]
+  src_encoding_encoding__read_until_stop["_read_until_stop · src/encoding/encoding.py:395"]
+  src_encoding_encoding_render_message["render_message · src/encoding/encoding.py:574"]
+  src_encoding_encoding__encode_messages_text["_encode_messages_text · src/encoding/encoding.py:759"]
+  src_encoding_encoding_encode_messages["encode_messages · src/encoding/encoding.py:806"]
+  src_encoding_encoding_encode_case["encode_case · src/encoding/encoding.py:861"]
+  src_encoding_encoding_parse_tool_calls["parse_tool_calls · src/encoding/encoding.py:879"]
+  src_encoding_encoding_parse_message_from_completion_text["parse_message_from_completion_text · src/encoding/encoding.py:935"]
+  src_encoder_Encoder_bpe -->|"detected call"| src_encoder_get_pairs
+  src_encoder_Encoder_encode -->|"detected call"| src_encoder_Encoder_bpe
+  src_encoding_encoding__encode_messages_text -->|"detected call"| src_encoding_encoding_render_message
+  src_encoding_encoding_encode_case -->|"detected call"| src_encoding_encoding_encode_messages
+  src_encoding_encoding_encode_messages -->|"detected call"| src_encoding_encoding__encode_messages_text
+  src_encoding_encoding_parse_message_from_completion_text -->|"detected call"| src_encoding_encoding__read_until_stop
+  src_encoding_encoding_parse_message_from_completion_text -->|"detected call"| src_encoding_encoding_parse_tool_calls
+  src_encoding_encoding_parse_tool_calls -->|"detected call"| src_encoding_encoding__read_until_stop
+  analysis_note_0["Detected parsing and encoding functions from src/encoding/encoding.py and byte-pair encoder functions from sr…"]
+  class analysis_note_0 note
+  analysis_note_1["No standalone lexer or parser package was detected. Role grouping is inferred from source names; arrows are d…"]
+  class analysis_note_1 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

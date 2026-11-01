@@ -1,0 +1,38 @@
+flowchart LR
+  npm_architecture_generate["npm architecture:generate: python3 scripts/generate_architecture.py"]
+  npm_architecture_validate["npm architecture:validate: python3 scripts/generate_architecture.py --validat…"]
+  npm_build_pages["npm build:pages: node scripts/build-pages.mjs"]
+  scripts_build_pages_mjs["scripts/build-pages.mjs"]
+  npm_preview_pages["npm preview:pages: bash scripts/preview-pages.sh"]
+  scripts_preview_pages_sh["scripts/preview-pages.sh"]
+  workflow_generator_generic_ossf_slsa3_publish["SLSA generic generator · .github/workflows/generator-generic-ossf-slsa3-publi…"]
+  workflow_generator_generic_ossf_slsa3_publish_2["CI command: # These are some amazing artifacts."]
+  workflow_generator_generic_ossf_slsa3_publish_3["CI command: set -euo pipefail"]
+  workflow_pages["Deploy GitHub Pages · .github/workflows/pages.yml"]
+  workflow_pages_4["CI command: npm run build:pages"]
+  workflow_pages_6["CI command: test -s dist/index.html && test -f dist/_headers && test -f dist/…"]
+  workflow_update_architecture["Update generated architecture · .github/workflows/update-architecture.yml"]
+  workflow_update_architecture_7["CI command: npm ci"]
+  workflow_update_architecture_8["CI command: npx puppeteer browsers install chrome"]
+  workflow_update_architecture_9["CI command: python scripts/generate_architecture.py"]
+  workflow_update_architecture_10["CI command: git config user.name 'github-actions[bot]"]
+  scripts_generate_architecture_py["scripts/generate_architecture.py"]
+  scripts_architecture_["scripts/architecture/"]
+  _github_workflows_update_architecture_yml[".github/workflows/update-architecture.yml"]
+  docs_architecture_["docs/architecture/"]
+  npm_build_pages -->|"script target detected"| scripts_build_pages_mjs
+  npm_preview_pages -->|"script target detected"| scripts_preview_pages_sh
+  workflow_generator_generic_ossf_slsa3_publish -->|"run step detected"| workflow_generator_generic_ossf_slsa3_publish_2
+  workflow_generator_generic_ossf_slsa3_publish -->|"run step detected"| workflow_generator_generic_ossf_slsa3_publish_3
+  workflow_pages -->|"run step detected"| workflow_pages_4
+  workflow_pages_4 -->|"invokes"| npm_build_pages
+  workflow_pages -->|"run step detected"| workflow_pages_6
+  workflow_update_architecture -->|"run step detected"| workflow_update_architecture_7
+  workflow_update_architecture -->|"run step detected"| workflow_update_architecture_8
+  workflow_update_architecture -->|"run step detected"| workflow_update_architecture_9
+  workflow_update_architecture -->|"run step detected"| workflow_update_architecture_10
+  workflow_update_architecture -->|"runs generator"| scripts_generate_architecture_py
+  workflow_update_architecture -->|"writes generated assets"| docs_architecture_
+  analysis_note_0["Build entries come from package.json, workflow run commands, and generated architecture paths; deployment res…"]
+  class analysis_note_0 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

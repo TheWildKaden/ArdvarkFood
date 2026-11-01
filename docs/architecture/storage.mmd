@@ -1,0 +1,45 @@
+flowchart LR
+  SQLite["StorageManager → SQLite"]
+  AgentLoop["AgentLoop"]
+  ContextBuilder["ContextBuilder"]
+  MemoryManager["MemoryManager"]
+  StorageManager["StorageManager"]
+  ToolExecutor["ToolExecutor"]
+  StorageManager__connect["StorageManager._connect"]
+  StorageManager__initialize["StorageManager._initialize"]
+  StorageManager_add_audit["StorageManager.add_audit"]
+  StorageManager_add_memory["StorageManager.add_memory"]
+  StorageManager_add_message["StorageManager.add_message"]
+  StorageManager_get_messages["StorageManager.get_messages"]
+  StorageManager_new_id["StorageManager.new_id"]
+  StorageManager_record_tool_event["StorageManager.record_tool_event"]
+  StorageManager_update_execution["StorageManager.update_execution"]
+  audit_log["SQLite table: audit_log"]
+  conversations["SQLite table: conversations"]
+  executions["SQLite table: executions"]
+  memories["SQLite table: memories"]
+  messages["SQLite table: messages"]
+  tool_events["SQLite table: tool_events"]
+  AgentLoop -->|"direct storage calls"| SQLite
+  ContextBuilder -->|"direct storage calls"| SQLite
+  MemoryManager -->|"direct storage calls"| SQLite
+  StorageManager -->|"direct storage calls"| SQLite
+  ToolExecutor -->|"direct storage calls"| SQLite
+  SQLite -->|"method persists/reads state"| StorageManager__connect
+  SQLite -->|"method persists/reads state"| StorageManager__initialize
+  SQLite -->|"method persists/reads state"| StorageManager_add_audit
+  SQLite -->|"method persists/reads state"| StorageManager_add_memory
+  SQLite -->|"method persists/reads state"| StorageManager_add_message
+  SQLite -->|"method persists/reads state"| StorageManager_get_messages
+  SQLite -->|"method persists/reads state"| StorageManager_new_id
+  SQLite -->|"method persists/reads state"| StorageManager_record_tool_event
+  SQLite -->|"method persists/reads state"| StorageManager_update_execution
+  SQLite -->|"CREATE TABLE detected"| audit_log
+  SQLite -->|"CREATE TABLE detected"| conversations
+  SQLite -->|"CREATE TABLE detected"| executions
+  SQLite -->|"CREATE TABLE detected"| memories
+  SQLite -->|"CREATE TABLE detected"| messages
+  SQLite -->|"CREATE TABLE detected"| tool_events
+  analysis_note_0["Table names come from CREATE TABLE statements; consumer edges come from uniquely resolved calls to StorageMan…"]
+  class analysis_note_0 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

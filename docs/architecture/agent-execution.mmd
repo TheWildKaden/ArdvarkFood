@@ -1,0 +1,28 @@
+flowchart LR
+  User["User message + attachments"]
+  AgentRuntime_start["AgentRuntime.start"]
+  AgentLoop_run["AgentLoop.run"]
+  ContextBuilder_build["ContextBuilder.build"]
+  InferenceEngine["InferenceEngine.generate / stream"]
+  AgentDecision["Tool calls present? (branch in AgentLoop.run)"]
+  ToolExecutor_execute["ToolExecutor.execute"]
+  PermissionManager_authorize["PermissionManager.authorize"]
+  ToolHandler["Registered tool handler"]
+  ToolResult["Tool result appended to model context"]
+  Final["Final assistant response persisted"]
+  User -->|"start execution"| AgentRuntime_start
+  AgentRuntime_start -->|"await direct call"| AgentLoop_run
+  AgentLoop_run -->|"build request context"| ContextBuilder_build
+  AgentLoop_run -->|"generate/stream via helper"| InferenceEngine
+  AgentLoop_run -->|"inspect GenerationResponse"| AgentDecision
+  AgentDecision -->|"tool_calls non-empty"| ToolExecutor_execute
+  ToolExecutor_execute -->|"before handler"| PermissionManager_authorize
+  PermissionManager_authorize -->|"policy permits"| ToolHandler
+  ToolHandler -->|"serialize result"| ToolResult
+  ToolResult -->|"follow-up step"| AgentLoop_run
+  AgentDecision -->|"no tool calls"| Final
+  analysis_note_0["Decision and loop-back labels summarize the explicit loop/branch in AgentLoop.run; handlers execute only afte…"]
+  class analysis_note_0 note
+  analysis_note_1["Detected orchestration call links: 27 unique source-resolved owner/method pairs."]
+  class analysis_note_1 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

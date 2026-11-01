@@ -1,0 +1,70 @@
+flowchart LR
+  manifest_requirements_image_generator_txt["requirements-image-generator.txt (6 packages)"]
+  dep_requirements_image_generator_txt_torch["torch"]
+  dep_requirements_image_generator_txt_diffusers["diffusers"]
+  dep_requirements_image_generator_txt_transformers["transformers"]
+  dep_requirements_image_generator_txt_accelerate["accelerate"]
+  dep_requirements_image_generator_txt_safetensors["safetensors"]
+  dep_requirements_image_generator_txt_Pillow["Pillow"]
+  manifest_requirements_txt["requirements.txt (141 packages)"]
+  dep_requirements_txt_aiohappyeyeballs["aiohappyeyeballs"]
+  dep_requirements_txt_aiohttp["aiohttp"]
+  dep_requirements_txt_aiosignal["aiosignal"]
+  dep_requirements_txt_aiosqlite["aiosqlite"]
+  dep_requirements_txt_annotated_types["annotated-types"]
+  dep_requirements_txt_anyio["anyio"]
+  dep_requirements_txt_appdirs["appdirs"]
+  dep_requirements_txt_asttokens["asttokens"]
+  dep_requirements_txt_attrs["attrs"]
+  dep_requirements_txt_audioop_lts["audioop-lts"]
+  dep_requirements_txt_backcall["backcall"]
+  dep_requirements_txt_bcrypt["bcrypt"]
+  dep_requirements_txt_beautifulsoup4["beautifulsoup4"]
+  dep_requirements_txt_bleach["bleach"]
+  manifest_AI_Runtime_requirements_txt["AI-Runtime/requirements.txt (8 packages)"]
+  dep_AI_Runtime_requirements_txt_fastapi["fastapi"]
+  dep_AI_Runtime_requirements_txt_uvicorn["uvicorn"]
+  dep_AI_Runtime_requirements_txt_httpx["httpx"]
+  dep_AI_Runtime_requirements_txt_pydantic["pydantic"]
+  dep_AI_Runtime_requirements_txt_jsonschema["jsonschema"]
+  dep_AI_Runtime_requirements_txt_llama_cpp_python["llama-cpp-python"]
+  dep_AI_Runtime_requirements_txt_mcp["mcp"]
+  dep_AI_Runtime_requirements_txt_pytest["pytest"]
+  manifest_package_json_devDependencies["package.json:devDependencies (2 packages)"]
+  dep_package_json_devDependencies__babel_parser["@babel/parser"]
+  dep_package_json_devDependencies__mermaid_js_mermaid_cli["@mermaid-js/mermaid-cli"]
+  manifest_requirements_image_generator_txt -->|"declares"| dep_requirements_image_generator_txt_torch
+  manifest_requirements_image_generator_txt -->|"declares"| dep_requirements_image_generator_txt_diffusers
+  manifest_requirements_image_generator_txt -->|"declares"| dep_requirements_image_generator_txt_transformers
+  manifest_requirements_image_generator_txt -->|"declares"| dep_requirements_image_generator_txt_accelerate
+  manifest_requirements_image_generator_txt -->|"declares"| dep_requirements_image_generator_txt_safetensors
+  manifest_requirements_image_generator_txt -->|"declares"| dep_requirements_image_generator_txt_Pillow
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_aiohappyeyeballs
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_aiohttp
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_aiosignal
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_aiosqlite
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_annotated_types
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_anyio
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_appdirs
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_asttokens
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_attrs
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_audioop_lts
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_backcall
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_bcrypt
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_beautifulsoup4
+  manifest_requirements_txt -->|"declares"| dep_requirements_txt_bleach
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_fastapi
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_uvicorn
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_httpx
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_pydantic
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_jsonschema
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_llama_cpp_python
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_mcp
+  manifest_AI_Runtime_requirements_txt -->|"declares"| dep_AI_Runtime_requirements_txt_pytest
+  manifest_package_json_devDependencies -->|"declares"| dep_package_json_devDependencies__babel_parser
+  manifest_package_json_devDependencies -->|"declares"| dep_package_json_devDependencies__mermaid_js_mermaid_cli
+  analysis_note_0["Full manifest inventory is in architecture.json. This overview caps each manifest at 14 packages."]
+  class analysis_note_0 note
+  analysis_note_1["Manifest declarations and imports are detected facts; declaration does not prove a feature is runnable."]
+  class analysis_note_1 note
+  classDef note fill:#fff7d6,stroke:#b38b00,color:#333

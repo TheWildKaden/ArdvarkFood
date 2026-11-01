@@ -1,3 +1,5 @@
+<!-- Generated from scripts/architecture/templates/README.md.in by scripts/generate_architecture.py. Edit the template, not this file. -->
+
 # ArdvarkFood
 
 <p align="center">
@@ -24,9 +26,9 @@
 ## About
 
 ArdvarkFood is a FastAPI application with Ardvark chat and a local SD-Turbo
-image generator. Its existing app now also mounts a modular LLM and agent
-runtime under `/api/runtime`; the runtime does not replace the original chat,
-image, or encoding modules.
+image generator. Its existing app also mounts a modular LLM and agent runtime
+under `/api/runtime`; the runtime does not replace the original chat, image, or
+encoding modules.
 
 The static project site can be published with GitHub Pages or Cloudflare Pages.
 For fork and hosting setup, see [FORKING.md](./FORKING.md). To preview the
@@ -49,6 +51,117 @@ and image-generator frontend at `/` and the Pages-style project overview at
 - `static/`, `docs/`, and `frontend/` hold the interactive app UI, static
   project site, and separately maintained frontend source, respectively.
 - `tests/` contains application and runtime integration tests.
+
+## Architecture
+
+This architecture is regenerated from the checked-out source. Imports and
+literal route declarations are parser-detected; direct calls are resolved only
+when the local target is unambiguous. Dynamic dispatch and external runtime
+behavior are not claimed as detected facts.
+
+The diagrams below are local SVG previews; every one links to its editable Mermaid source.
+
+<details>
+<summary>Project structure · <a href="docs/architecture/project-structure.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/project-structure.svg" alt="Project structure generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Declared dependencies · <a href="docs/architecture/dependencies.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/dependencies.svg" alt="Declared dependencies generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Module and package imports · <a href="docs/architecture/modules.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/modules.svg" alt="Module and package imports generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Detected local call graph · <a href="docs/architecture/call-graph.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/call-graph.svg" alt="Detected local call graph generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Class inheritance · <a href="docs/architecture/class-relationships.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/class-relationships.svg" alt="Class inheritance generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Message lexer/parser and encoder · <a href="docs/architecture/lexer-parser.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/lexer-parser.svg" alt="Message lexer/parser and encoder generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Detected API routes · <a href="docs/architecture/api-architecture.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/api-architecture.svg" alt="Detected API routes generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>LLM and model runtime · <a href="docs/architecture/llm-runtime.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/llm-runtime.svg" alt="LLM and model runtime generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Agent execution loop · <a href="docs/architecture/agent-execution.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/agent-execution.svg" alt="Agent execution loop generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Tool permission gates · <a href="docs/architecture/permissions.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/permissions.svg" alt="Tool permission gates generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Persistent runtime storage · <a href="docs/architecture/storage.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/storage.svg" alt="Persistent runtime storage generated from repository source" width="100%" />
+
+</details>
+
+<details>
+<summary>Build and deployment pipelines · <a href="docs/architecture/build-pipelines.mmd">Mermaid source</a></summary>
+
+<img src="docs/architecture/previews/build-pipelines.svg" alt="Build and deployment pipelines generated from repository source" width="100%" />
+
+</details>
+
+Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `npm run architecture:generate`. The source and dependency analysis uses Python AST and Babel; unsupported or dynamic relationships are omitted or explicitly marked as inferred.
+
+### Technology stack
+
+- **Python**
+- **FastAPI**
+- **Pydantic**
+- **httpx**
+- **llama.cpp Python binding**
+- **PyTorch**
+- **Diffusers**
+- **React source**
+- **Fastify source**
+- **SQLite**
+- **Node.js**
+- **Mermaid CLI**
+- **Babel parser**
 
 ## LLM and agent runtime
 
@@ -124,19 +237,25 @@ references.
 ## Statistics
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/pin/?username=TheWildKaden&repo=ArdvarkFood&theme=transparent&hide_border=true" width="100%" />
+  <img src="docs/architecture/assets/statistics.svg" alt="Repository statistics generated from git and GitHub API data" />
 </p>
+
+The snapshot uses local git history and source-analysis counts. Stars and forks
+are refreshed from the GitHub API when available; the generated image and JSON
+remain in the repository so the README does not rely on a remote stats image
+service.
 
 ## Contributors
 
 Want to contribute? See the [contribution guide](./CONTRIBUTING.md), open an
-[issue](https://github.com/TheWildKaden/ArdvarkFood/issues), or submit a pull
-request. GitHub updates this contributor graphic automatically for recognized
-contributions; see [how contributor recognition works](./CONTRIBUTING.md#being-recognized-as-a-contributor).
+[issue](https://github.com/TheWildKaden/ArdvarkFood/issues), or submit a pull request. Contributor cards
+use repository-local SVG avatars. GitHub usernames and contribution totals are
+read from the contributors API when available; otherwise local commit author
+names are used without publishing email addresses.
 
-<a href="https://github.com/TheWildKaden/ArdvarkFood/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=TheWildKaden/ArdvarkFood" />
-</a>
+<table>
+<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />47 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
+</table>
 
 ---
 
