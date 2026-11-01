@@ -3,6 +3,7 @@
 from pathlib import Path
 
 import httpx
+from fastapi import FastAPI
 
 from local_image_generator import ImageGenerator
 from src.web.app_factory import (
@@ -21,7 +22,7 @@ def create_app(
     ai_transport: httpx.AsyncBaseTransport | None = None,
     image_generator: ImageGenerator | None = None,
     generated_image_dir: str | Path | None = None,
-):
+) -> FastAPI:
     return _create_app(
         ai_transport=ai_transport,
         image_generator=image_generator,

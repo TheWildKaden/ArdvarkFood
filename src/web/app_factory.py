@@ -20,8 +20,14 @@ def create_app(
     generated_image_dir: str | Path | None = None,
 ) -> FastAPI:
     application = FastAPI(title="Ardvark")
-    local_generator = image_generator or LocalImageGenerator()
-    image_dir = Path(generated_image_dir or DEFAULT_GENERATED_IMAGE_DIR)
+    local_generator = (
+        image_generator if image_generator is not None else LocalImageGenerator()
+    )
+    image_dir = Path(
+        generated_image_dir
+        if generated_image_dir is not None
+        else DEFAULT_GENERATED_IMAGE_DIR
+    )
 
     @application.get("/", include_in_schema=False)
     async def home() -> FileResponse:

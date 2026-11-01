@@ -55,7 +55,7 @@ async def generate_chat_response(
         ) as client:
             response = await client.post(
                 f"{base_url}/chat/completions",
-                headers={"Authorization": "******"},
+                headers={"Authorization": f"Bearer {api_key}"},
                 json=payload,
             )
             response.raise_for_status()
