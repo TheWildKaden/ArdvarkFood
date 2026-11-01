@@ -3,3 +3,5 @@ __pycache__/
 *.py[cod]
 .generated/
 /dist/
+6
+node_modules
