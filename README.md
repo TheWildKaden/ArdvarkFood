@@ -63,6 +63,19 @@ from `docs/index.html` at `/project`. Build the static site with
 generator, whose implementation now lives in `src/image_generation/`.
 Generated runtime images and SQLite state stay local and are ignored by Git.
 
+## Language responsibilities
+
+The requested responsibility map is a target architecture, not a claim that
+every runtime is already implemented:
+
+| Language | Responsibility | Current status |
+| --- | --- | --- |
+| Python | AI reasoning, agents, code generation, and orchestration | Implemented in the FastAPI app and `AI-Runtime/` |
+| TypeScript | Web dashboard and development interface | Target for the separate frontend; its checked-in React source is currently JavaScript/JSX |
+| Rust | Runtime engine, hot-reloading, sandboxing, and performance | Not implemented |
+| Lisp | Dynamic evaluation, live code modification, and metaprogramming | Not implemented |
+| C++ | Low-level system access and native extensions | Not implemented |
+
 ## Architecture
 
 This architecture is regenerated from the checked-out source. Imports and
