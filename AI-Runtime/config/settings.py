@@ -111,4 +111,29 @@ class RuntimeSettings(BaseModel):
         if workspace_root:
             data.setdefault("tools", {})["workspace_root"] = workspace_root
 
+        model_path = model.get("model_path")
+        if model_path:
+            path = Path(model_path).expanduser()
+            model["model_path"] = str(
+                path if path.is_absolute() else (RUNTIME_ROOT / path).resolve()
+            )
+        clip_path = model.get("clip_model_path")
+        if clip_path:
+            path = Path(clip_path).expanduser()
+            model["clip_model_path"] = str(
+                path if path.is_absolute() else (RUNTIME_ROOT / path).resolve()
+            )
+        tools = data.setdefault("tools", {})
+        workspace = Path(tools.get("workspace_root", str(REPOSITORY_ROOT))).expanduser()
+        tools["workspace_root"] = str(
+            workspace if workspace.is_absolute() else (RUNTIME_ROOT / workspace).resolve()
+        )
+        storage = data.setdefault("storage", {})
+        database = Path(
+            storage.get("database_path", str(RUNTIME_ROOT / "storage" / "runtime.sqlite3"))
+        ).expanduser()
+        storage["database_path"] = str(
+            database if database.is_absolute() else (RUNTIME_ROOT / database).resolve()
+        )
+
         return cls.model_validate(data)

@@ -44,14 +44,12 @@ class AgentLoop:
         sampling: SamplingConfig,
         stream_tokens: bool = False,
     ) -> str:
-        self.storage.add_message(state.conversation_id, "user", user_input)
-        if attachments:
-            self.storage.add_message(
-                state.conversation_id,
-                "user",
-                "[Attachments]",
-                {"attachments": attachments},
-            )
+        self.storage.add_message(
+            state.conversation_id,
+            "user",
+            user_input,
+            {"attachments": attachments} if attachments else None,
+        )
         messages = self.context.build(
             state.conversation_id,
             user_input,

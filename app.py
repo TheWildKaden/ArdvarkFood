@@ -1,5 +1,6 @@
 import os
 import re
+import importlib
 from typing import Literal
 from uuid import uuid4
 from urllib.parse import urlsplit
@@ -200,6 +201,8 @@ def create_app(
             raise HTTPException(status_code=404, detail="Image not found.")
         return FileResponse(image_path, media_type="image/png")
 
+    runtime_server = importlib.import_module("AI-Runtime.api.server")
+    runtime_server.mount_runtime(application)
     return application
 
 

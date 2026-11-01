@@ -10,6 +10,7 @@ from ..models.model_manager import ModelManager
 from ..multimodal.input_router import InputRouter
 from ..storage.storage_manager import StorageManager
 from ..tools.executor.executor import ToolExecutor
+from ..tools.mcp_manager import MCPManager
 from ..tools.permissions.permission_manager import PermissionManager
 from ..tools.registry.registry import ToolRegistry
 from .context.context_builder import ContextBuilder
@@ -52,6 +53,7 @@ class AgentRuntime:
         self.tool_executor = ToolExecutor(
             self.tool_registry, self.permissions, self.storage, settings
         )
+        self.mcp = MCPManager(settings, self.tool_registry)
         self.input_router = InputRouter()
         self.loop = AgentLoop(
             settings, self.inference, self.tool_executor, self.context, self.storage
@@ -143,4 +145,5 @@ class AgentRuntime:
                 *(handle.task for handle in self._executions.values()),
                 return_exceptions=True,
             )
+        await self.mcp.close()
         await self.model_manager.unload()
