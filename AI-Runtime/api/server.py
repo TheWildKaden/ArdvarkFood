@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 
 from ..agent.agent import AgentRuntime
@@ -7,20 +9,18 @@ from .routes.chat import router
 
 def mount_runtime(application: FastAPI) -> None:
     application.include_router(router)
+    previous_lifespan = application.router.lifespan_context
 
-    @application.on_event("startup")
-    async def start_agent_runtime() -> None:
-        runtime = AgentRuntime(RuntimeSettings.load())
-        application.state.agent_runtime = runtime
-        try:
-            await runtime.mcp.start()
-        except Exception:
-            await runtime.close()
-            application.state.agent_runtime = None
-            raise
+    @asynccontextmanager
+    async def lifespan(app: FastAPI):
+        async with previous_lifespan(app):
+            runtime = AgentRuntime(RuntimeSettings.load())
+            app.state.agent_runtime = runtime
+            try:
+                await runtime.mcp.start()
+                yield
+            finally:
+                await runtime.close()
+                app.state.agent_runtime = None
 
-    @application.on_event("shutdown")
-    async def stop_agent_runtime() -> None:
-        runtime = getattr(application.state, "agent_runtime", None)
-        if runtime is not None:
-            await runtime.close()
+    application.router.lifespan_context = lifespan
