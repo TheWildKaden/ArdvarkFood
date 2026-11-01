@@ -28,12 +28,13 @@ class InputRouter:
                 raise ValueError("Attachment exceeds the 6 MB encoded-size limit.")
             if mime_type not in self.supported:
                 guessed, _ = mimetypes.guess_type(name)
-                mime_type = guessed or mime_type
+                if guessed in self.supported:
+                    mime_type = guessed
             if mime_type == "text/plain":
                 normalized.append(
                     {"name": name[:256], "mime_type": mime_type, "text": content[:100_000]}
                 )
-            elif mime_type.startswith("image/"):
+            elif mime_type in {"image/png", "image/jpeg", "image/webp"}:
                 try:
                     image_bytes = base64.b64decode(content, validate=True)
                 except ValueError as error:

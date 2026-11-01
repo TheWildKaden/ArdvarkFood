@@ -86,11 +86,17 @@ class InferenceEngine:
         self,
         messages: list[dict[str, Any]],
         max_tokens: int | None = None,
+        tools: list[dict[str, Any]] | None = None,
     ) -> list[dict[str, Any]]:
         adapter = self.model_manager.get_adapter()
         context_size = adapter.metadata.context_size
         output_budget = max_tokens or min(1024, context_size // 4)
-        input_budget = context_size - output_budget - self.context_reserve
+        tool_tokens = (
+            len(adapter.tokenize(json.dumps(tools, ensure_ascii=False))) if tools else 0
+        )
+        input_budget = (
+            context_size - output_budget - self.context_reserve - tool_tokens
+        )
         if input_budget < 1:
             raise ContextWindowExceeded("The model context window is too small.")
 
@@ -99,13 +105,19 @@ class InferenceEngine:
         conversation = retained[len(system) :]
 
         while self._count(adapter, system + conversation) > input_budget:
-            if len(conversation) <= 1:
+            next_user = next(
+                (
+                    index
+                    for index, message in enumerate(conversation[1:], start=1)
+                    if message.get("role") == "user"
+                ),
+                None,
+            )
+            if next_user is None:
                 raise ContextWindowExceeded(
                     "The current message exceeds the model's available context window."
                 )
-            conversation.pop(0)
-            if conversation and conversation[0].get("role") == "assistant":
-                conversation.pop(0)
+            del conversation[:next_user]
         return system + conversation
 
     async def generate(
@@ -115,8 +127,9 @@ class InferenceEngine:
         tools: list[dict[str, Any]] | None = None,
     ) -> GenerationResponse:
         adapter = self.model_manager.get_adapter()
-        prepared = self.fit_context(messages, sampling.max_tokens)
-        return await adapter.generate(prepared, sampling, tools or [])
+        tool_schemas = tools or []
+        prepared = self.fit_context(messages, sampling.max_tokens, tool_schemas)
+        return await adapter.generate(prepared, sampling, tool_schemas)
 
     async def stream(
         self,
@@ -125,8 +138,9 @@ class InferenceEngine:
         tools: list[dict[str, Any]] | None = None,
     ) -> AsyncIterator[GenerationDelta]:
         adapter = self.model_manager.get_adapter()
-        prepared = self.fit_context(messages, sampling.max_tokens)
-        async for delta in adapter.stream(prepared, sampling, tools or []):
+        tool_schemas = tools or []
+        prepared = self.fit_context(messages, sampling.max_tokens, tool_schemas)
+        async for delta in adapter.stream(prepared, sampling, tool_schemas):
             yield delta
 
     @staticmethod
@@ -137,10 +151,31 @@ class InferenceEngine:
             content = message.get("content", "")
             if isinstance(content, str):
                 token_count += len(adapter.tokenize(content))
+            elif isinstance(content, list):
+                for part in content:
+                    if not isinstance(part, dict):
+                        token_count += len(
+                            adapter.tokenize(json.dumps(part, ensure_ascii=False))
+                        )
+                    elif part.get("type") == "image_url":
+                        token_count += 1024
+                    elif isinstance(part.get("text"), str):
+                        token_count += len(adapter.tokenize(part["text"]))
+                    else:
+                        token_count += len(
+                            adapter.tokenize(
+                                json.dumps(
+                                    {
+                                        key: value
+                                        for key, value in part.items()
+                                        if key != "image_url"
+                                    },
+                                    ensure_ascii=False,
+                                )
+                            )
+                        )
             else:
-                token_count += len(
-                    adapter.tokenize(json.dumps(content, ensure_ascii=False))
-                )
+                token_count += len(adapter.tokenize(json.dumps(content, ensure_ascii=False)))
             for key in ("tool_calls", "tool_call_id", "name"):
                 value = message.get(key)
                 if value:

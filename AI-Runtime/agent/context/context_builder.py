@@ -19,9 +19,7 @@ class ContextBuilder:
         self.memory = memory
         self.planner = planner
 
-    def build(
-        self, conversation_id: str, user_input: str, attachments: list[dict[str, Any]]
-    ) -> list[dict[str, Any]]:
+    def build(self, conversation_id: str, user_input: str) -> list[dict[str, Any]]:
         messages: list[dict[str, Any]] = [
             {"role": "system", "content": self.settings.agent.system_prompt}
         ]
@@ -36,34 +34,42 @@ class ContextBuilder:
                     + "\n".join(f"- {item['content']}" for item in memories),
                 }
             )
-        messages.extend(
-            {"role": item["role"], "content": item["content"]}
-            for item in self.storage.get_messages(conversation_id)
-            if item["role"] in {"user", "assistant"}
-        )
-        text_attachments = [
-            item for item in attachments if item["mime_type"] == "text/plain"
-        ]
-        if text_attachments:
-            attachment_text = "\n".join(
-                f"[Attachment: {item['name']}]\n{item['text']}" for item in text_attachments
-            )
-            messages[-1]["content"] += "\n\n" + attachment_text
-        image_attachments = [
-            item for item in attachments if item["mime_type"].startswith("image/")
-        ]
-        if image_attachments:
-            text = messages[-1]["content"]
-            messages[-1]["content"] = [
-                {"type": "text", "text": text},
-                *[
-                    {
-                        "type": "image_url",
-                        "image_url": {
-                            "url": f"data:{item['mime_type']};base64,{item['data']}"
-                        },
-                    }
-                    for item in image_attachments
-                ],
+        for item in self.storage.get_messages(conversation_id):
+            if item["role"] not in {"user", "assistant"}:
+                continue
+            content: Any = item["content"]
+            attachments = item["metadata"].get("attachments", [])
+            text_attachments = [
+                attachment
+                for attachment in attachments
+                if attachment.get("mime_type") == "text/plain"
             ]
+            if text_attachments:
+                content += "\n\n" + "\n".join(
+                    f"[Attachment: {attachment['name']}]\n{attachment['text']}"
+                    for attachment in text_attachments
+                )
+            image_attachments = [
+                attachment
+                for attachment in attachments
+                if attachment.get("mime_type")
+                in {"image/png", "image/jpeg", "image/webp"}
+            ]
+            if image_attachments:
+                content = [
+                    {"type": "text", "text": content},
+                    *[
+                        {
+                            "type": "image_url",
+                            "image_url": {
+                                "url": (
+                                    f"data:{attachment['mime_type']};base64,"
+                                    f"{attachment['data']}"
+                                )
+                            },
+                        }
+                        for attachment in image_attachments
+                    ],
+                ]
+            messages.append({"role": item["role"], "content": content})
         return messages

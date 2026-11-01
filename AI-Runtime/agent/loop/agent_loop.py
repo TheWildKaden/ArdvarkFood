@@ -50,11 +50,7 @@ class AgentLoop:
             user_input,
             {"attachments": attachments} if attachments else None,
         )
-        messages = self.context.build(
-            state.conversation_id,
-            user_input,
-            attachments,
-        )
+        messages = self.context.build(state.conversation_id, user_input)
         adapter = self.inference.model_manager.get_adapter()
         if attachments and not adapter.metadata.capabilities.get("vision", False):
             image_count = sum(
