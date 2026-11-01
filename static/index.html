@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#10120f">
+    <meta name="description" content="A calm, private workspace for chat and locally generated images.">
+    <title>Ardvark — AI workspace</title>
+    <link rel="stylesheet" href="/assets/app.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar" aria-label="Workspace navigation">
+        <a class="brand" href="/" aria-label="Ardvark home">
+          <span class="brand-mark" aria-hidden="true">a</span>
+          <span class="brand-copy"><strong>ardvark</strong><small>PERSONAL WORKSPACE</small></span>
+        </a>
+
+        <button id="new-chat" class="new-chat-button" type="button">
+          <span aria-hidden="true">＋</span> New chat
+          <kbd>⌘ K</kbd>
+        </button>
+
+        <p class="nav-caption">WORKSPACE</p>
+        <nav class="tool-nav" aria-label="Workspace tools">
+          <button class="tool-link is-active" id="chat-tab" type="button" aria-current="page">
+            <span class="nav-icon" aria-hidden="true">◌</span> Chat
+          </button>
+          <button class="tool-link" id="image-tab" type="button">
+            <span class="nav-icon" aria-hidden="true">✳</span> Image studio
+          </button>
+        </nav>
+
+        <div class="sidebar-spacer"></div>
+        <div class="sidebar-status">
+          <span id="connection-indicator" class="connection-dot" aria-hidden="true"></span>
+          <span id="connection-label">Checking connection…</span>
+        </div>
+        <a class="project-link" href="/project">About this project <span aria-hidden="true">↗</span></a>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Workspace</span><span aria-hidden="true">/</span><strong id="page-title">Chat</strong></div>
+          <div class="topbar-meta"><span class="privacy-mark" aria-hidden="true">●</span> Your configured AI provider</div>
+        </header>
+
+        <section id="chat-view" class="view chat-view" aria-labelledby="welcome-title">
+          <div id="welcome" class="welcome">
+            <div class="welcome-mark" aria-hidden="true">a</div>
+            <p class="eyebrow">A THOUGHTFUL PLACE TO START</p>
+            <h1 id="welcome-title">What’s on your mind?</h1>
+            <p class="welcome-copy">Ask a question, work through an idea, or start with a prompt below.</p>
+            <div class="prompt-suggestions" aria-label="Suggested prompts">
+              <button class="suggestion" type="button" data-prompt="Help me think through an idea I have.">
+                <span aria-hidden="true">↗</span><span><strong>Explore an idea</strong><small>Think through a problem together</small></span>
+              </button>
+              <button class="suggestion" type="button" data-prompt="Help me write a clear, concise plan for this week.">
+                <span aria-hidden="true">☷</span><span><strong>Make a plan</strong><small>Turn a goal into next steps</small></span>
+              </button>
+              <button class="suggestion" type="button" data-prompt="Explain a complicated topic in plain language.">
+                <span aria-hidden="true">◇</span><span><strong>Learn something</strong><small>Make a complex topic clearer</small></span>
+              </button>
+            </div>
+          </div>
+
+          <section id="messages" class="messages" aria-label="Conversation" aria-live="polite"></section>
+
+          <div class="composer-area">
+            <p id="chat-status" class="status-message" role="status" aria-live="polite"></p>
+            <form id="chat-form" class="composer">
+              <label class="sr-only" for="prompt">Message Ardvark</label>
+              <textarea id="prompt" name="message" rows="1" maxlength="8000" placeholder="Message Ardvark…" required></textarea>
+              <div class="composer-bottom">
+                <span class="composer-hint">Enter to send <span aria-hidden="true">·</span> Shift + Enter for a new line</span>
+                <button id="send" class="send-button" type="submit" aria-label="Send message">
+                  <span aria-hidden="true">↑</span>
+                </button>
+              </div>
+            </form>
+            <p class="disclaimer">AI can make mistakes. Check important information.</p>
+          </div>
+        </section>
+
+        <section id="image-view" class="view image-view" aria-labelledby="image-title" hidden>
+          <div class="image-heading">
+            <p class="eyebrow">IMAGE STUDIO <span class="local-badge">RUNS LOCALLY</span></p>
+            <h1 id="image-title">Make an image.</h1>
+            <p>Describe a scene. SD-Turbo runs locally in this environment—no ChatGPT, image API, or API key. First generation downloads the model.</p>
+          </div>
+          <form id="image-form" class="image-form">
+            <label for="image-prompt">Describe your image</label>
+            <textarea id="image-prompt" maxlength="4000" placeholder="A tiny red panda astronaut tending a moon garden, cinematic storybook illustration…" required></textarea>
+            <div class="image-controls">
+              <label class="field-label" for="image-steps">Detail
+                <select id="image-steps">
+                  <option value="1">Fast · 1 step</option>
+                  <option value="2">Balanced · 2 steps</option>
+                  <option value="4">More detail · 4 steps</option>
+                </select>
+              </label>
+              <label class="field-label" for="image-seed">Seed <span class="optional-label">optional</span>
+                <input id="image-seed" type="number" min="0" max="4294967295" placeholder="Random">
+              </label>
+              <button id="generate-image" class="generate-button" type="submit"><span aria-hidden="true">✳</span> Generate image</button>
+            </div>
+          </form>
+          <p id="image-status" class="status-message image-status" role="status" aria-live="polite"></p>
+          <div id="image-result" class="image-result"></div>
+          <p class="image-footnote">512 × 512 pixels · Generation uses this machine’s available CPU or GPU.</p>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

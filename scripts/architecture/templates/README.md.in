@@ -52,7 +52,7 @@ from `docs/index.html` at `/project`. Build the static site with
 │   └── encoding/           Message-format encoding implementation
 ├── AI-Runtime/             LLM adapters, agent, tools, memory, and storage
 ├── frontend/               Separate React/Fastify stock-watch source and assets
-├── static/                 Live Ardvark chat/image UI served by FastAPI at /
+├── static/                 Live Ardvark chat/image UI and assets served at /
 ├── docs/                   Project site, architecture, and references
 ├── scripts/                Build, preview, and architecture tools
 ├── tests/                  Application and architecture tests
@@ -61,6 +61,8 @@ from `docs/index.html` at `/project`. Build the static site with
 
 `local_image_generator.py` remains as a compatibility import for the image
 generator, whose implementation now lives in `src/image_generation/`.
+The live UI markup, styles, and client behavior are separated into
+`static/index.html` and `static/assets/`.
 Generated runtime images and SQLite state stay local and are ignored by Git.
 
 ## Language responsibilities

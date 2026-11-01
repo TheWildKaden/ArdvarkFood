@@ -32,6 +32,22 @@ def test_homepage_and_health_endpoint() -> None:
     assert client.get("/api/health").json() == {"status": "ok"}
 
 
+def test_homepage_loads_separate_frontend_assets() -> None:
+    client = TestClient(create_app())
+
+    homepage = client.get("/")
+    stylesheet = client.get("/assets/app.css")
+    script = client.get("/assets/app.js")
+
+    assert 'href="/assets/app.css"' in homepage.text
+    assert 'src="/assets/app.js"' in homepage.text
+    assert stylesheet.status_code == 200
+    assert "grid-template-columns" in stylesheet.text
+    assert script.status_code == 200
+    assert 'fetch("/api/chat"' in script.text
+    assert 'fetch("/api/images/generate"' in script.text
+
+
 def test_legacy_image_generator_import_remains_compatible() -> None:
     from local_image_generator import LocalImageGenerator as LegacyImageGenerator
     from src.image_generation import LocalImageGenerator
