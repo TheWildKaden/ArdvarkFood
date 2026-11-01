@@ -15,6 +15,10 @@ from typing import Any
 PALETTE = ("#1f2937", "#334155", "#475569", "#0f766e", "#7c3aed", "#b45309")
 
 
+class GitHubRateLimited(Exception):
+    pass
+
+
 def _git(root: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", *args],
@@ -63,6 +67,7 @@ def _github_json(url: str, token: str | None) -> Any | None:
                 f"remaining={remaining}); using local git statistics.",
                 flush=True,
             )
+            raise GitHubRateLimited from error
         else:
             print(f"GitHub API returned HTTP {error.code}; using local git data.", flush=True)
     except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
@@ -119,9 +124,9 @@ def generate(
     token: str | None,
     repo: str | None = None,
     offline: bool = False,
+    source_files: int = 0,
+    api_routes: int = 0,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    import os
-
     repo = repo or repository_name(root)
     authors: Counter[str] = Counter()
     try:
@@ -135,30 +140,33 @@ def generate(
     repository_stats: dict[str, Any] = {}
     source = "local git author names"
     if not offline and re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repo):
-        api_contributors = _github_json(
-            f"https://api.github.com/repos/{repo}/contributors?per_page=100",
-            token,
-        )
-        if isinstance(api_contributors, list):
-            source = "GitHub contributors API (first 100 accounts)"
-            contributors = [
-                {
-                    "login": item.get("login"),
-                    "name": item.get("login") or "Contributor",
-                    "profile_url": item.get("html_url"),
-                    "contributions": item.get("contributions", 0),
+        try:
+            api_contributors = _github_json(
+                f"https://api.github.com/repos/{repo}/contributors?per_page=100",
+                token,
+            )
+            if isinstance(api_contributors, list):
+                source = "GitHub contributors API (first 100 accounts)"
+                contributors = [
+                    {
+                        "login": item.get("login"),
+                        "name": item.get("login") or "Contributor",
+                        "profile_url": item.get("html_url"),
+                        "contributions": item.get("contributions", 0),
+                    }
+                    for item in api_contributors
+                    if isinstance(item, dict) and item.get("type") != "Bot"
+                ]
+            api_repository = _github_json(f"https://api.github.com/repos/{repo}", token)
+            if isinstance(api_repository, dict):
+                repository_stats = {
+                    "stars": api_repository.get("stargazers_count", "—"),
+                    "forks": api_repository.get("forks_count", "—"),
+                    "open_issues": api_repository.get("open_issues_count", "—"),
+                    "default_branch": api_repository.get("default_branch"),
                 }
-                for item in api_contributors
-                if isinstance(item, dict) and not item.get("type") == "Bot"
-            ]
-        api_repository = _github_json(f"https://api.github.com/repos/{repo}", token)
-        if isinstance(api_repository, dict):
-            repository_stats = {
-                "stars": api_repository.get("stargazers_count", "—"),
-                "forks": api_repository.get("forks_count", "—"),
-                "open_issues": api_repository.get("open_issues_count", "—"),
-                "default_branch": api_repository.get("default_branch"),
-            }
+        except GitHubRateLimited:
+            repository_stats = {}
 
     if not contributors:
         contributors = [
@@ -189,8 +197,8 @@ def generate(
         "repository": repo,
         "commits": commit_count,
         "contributors": len(contributors),
-        "source_files": int(os.getenv("ARDVARK_SOURCE_FILE_COUNT", "0")),
-        "api_routes": int(os.getenv("ARDVARK_API_ROUTE_COUNT", "0")),
+        "source_files": source_files,
+        "api_routes": api_routes,
         "contributors_source": source,
     }
     contributor_data = {
