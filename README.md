@@ -52,7 +52,7 @@ from `docs/index.html` at `/project`. Build the static site with
 │   └── encoding/           Message-format encoding implementation
 ├── AI-Runtime/             LLM adapters, agent, tools, memory, and storage
 ├── frontend/               Separate React/Fastify stock-watch source and assets
-├── static/                 Live Ardvark chat/image UI served by FastAPI at /
+├── static/                 Live Ardvark chat/image UI and assets served at /
 ├── docs/                   Project site, architecture, and references
 ├── scripts/                Build, preview, and architecture tools
 ├── tests/                  Application and architecture tests
@@ -61,6 +61,8 @@ from `docs/index.html` at `/project`. Build the static site with
 
 `local_image_generator.py` remains as a compatibility import for the image
 generator, whose implementation now lives in `src/image_generation/`.
+The live UI markup, styles, and client behavior are separated into
+`static/index.html` and `static/assets/`.
 Generated runtime images and SQLite state stay local and are ignored by Git.
 
 ## Language responsibilities
@@ -319,7 +321,7 @@ read from the contributors API when available; otherwise local commit author
 names are used without publishing email addresses.
 
 <table>
-<tr><td align="center"><a href="https://github.com/TheWildKaden"><img src="docs/architecture/assets/contributors/824c0ce4b0eb.svg" width="72" height="72" alt="TheWildKaden avatar" /></a><br /><sub>TheWildKaden<br />6 contributions</sub></td><td align="center"><a href="https://github.com/acunningham-ship-it"><img src="docs/architecture/assets/contributors/2ad2b4a035a3.svg" width="72" height="72" alt="acunningham-ship-it avatar" /></a><br /><sub>acunningham-ship-it<br />1 contributions</sub></td></tr>
+<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />60 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
 </table>
 
 ---
