@@ -2,12 +2,12 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start AI Buddy Dev Preview",
+      "label": "Start Ardvark Dev Preview",
       "type": "shell",
       "command": "./scripts/start-dev-preview.sh",
       "isBackground": true,
       "problemMatcher": {
-        "owner": "ai-buddy-preview",
+        "owner": "ardvark-preview",
         "pattern": {
           "regexp": "^$"
         },

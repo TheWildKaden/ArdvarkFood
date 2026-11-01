@@ -27,7 +27,7 @@ def test_homepage_and_health_endpoint() -> None:
 
     homepage = client.get("/")
     assert homepage.status_code == 200
-    assert "AI Buddy" in homepage.text
+    assert "Ardvark" in homepage.text
     assert "ChatGPT, image API, or API key" in homepage.text
     assert client.get("/api/health").json() == {"status": "ok"}
 
@@ -116,7 +116,7 @@ def test_generated_image_endpoint_rejects_invalid_filenames() -> None:
     assert response.status_code == 404
 
 
-def test_chat_calls_provider_with_buddy_instructions(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_chat_calls_provider_with_ardvark_instructions(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("AI_API_KEY", "test-key")
     monkeypatch.setenv("AI_MODEL", "test-model")
     requests: list[httpx.Request] = []
@@ -143,7 +143,7 @@ def test_chat_calls_provider_with_buddy_instructions(monkeypatch: pytest.MonkeyP
     assert requests[0].headers["authorization"] == "Bearer test-key"
     payload = json.loads(requests[0].content)
     assert payload["messages"][0]["role"] == "system"
-    assert "You are Buddy" in payload["messages"][0]["content"]
+    assert "You are Ardvark" in payload["messages"][0]["content"]
     assert payload["messages"][-1] == {"role": "user", "content": "Hello"}
 
 

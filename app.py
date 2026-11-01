@@ -58,7 +58,7 @@ def create_app(
     ai_transport: httpx.AsyncBaseTransport | None = None,
     image_generator: ImageGenerator | None = None,
 ) -> FastAPI:
-    application = FastAPI(title="AI Buddy")
+    application = FastAPI(title="Ardvark")
     local_generator = image_generator or LocalImageGenerator()
 
     @application.get("/", include_in_schema=False)
@@ -80,7 +80,7 @@ def create_app(
             raise HTTPException(
                 status_code=503,
                 detail=(
-                    "AI Buddy needs an API key. Add AI_API_KEY as a Codespaces "
+                    "Ardvark needs an API key. Add AI_API_KEY as a Codespaces "
                     "secret (or set OPENAI_API_KEY), then restart the app."
                 ),
             )
@@ -101,7 +101,7 @@ def create_app(
                     "role": "system",
                     "content": os.getenv(
                         "AI_SYSTEM_PROMPT",
-                        "You are Buddy, a friendly, capable general-purpose AI "
+                        "You are Ardvark, a friendly, capable general-purpose AI "
                         "assistant. Give clear, useful answers. Be honest about "
                         "uncertainty, and never claim to have taken actions you "
                         "have not taken.",

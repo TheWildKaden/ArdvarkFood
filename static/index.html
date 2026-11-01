@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#101410">
-    <title>AI Buddy</title>
+    <title>Ardvark</title>
     <style>
       :root {
         color-scheme: dark;
@@ -192,7 +192,7 @@
         <div class="brand-group">
           <div class="mark" aria-hidden="true">✦</div>
           <div>
-            <p class="brand">AI Buddy</p>
+            <p class="brand">Ardvark</p>
             <p class="tagline">Your own AI, running in this Codespace</p>
           </div>
         </div>
@@ -206,13 +206,13 @@
         <section id="chat-view">
           <section id="welcome" aria-label="Welcome">
             <div class="mark" aria-hidden="true">✦</div>
-            <h1>Hey, I'm Buddy.</h1>
+            <h1>Hey, I'm Ardvark.</h1>
             <p>Ask me anything. Let's figure it out together.</p>
           </section>
           <section id="messages" aria-live="polite" aria-label="Conversation"></section>
           <p id="status" role="status"></p>
           <form id="chat-form" class="composer">
-            <textarea id="prompt" aria-label="Message Buddy" placeholder="Message Buddy..." maxlength="8000" required></textarea>
+            <textarea id="prompt" aria-label="Message Ardvark" placeholder="Message Ardvark..." maxlength="8000" required></textarea>
             <button id="send" type="submit" aria-label="Send message">↑</button>
           </form>
           <p class="hint">Enter to send · Shift + Enter for a new line</p>
@@ -297,7 +297,7 @@
           const download = document.createElement("a");
           download.id = "download-image";
           download.href = result.image_url;
-          download.download = "ai-buddy-image.png";
+          download.download = "ardvark-image.png";
           download.textContent = "Download image";
           imageResult.append(image, download);
           imageStatus.textContent = `Generated locally with ${result.model}.`;
@@ -341,7 +341,7 @@
         history.push({ role: "user", content });
         promptInput.value = "";
         send.disabled = true;
-        status.textContent = "Buddy is thinking...";
+        status.textContent = "Ardvark is thinking...";
 
         try {
           const response = await fetch("/api/chat", {
@@ -356,7 +356,7 @@
           status.textContent = "";
         } catch (error) {
           history.pop();
-          status.textContent = error.message || "Could not reach AI Buddy. Try again.";
+          status.textContent = error.message || "Could not reach Ardvark. Try again.";
         } finally {
           send.disabled = false;
           promptInput.focus();
