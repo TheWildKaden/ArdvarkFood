@@ -256,6 +256,11 @@ Tools are not executed directly by model output. Reads are approved by default;
 write, network, terminal, Python, and MCP operations wait for an explicit
 approval. The approval request is emitted as an SSE event and can be resolved
 with `POST /api/runtime/executions/{execution_id}/tools/{tool_call_id}/approval`.
+Replacing an existing workspace file through the agent also requires the
+current file's SHA-256, preventing a stale proposal from silently overwriting
+newer content. The runtime does not execute generated code or manage Git
+branches and commits as an autonomous self-modification workflow; see the
+[controlled code-change boundary](AI-Runtime/docs/SELF_EVOLUTION.md).
 Python execution runs in a separate interpreter process but is **not** an OS
 sandbox; only grant approval in a trusted, private deployment. Network tools
 require an explicit `outbound_allowed_hosts` allowlist in runtime settings.
