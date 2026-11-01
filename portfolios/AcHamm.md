@@ -4,10 +4,11 @@ GitHub: [@acunningham-ship-it](https://github.com/acunningham-ship-it)
 
 ## Focus
 
-A small model that punches above its weight. The leverage is rarely in the
-model — it's in the loop around it: context that earns every token, tools whose
-failures are loud instead of silent, and evals that catch the agent claiming it
-did something it didn't.
+A small model that punches above its weight. Not the frontier-lab play of
+scaling parameters until competence appears — the leverage is in the loop
+around the model: context that earns every token, tools whose failures are loud
+instead of silent, and evals that catch the agent claiming it did something it
+didn't.
 
 That's the target here: keep the runtime small enough to run locally on modest
 hardware and make it strong through tight feedback rather than raw parameters.
