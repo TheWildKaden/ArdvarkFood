@@ -1,8 +1,12 @@
 import asyncio
+import hashlib
+import hmac
 import ipaddress
 import json
+import os
 import socket
 import subprocess
+import tempfile
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit
@@ -172,7 +176,7 @@ class ToolExecutor:
         )
         self._register(
             "filesystem.write",
-            "Write UTF-8 text to a file inside the configured workspace.",
+            "Create a UTF-8 workspace file, or update one only when its current SHA-256 is supplied.",
             {
                 "type": "object",
                 "properties": {
@@ -180,6 +184,11 @@ class ToolExecutor:
                     "content": {
                         "type": "string",
                         "maxLength": self.settings.tools.max_tool_output_chars,
+                    },
+                    "expected_sha256": {
+                        "type": "string",
+                        "pattern": "^[a-fA-F0-9]{64}$",
+                        "description": "Required when replacing an existing file; SHA-256 of its current contents.",
                     },
                 },
                 "required": ["path", "content"],
@@ -310,11 +319,56 @@ class ToolExecutor:
         entries = sorted(item.name for item in target.iterdir())[:500]
         return {"path": str(target.relative_to(self.workspace)), "entries": entries}
 
-    def _write_file(self, path: str, content: str) -> dict[str, Any]:
+    def _write_file(
+        self, path: str, content: str, expected_sha256: str | None = None
+    ) -> dict[str, Any]:
         target = self._resolve_path(path)
+        exists = target.exists()
+        if exists and not target.is_file():
+            raise PermissionDenied("Only regular files can be replaced.")
+        if exists:
+            if expected_sha256 is None:
+                raise PermissionDenied(
+                    "Replacing an existing file requires its current SHA-256."
+                )
+            current_sha256 = hashlib.sha256(target.read_bytes()).hexdigest()
+            if not hmac.compare_digest(
+                current_sha256, expected_sha256.lower()
+            ):
+                raise PermissionDenied(
+                    "The file changed since it was read; read it again before proposing an update."
+                )
+        elif expected_sha256 is not None:
+            raise PermissionDenied(
+                "The expected SHA-256 was provided, but the file does not exist."
+            )
+
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(content, encoding="utf-8")
-        return {"path": str(target.relative_to(self.workspace)), "bytes": len(content.encode())}
+        content_bytes = content.encode("utf-8")
+        descriptor, temporary_path = tempfile.mkstemp(
+            prefix=f".{target.name}.", dir=target.parent
+        )
+        try:
+            with os.fdopen(descriptor, "wb") as temporary_file:
+                temporary_file.write(content_bytes)
+                temporary_file.flush()
+                os.fsync(temporary_file.fileno())
+            if exists:
+                os.chmod(temporary_path, target.stat().st_mode)
+            os.replace(temporary_path, target)
+        except Exception:
+            try:
+                os.unlink(temporary_path)
+            except FileNotFoundError:
+                pass
+            raise
+
+        return {
+            "path": str(target.relative_to(self.workspace)),
+            "bytes": len(content_bytes),
+            "sha256": hashlib.sha256(content_bytes).hexdigest(),
+            "created": not exists,
+        }
 
     async def _terminal(self, command: list[str]) -> dict[str, Any]:
         executable, *args = command

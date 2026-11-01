@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import importlib
 import sys
 from pathlib import Path
@@ -80,6 +81,48 @@ def test_tool_registry_discovery_and_validation(tmp_path: Path) -> None:
         await runtime.close()
 
     asyncio.run(verify())
+
+
+def test_workspace_write_requires_current_digest_for_replacements(
+    tmp_path: Path,
+) -> None:
+    runtime = agent_module.AgentRuntime(_settings(tmp_path))
+    target = tmp_path / "module.py"
+    original = "value = 1\n"
+    target.write_text(original, encoding="utf-8")
+
+    try:
+        try:
+            runtime.tool_executor._write_file("module.py", "value = 2\n")
+        except agent_module.PermissionDenied as error:
+            assert "SHA-256" in str(error)
+        else:
+            raise AssertionError("Replacing a file without a digest must be rejected.")
+
+        stale_digest = hashlib.sha256(b"value = 0\n").hexdigest()
+        try:
+            runtime.tool_executor._write_file(
+                "module.py", "value = 2\n", stale_digest
+            )
+        except agent_module.PermissionDenied as error:
+            assert "changed since it was read" in str(error)
+        else:
+            raise AssertionError("Replacing a changed file must be rejected.")
+        assert target.read_text(encoding="utf-8") == original
+
+        current_digest = hashlib.sha256(original.encode("utf-8")).hexdigest()
+        result = runtime.tool_executor._write_file(
+            "module.py", "value = 2\n", current_digest
+        )
+        assert result["created"] is False
+        assert result["sha256"] == hashlib.sha256(b"value = 2\n").hexdigest()
+        assert target.read_text(encoding="utf-8") == "value = 2\n"
+
+        created = runtime.tool_executor._write_file("new.py", "value = 3\n")
+        assert created["created"] is True
+        assert (tmp_path / "new.py").read_text(encoding="utf-8") == "value = 3\n"
+    finally:
+        asyncio.run(runtime.close())
 
 
 def test_permission_is_required_and_can_be_denied(tmp_path: Path) -> None:
