@@ -150,7 +150,11 @@ class AgentLoop:
                 await notify("token", {"content": delta.content})
             if delta.finish_reason:
                 finish_reason = delta.finish_reason
+            if not isinstance(delta.tool_calls, list):
+                raise RuntimeError("The model returned malformed streaming tool calls.")
             for position, fragment in enumerate(delta.tool_calls):
+                if not isinstance(fragment, dict):
+                    raise RuntimeError("The model returned a malformed streaming tool call.")
                 index = fragment.get("index", position)
                 if not isinstance(index, int) or index < 0:
                     continue
@@ -165,6 +169,8 @@ class AgentLoop:
                 if isinstance(fragment.get("id"), str):
                     call["id"] = fragment["id"]
                 function = fragment.get("function") or {}
+                if not isinstance(function, dict):
+                    raise RuntimeError("The model returned a malformed tool function.")
                 if isinstance(function.get("name"), str):
                     call["function"]["name"] += function["name"]
                 if isinstance(function.get("arguments"), str):

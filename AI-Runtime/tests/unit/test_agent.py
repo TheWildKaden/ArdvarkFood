@@ -139,3 +139,33 @@ def test_context_window_rejects_single_oversized_message(tmp_path: Path) -> None
     else:
         raise AssertionError("Expected an oversized message to exceed context.")
     asyncio.run(manager.unload())
+
+
+def test_agent_cancellation_is_persisted(tmp_path: Path) -> None:
+    class BlockingAdapter(FakeAdapter):
+        async def generate(self, messages, sampling, tools):
+            await asyncio.Event().wait()
+
+        async def stream(self, messages, sampling, tools):
+            await asyncio.Event().wait()
+            yield inference_module.GenerationDelta(content="unreachable")
+
+    async def verify() -> None:
+        settings = _settings(tmp_path)
+        manager = importlib.import_module(
+            "AI-Runtime.models.model_manager"
+        ).ModelManager(settings.model, {"fake": BlockingAdapter})
+        await manager.load()
+        runtime = agent_module.AgentRuntime(settings, model_manager=manager)
+        conversation_id = runtime.storage.create_conversation()["id"]
+        handle = await runtime.start(conversation_id, "Wait forever.")
+        await asyncio.wait_for(handle.events.get(), timeout=1)
+        assert await runtime.cancel(handle.state.execution_id)
+        try:
+            await handle.task
+        except asyncio.CancelledError:
+            pass
+        assert runtime.storage.get_execution(handle.state.execution_id)["status"] == "cancelled"
+        await runtime.close()
+
+    asyncio.run(verify())

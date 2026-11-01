@@ -10,6 +10,7 @@ settings_module = importlib.import_module("AI-Runtime.config.settings")
 agent_module = importlib.import_module("AI-Runtime.agent.agent")
 inference_module = importlib.import_module("AI-Runtime.models.inference")
 tool_call_module = importlib.import_module("AI-Runtime.tools.tool_call")
+input_router_module = importlib.import_module("AI-Runtime.multimodal.input_router")
 
 
 def _settings(tmp_path: Path):
@@ -125,3 +126,40 @@ def test_tool_call_parser_rejects_non_object_arguments() -> None:
     except tool_call_module.InvalidToolCall:
         return
     raise AssertionError("Expected malformed tool arguments to be rejected.")
+
+
+def test_multimodal_router_rejects_unsupported_and_mismatched_images() -> None:
+    router = input_router_module.InputRouter()
+    try:
+        router.process(
+            [{"name": "clip.gif", "mime_type": "image/gif", "content": "R0lG"}]
+        )
+    except input_router_module.UnsupportedModality:
+        pass
+    else:
+        raise AssertionError("GIF input should be rejected as unsupported.")
+
+    import base64
+
+    encoded = base64.b64encode(b"not a png").decode("ascii")
+    try:
+        router.process(
+            [{"name": "image.png", "mime_type": "image/png", "content": encoded}]
+        )
+    except ValueError as error:
+        assert "does not match" in str(error)
+    else:
+        raise AssertionError("Mismatched image data should be rejected.")
+
+
+def test_running_executions_are_recovered_as_interrupted(tmp_path: Path) -> None:
+    storage_module = importlib.import_module("AI-Runtime.storage.storage_manager")
+    database_path = str(tmp_path / "recovery.sqlite3")
+    first = storage_module.StorageManager(database_path)
+    conversation_id = first.create_conversation()["id"]
+    execution_id = first.start_execution(conversation_id)
+
+    recovered = storage_module.StorageManager(database_path)
+    execution = recovered.get_execution(execution_id)
+    assert execution["status"] == "interrupted"
+    assert execution["error"] == "Process restarted during execution"

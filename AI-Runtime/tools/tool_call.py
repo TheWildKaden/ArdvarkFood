@@ -36,6 +36,8 @@ class ToolCall:
             arguments = raw_arguments
         if not isinstance(arguments, dict):
             raise InvalidToolCall("Tool arguments must be a JSON object.")
+        if len(json.dumps(arguments, ensure_ascii=False)) > 16000:
+            raise InvalidToolCall("Tool arguments exceed the maximum size.")
 
         call_id = payload.get("id")
         if not isinstance(call_id, str) or not call_id:
