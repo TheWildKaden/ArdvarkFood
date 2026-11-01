@@ -107,6 +107,11 @@ references.
 
 ## Contributors
 
+Want to contribute? See the [contribution guide](./CONTRIBUTING.md), open an
+[issue](https://github.com/TheWildKaden/ArdvarkFood/issues), or submit a pull
+request. GitHub updates this contributor graphic automatically for recognized
+contributions; see [how contributor recognition works](./CONTRIBUTING.md#being-recognized-as-a-contributor).
+
 <a href="https://github.com/TheWildKaden/ArdvarkFood/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=TheWildKaden/ArdvarkFood" />
 </a>
