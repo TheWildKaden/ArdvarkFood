@@ -17,7 +17,9 @@ secret named `AI_API_KEY`:
 3. Restart the Codespace so the secret is available in its environment.
 
 OpenAI is used by default. To use another OpenAI-compatible provider, add
-Codespaces environment variables:
+the corresponding variables in Codespaces settings. The chat backend uses the
+standard [OpenAI Chat Completions endpoint](https://platform.openai.com/docs/api-reference/chat/create)
+so compatible providers can use the same integration:
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
