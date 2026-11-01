@@ -27,7 +27,7 @@ def _python_import_targets(index: SourceIndex, path: Path, tree: ast.Module) -> 
             if node.level:
                 try:
                     base = importlib.util.resolve_name("." * node.level + base, package)
-                except ImportError:
+                except (ImportError, ValueError):
                     continue
             if base:
                 names.append(base)
