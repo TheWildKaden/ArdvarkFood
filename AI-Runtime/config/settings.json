@@ -1,0 +1,40 @@
+{
+  "model": {
+    "backend": "llama_cpp",
+    "model_path": "",
+    "model_name": "local-gguf",
+    "base_url": "",
+    "context_size": 4096,
+    "gpu_layers": 0,
+    "default_max_tokens": 512
+  },
+  "agent": {
+    "max_steps": 8,
+    "max_tool_calls_per_turn": 4,
+    "timeout_seconds": 120,
+    "planning_enabled": false
+  },
+  "tools": {
+    "workspace_root": "..",
+    "auto_approve_permissions": [
+      "filesystem.read",
+      "git.read"
+    ],
+    "approval_permissions": [
+      "filesystem.write",
+      "terminal.execute",
+      "python.execute",
+      "browser.fetch",
+      "api.request",
+      "git.write",
+      "mcp.call"
+    ],
+    "denied_permissions": [],
+    "command_timeout_seconds": 10,
+    "max_tool_output_chars": 16000,
+    "mcp_servers": {}
+  },
+  "storage": {
+    "database_path": "storage/runtime.sqlite3"
+  }
+}
