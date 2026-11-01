@@ -4,7 +4,13 @@
   "type": "module",
   "scripts": {
     "build:pages": "node scripts/build-pages.mjs",
-    "preview:pages": "bash scripts/preview-pages.sh"
+    "preview:pages": "bash scripts/preview-pages.sh",
+    "architecture:generate": "python3 scripts/generate_architecture.py",
+    "architecture:validate": "python3 scripts/generate_architecture.py --validate-only"
+  },
+  "devDependencies": {
+    "@babel/parser": "^7.28.5",
+    "@mermaid-js/mermaid-cli": "^11.12.0"
   },
   "devDependencies": {
     "@babel/parser": "^8.0.10",
