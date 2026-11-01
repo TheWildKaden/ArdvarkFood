@@ -2,6 +2,27 @@ __pycache__/
 .pytest_cache/
 *.py[cod]
 .generated/
+
+# build output
 /dist/
-6
-node_modules
+
+# dependencies
+node_modules/
+
+# llama.cpp runtime binaries are downloaded per-machine, not vendored
+llama/extracted/
+
+# local model weights (GGUF is pulled separately, never committed)
+*.gguf
+*.ggml
+
+# virtualenvs
+.venv/
+venv/
+
+# local secrets
+.env
+
+# runtime state
+*.sqlite3
+storage/logs/
