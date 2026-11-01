@@ -52,6 +52,11 @@
         text-decoration: none;
       }
       .project-link:hover, .project-link:focus-visible { color: var(--accent); }
+      button:focus-visible, a:focus-visible, textarea:focus-visible,
+      select:focus-visible, input:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 3px;
+      }
       .tabs button {
         width: auto;
         height: 36px;
@@ -77,6 +82,25 @@
       #welcome h1 { margin: 0 0 8px; font-size: clamp(26px, 5vw, 36px); letter-spacing: -1px; }
       #welcome p { margin: 0; color: var(--muted); }
       #messages { display: grid; gap: 20px; margin: auto 0 20px; }
+      .conversation-toolbar {
+        display: flex;
+        min-height: 36px;
+        align-items: center;
+        justify-content: flex-end;
+        margin: 0 0 8px;
+      }
+      .secondary-button {
+        width: auto;
+        height: 34px;
+        flex: 0 0 auto;
+        padding: 0 12px;
+        border: 1px solid var(--line);
+        background: #171d17;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 500;
+      }
+      .secondary-button:hover { border-color: #394432; color: var(--accent); }
       .message { display: flex; gap: 12px; align-items: flex-start; }
       .message.user { flex-direction: row-reverse; }
       .avatar {
@@ -117,7 +141,8 @@
         flex: 1;
         min-height: 44px;
         max-height: 180px;
-        resize: vertical;
+        resize: none;
+        overflow-y: auto;
         padding: 12px 10px;
         border: 0;
         outline: 0;
@@ -209,6 +234,9 @@
             <h1>Hey, I'm Ardvark.</h1>
             <p>Ask me anything. Let's figure it out together.</p>
           </section>
+          <div class="conversation-toolbar">
+            <button id="new-chat" class="secondary-button" type="button" hidden>New chat</button>
+          </div>
           <section id="messages" aria-live="polite" aria-label="Conversation"></section>
           <p id="status" role="status"></p>
           <form id="chat-form" class="composer">
@@ -250,11 +278,23 @@
       const welcome = document.querySelector("#welcome");
       const status = document.querySelector("#status");
       const send = document.querySelector("#send");
+      const newChat = document.querySelector("#new-chat");
       const imageForm = document.querySelector("#image-form");
       const imagePrompt = document.querySelector("#image-prompt");
       const imageStatus = document.querySelector("#image-status");
       const imageResult = document.querySelector("#image-result");
       const generateImage = document.querySelector("#generate-image");
+
+      newChat.addEventListener("click", () => {
+        history.length = 0;
+        messages.replaceChildren();
+        welcome.hidden = false;
+        newChat.hidden = true;
+        status.textContent = "";
+        promptInput.value = "";
+        resizeComposer();
+        promptInput.focus();
+      });
 
       document.querySelectorAll(".tab").forEach((tab) => {
         tab.addEventListener("click", () => {
@@ -320,9 +360,19 @@
         bubble.textContent = content;
         row.append(avatar, bubble);
         messages.append(row);
-        row.scrollIntoView({ behavior: "smooth", block: "end" });
+        row.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+          block: "end",
+        });
+        return row;
       }
 
+      function resizeComposer() {
+        promptInput.style.height = "auto";
+        promptInput.style.height = `${Math.min(promptInput.scrollHeight, 180)}px`;
+      }
+
+      promptInput.addEventListener("input", resizeComposer);
       promptInput.addEventListener("keydown", (event) => {
         if (event.key === "Enter" && !event.shiftKey) {
           event.preventDefault();
@@ -337,9 +387,11 @@
 
         if (history.length >= 32) history.splice(0, 2);
         welcome.hidden = true;
-        addMessage("user", content);
+        const userMessage = addMessage("user", content);
         history.push({ role: "user", content });
+        newChat.hidden = false;
         promptInput.value = "";
+        resizeComposer();
         send.disabled = true;
         status.textContent = "Ardvark is thinking...";
 
@@ -356,6 +408,11 @@
           status.textContent = "";
         } catch (error) {
           history.pop();
+          userMessage.remove();
+          welcome.hidden = history.length > 0;
+          newChat.hidden = history.length === 0;
+          promptInput.value = content;
+          resizeComposer();
           status.textContent = error.message || "Could not reach Ardvark. Try again.";
         } finally {
           send.disabled = false;
