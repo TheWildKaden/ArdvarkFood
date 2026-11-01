@@ -5,5 +5,9 @@
   "scripts": {
     "build:pages": "node scripts/build-pages.mjs",
     "preview:pages": "bash scripts/preview-pages.sh"
+  },
+  "devDependencies": {
+    "@babel/parser": "^8.0.10",
+    "@mermaid-js/mermaid-cli": "^12.0.0"
   }
 }
