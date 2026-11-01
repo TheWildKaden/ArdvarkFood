@@ -28,10 +28,13 @@ def analyze(index: SourceIndex) -> dict[str, Any]:
                 }
             )
 
-    by_qualname = {function["qualname"]: function for function in functions}
     by_name: dict[str, list[dict[str, Any]]] = {}
+    by_file_name: dict[tuple[str, str], list[dict[str, Any]]] = {}
     for function in functions:
         by_name.setdefault(function["name"], []).append(function)
+        by_file_name.setdefault(
+            (function["path"], function["name"]), []
+        ).append(function)
         if function.get("owner"):
             by_name.setdefault(f"{function['owner']}.{function['name']}", []).append(function)
 
@@ -39,14 +42,22 @@ def analyze(index: SourceIndex) -> dict[str, Any]:
     for function in functions:
         for call in function.get("calls", []):
             target = call.get("target")
-            resolved: dict[str, Any] | None = by_qualname.get(target) if target else None
+            resolved: dict[str, Any] | None = None
             if resolved is None and target:
                 matches = by_name.get(target, [])
+                matches = [
+                    item
+                    for item in matches
+                    if item["language"] == function["language"]
+                ]
                 if len(matches) == 1:
                     resolved = matches[0]
             if resolved is None:
-                name = call.get("name") or call.get("callee", "").split(".")[-1]
-                matches = by_name.get(name, [])
+                expression = call.get("expression") or call.get("callee", "")
+                name = call.get("name") or expression.split(".")[-1]
+                if not expression or "." in expression:
+                    continue
+                matches = by_file_name.get((function["path"], name), [])
                 if len(matches) == 1:
                     resolved = matches[0]
             if resolved is not None and resolved["qualname"] != function["qualname"]:
@@ -88,7 +99,7 @@ def analyze(index: SourceIndex) -> dict[str, Any]:
             [(source, target, "detected call") for source, target in selected_edges],
             notes=[
                 "Edges resolve direct call syntax to a unique local function or an instance attribute assigned a local class.",
-                "Dynamic dispatch, reflection, unresolved names, and callbacks are omitted; diagram is capped to the 76 most connected functions.",
+                "Unqualified calls resolve only within the same source file; dynamic dispatch, reflection, imported calls, unresolved names, and callbacks are omitted. Diagram is capped to the 76 most connected functions.",
             ],
         ),
     }
