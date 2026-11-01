@@ -62,7 +62,7 @@ button:focus-visible, a:focus-visible, textarea:focus-visible, select:focus-visi
 }
 .brand-mark { width: 36px; height: 36px; border-radius: 12px; font-size: 23px; }
 .brand-copy { display: grid; gap: 3px; }
-.brand-copy strong { font-family: "Manrope", sans-serif; font-size: 17px; letter-spacing: -.5px; }
+.brand-copy strong { font-size: 17px; letter-spacing: -.5px; }
 .brand-copy small { color: var(--quiet); font-size: 9px; font-weight: 700; letter-spacing: 1.15px; }
 
 .new-chat-button {
