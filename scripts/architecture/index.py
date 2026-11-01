@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import ast
 import json
+import os
 import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -39,24 +40,38 @@ class SourceIndex:
         python_modules: dict[Path, PythonModule] = {}
         javascript_paths: list[Path] = []
         parse_errors: list[str] = []
-        for path in sorted(root.rglob("*")):
-            if not path.is_file() or path.suffix not in SOURCE_SUFFIXES:
-                continue
-            relative = path.relative_to(root)
-            if any(part in IGNORED_PARTS for part in relative.parts):
-                continue
-            if "tests" in relative.parts or path.name.startswith("test_"):
-                continue
-            if relative.parts[:2] == ("frontend", "dist"):
-                continue
-            if path.suffix == ".py":
-                try:
-                    text = path.read_text(encoding="utf-8")
-                    python_modules[path] = PythonModule(path, ast.parse(text, filename=str(path)))
-                except (OSError, UnicodeError, SyntaxError) as error:
-                    parse_errors.append(f"{relative}: {error}")
-            else:
-                javascript_paths.append(path)
+        for current, directories, filenames in os.walk(root):
+            current_path = Path(current)
+            relative_directory = current_path.relative_to(root)
+            directories.sort()
+            directories[:] = [
+                directory
+                for directory in directories
+                if directory not in IGNORED_PARTS
+                and not (
+                    relative_directory.parts == ("frontend",)
+                    and directory == "dist"
+                )
+            ]
+            for filename in sorted(filenames):
+                path = current_path / filename
+                if path.suffix not in SOURCE_SUFFIXES:
+                    continue
+                relative = path.relative_to(root)
+                if "tests" in relative.parts or path.name.startswith("test_"):
+                    continue
+                if path.suffix == ".py":
+                    try:
+                        text = path.read_text(encoding="utf-8")
+                        python_modules[path] = PythonModule(
+                            path,
+                            ast.parse(text, filename=str(path)),
+                        )
+                    except (OSError, UnicodeError, SyntaxError) as error:
+                        parse_errors.append(f"{relative}: {error}")
+                else:
+                    javascript_paths.append(path)
+        javascript_paths.sort()
 
         js_indexer = root / "scripts" / "architecture" / "js_indexer.mjs"
         javascript_modules: list[dict[str, Any]] = []
