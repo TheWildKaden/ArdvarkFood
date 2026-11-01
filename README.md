@@ -28,10 +28,13 @@ image generator. Its existing app now also mounts a modular LLM and agent
 runtime under `/api/runtime`; the runtime does not replace the original chat,
 image, or encoding modules.
 
-The static project site is published with GitHub Pages. Preview it locally
-with `./scripts/preview-pages.sh` (or run the **Start Pages Preview** task in
-VS Code), then open `http://localhost:4173`. The Pages site is a static project
-overview; the interactive AI services require the Python app described below.
+The static project site is published with GitHub Pages. To preview the
+interactive AI Buddy frontend and its API locally, run
+`./scripts/start-dev-preview.sh` (or the **Start AI Buddy Dev Preview** task in
+VS Code), then open `http://localhost:8000`. The app serves the existing chat
+and image-generator frontend at `/` and the Pages-style project overview at
+`/project`. Alternatively, preview only the static Pages site with
+`./scripts/preview-pages.sh` at `http://localhost:4173`.
 
 ## LLM and agent runtime
 

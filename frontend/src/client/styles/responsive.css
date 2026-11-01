@@ -1,0 +1,94 @@
+@media (max-width: 900px) {
+  .spotify-workspace { grid-template-columns: minmax(0,1fr) 210px; }
+  .playlist-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .spotify-workspace { grid-template-columns: 1fr; }
+  .spotify-aside { position: static; }
+  .spotify-aside .recent-track:nth-of-type(n+6) { display: none; }
+  .spotify-account-tools { flex-wrap: wrap; justify-content: flex-end; }
+  .spotify-profile { margin-right: 0; }
+  .spotify-player-bar { grid-template-columns: minmax(100px,1fr) minmax(110px,1fr) auto; gap: 5px; padding: 6px 9px; }
+  .player-track>img, .player-track .player-art-placeholder { width: 30px; height: 30px; }
+  .player-extra-controls>button:nth-child(2) { display: none; }
+}
+@media (max-width: 460px) {
+  .spotify-account-tools .button { height: 29px; font-size: 8px; }
+  .spotify-profile b { max-width: 100px; }
+  .spotify-discovery-grid { grid-template-columns: 1fr; }
+  .playlist-grid { grid-template-columns: 1fr; }
+  .track-album { display: none; }
+  .spotify-player-bar { grid-template-columns: minmax(85px,1fr) auto auto; }
+  .player-progress { display: none; }
+  .player-track-copy small { max-width: 110px; }
+  .spotify-settings-fields>div { align-items: flex-start; flex-direction: column; justify-content: center; gap: 4px; padding: 7px 0; }
+}
+
+@media (max-width: 1050px) {
+  .page-content { padding-inline: 24px; }
+  .topbar { padding-inline: 24px; }
+  .app-footer { padding-inline: 24px; }
+  .dashboard-columns { grid-template-columns: 1fr; }
+  .lower-columns { grid-template-columns: 1fr 1fr; }
+  .recent-symbols { grid-template-columns: repeat(3, minmax(0,1fr)); }
+}
+@media (max-width: 760px) {
+  .sidebar, .sidebar-collapsed .sidebar { width: 250px; transform: translateX(-102%); }
+  .mobile-nav-open .sidebar { transform: translateX(0); }
+  .mobile-nav-open .mobile-scrim { display: block; position: fixed; inset: 0; z-index: 20; background: rgba(0,0,0,.5); border: 0; }
+  .main-region, .sidebar-collapsed .main-region { margin-left: 0; }
+  .sidebar-collapsed .sidebar .brand-copy, .sidebar-collapsed .sidebar .sidebar-search span, .sidebar-collapsed .sidebar .sidebar-search kbd, .sidebar-collapsed .sidebar .sidebar-label, .sidebar-collapsed .sidebar .nav-link span, .sidebar-collapsed .sidebar .user-name, .sidebar-collapsed .sidebar .user-menu { display: initial; }
+  .sidebar-collapsed .sidebar .sidebar-label { display: block; }
+  .sidebar-collapsed .sidebar .sidebar-search { width: 100%; justify-content: flex-start; padding: 0 9px; }
+  .sidebar-collapsed .sidebar .nav-link { justify-content: flex-start; padding: 0 10px; }
+  .sidebar-collapsed .sidebar .sidebar-collapse { display: none; }
+  .mobile-menu { display: inline-grid !important; margin-right: 10px; }
+  .topbar { height: 49px; padding-inline: 14px; }
+  .topbar-search { width: 31px; padding: 0; justify-content: center; border: 0; background: transparent; }
+  .topbar-search span, .topbar-search kbd { display: none; }
+  .page-content { padding: 22px 15px; }
+  .app-footer { padding: 12px 15px; font-size: 8px; }
+  .index-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .lower-columns, .detail-columns { grid-template-columns: 1fr; }
+  .stock-quote-bar { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .quote-divider { display: none; }
+  .primary-quote { grid-column: 1 / -1; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .stock-title-row { align-items: flex-start; }
+  .stock-company-heading h1 { font-size: 17px; }
+  .stock-title-row .button { padding: 0 8px; font-size: 9px; }
+  .chart-canvas { height: 260px; }
+  .chart-type-tabs button span { display: none; }
+  .chart-controls-expanded { align-items: flex-start; }
+  .chart-control-groups { flex-wrap: wrap; }
+  .chart-control-end { gap: 4px; }
+  .chart-live { display: none; }
+  .range-tabs { gap: 0; }
+  .range-tabs button { min-width: 29px; padding-inline: 4px; }
+  .preference-row { align-items: flex-start; flex-direction: column; gap: 10px; padding: 14px 0; }
+  .preference-row>div:first-child:not(.segmented-control):not(.accent-options):not(.app-favorites) { width: 100%; }
+  .app-favorites { justify-content: flex-start; }
+  .dashboard-footer { flex-direction: column; gap: 7px; }
+  .page-heading { align-items: flex-start; }
+  .home-heading-actions .search-compact { width: min(220px, 48vw); }
+}
+@media (max-width: 430px) {
+  .index-card { padding: 12px; min-height: 107px; }
+  .index-price { font-size: 17px; }
+  .stock-row { grid-template-columns: 1fr 56px 78px; gap: 5px; }
+  .stock-row .sparkline { width: 52px; }
+  .movers-columns { gap: 8px; }
+  .mover-row { grid-template-columns: 1fr auto; }
+  .mover-price { display: none; }
+  .dashboard-columns { gap: 10px; }
+  .content-panel { padding-inline: 13px; }
+  .topbar-actions { gap: 0; }
+  .breadcrumbs { font-size: 10px; }
+  .page-heading h1 { font-size: 21px; }
+  .stock-title-row .button { width: 33px; overflow: hidden; font-size: 0; gap: 0; padding: 0; }
+  .stock-title-row .button svg { flex: 0 0 auto; }
+  .segmented-control button { padding: 0 6px; }
+  .listening-card { padding: 20px; }
+  .listening-art { margin-right: 13px; }
+  .listening-decoration { display: none; }
+  .recent-symbols { grid-template-columns: repeat(2, minmax(0,1fr)); }
+}

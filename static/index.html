@@ -46,6 +46,12 @@
       .tagline { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
       .brand-group { display: flex; align-items: center; gap: 12px; }
       .tabs { display: flex; gap: 6px; }
+      .project-link {
+        color: var(--muted);
+        font-size: 13px;
+        text-decoration: none;
+      }
+      .project-link:hover, .project-link:focus-visible { color: var(--accent); }
       .tabs button {
         width: auto;
         height: 36px;
@@ -194,6 +200,7 @@
           <button type="button" class="tab" data-view="chat-view" aria-pressed="true">Chat</button>
           <button type="button" class="tab" data-view="image-view" aria-pressed="false">Make images</button>
         </div>
+        <a class="project-link" href="/project">About this project ↗</a>
       </header>
       <main>
         <section id="chat-view">

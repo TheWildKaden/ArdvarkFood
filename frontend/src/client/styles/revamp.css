@@ -1,0 +1,247 @@
+:root {
+  font-family: "Geist Sans", "Segoe UI", sans-serif;
+  --sidebar-width: 244px;
+  --surface: #11161d;
+  --surface-raised: #151b23;
+  --surface-hover: #1a222c;
+  --border: #27303b;
+  --border-soft: #202832;
+  --muted: #939dab;
+  --subtle: #707b8a;
+}
+
+:root[data-theme="light"] {
+  --surface: #ffffff;
+  --surface-raised: #f8f9fb;
+  --surface-hover: #f0f3f7;
+  --border: #dfe4eb;
+  --border-soft: #e8ecf1;
+  --muted: #657184;
+  --subtle: #8792a1;
+  --accent-soft: rgba(69, 109, 204, .1);
+}
+
+body { background: var(--bg); }
+.sidebar {
+  background: color-mix(in srgb, var(--bg) 94%, #182131);
+  border-right-color: var(--border);
+  padding: 18px 13px 13px;
+}
+.brand { min-height: 41px; gap: 11px; }
+.brand-mark {
+  width: 31px;
+  height: 31px;
+  border-radius: 9px;
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent) 18%, var(--surface-raised)), var(--surface));
+}
+.brand-copy { gap: 2px; }
+.brand-copy strong { color: var(--text); }
+.brand-copy span { color: var(--muted); }
+.sidebar-search {
+  height: 36px;
+  margin: 23px 0 25px;
+  color: var(--muted);
+  background: var(--surface);
+  border-color: var(--border);
+  border-radius: 8px;
+}
+.sidebar-search:hover { border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); }
+kbd {
+  color: var(--muted);
+  background: var(--surface-raised);
+  border-color: var(--border);
+}
+.sidebar-label { color: var(--subtle); padding-left: 10px; }
+.app-nav { gap: 4px; }
+.nav-link {
+  height: 38px;
+  border-radius: 7px;
+  color: var(--muted);
+}
+.nav-link:hover { color: var(--text); background: var(--surface-hover); }
+.nav-link.active {
+  color: var(--text);
+  background: var(--accent-soft);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.nav-link.active:before {
+  left: -13px;
+  width: 2px;
+  height: 19px;
+  border-radius: 0 3px 3px 0;
+  box-shadow: 0 0 7px color-mix(in srgb, var(--accent) 72%, transparent), 0 0 15px color-mix(in srgb, var(--accent) 35%, transparent);
+}
+.nav-link.active svg { color: var(--accent); }
+.sidebar-bottom { border-top-color: var(--border); }
+.avatar {
+  color: var(--text);
+  border-color: var(--border);
+  background: var(--surface-raised);
+}
+.user-chip { color: var(--muted); }
+
+body, button, input, select, .brand-copy, .avatar, .page-heading h1, .index-price,
+.section-heading h2, .route-missing h2, .company-symbol, .stock-company-heading h1,
+.primary-quote strong, .info-list b small, .listening-copy h2, .status-hero h2,
+.spotify-connect-card h2, .spotify-token-form input::placeholder, .spotify-avatar,
+.player-art-placeholder, .player-detail-track h3, .spotify-content-head h2,
+.playlist-banner h3 {
+  font-family: "Geist Sans", "Segoe UI", sans-serif;
+}
+
+.main-region { min-width: 0; }
+.topbar {
+  height: 56px;
+  padding-inline: clamp(20px, 3vw, 42px);
+  border-bottom-color: var(--border-soft);
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+}
+.breadcrumbs { font-size: 12px; }
+.breadcrumbs strong { color: var(--text); font-weight: 600; }
+.topbar-search {
+  width: 220px;
+  height: 32px;
+  color: var(--muted);
+  background: var(--surface);
+  border-color: var(--border);
+  border-radius: 8px;
+}
+.topbar-search:hover { border-color: color-mix(in srgb, var(--accent) 42%, var(--border)); }
+.page-content { width: min(100%, 1480px); padding: 34px clamp(20px, 3vw, 42px) 26px; }
+.app-footer {
+  padding-inline: clamp(20px, 3vw, 42px);
+  color: var(--subtle);
+  border-top-color: var(--border-soft);
+}
+.footer-version { color: var(--subtle); }
+
+.page-stack { gap: 25px; }
+.page-heading { align-items: center; padding: 2px 0 1px; }
+.page-heading h1 {
+  margin: 0 0 6px;
+  font-size: 27px;
+  letter-spacing: -.045em;
+}
+.page-heading p { font-size: 12px; }
+.home-page { gap: 27px; }
+.home-page > section:first-of-type { padding-top: 1px; }
+.home-heading-actions { gap: 9px; }
+.home-heading-actions .search-compact { width: min(300px, 30vw); }
+
+.panel {
+  border-color: var(--border);
+  border-radius: 9px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .07);
+}
+.index-grid { gap: 12px; }
+.index-card {
+  min-height: 128px;
+  padding: 17px 17px 14px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 9px;
+  background: linear-gradient(155deg, var(--surface-raised), var(--surface) 70%);
+}
+.index-card:after {
+  content: "";
+  position: absolute;
+  right: -34px;
+  top: -53px;
+  width: 100px;
+  height: 100px;
+  border: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.index-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  background: var(--surface-raised);
+  transform: translateY(-2px);
+}
+.index-label { color: var(--muted); }
+.index-price { margin-top: 13px; font-size: 22px; }
+.index-bottom { min-height: 24px; }
+.index-bottom .sparkline { opacity: .9; }
+.recent-panel, .content-panel { border-radius: 9px; }
+.recent-symbol {
+  padding: 11px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--surface-raised) 55%, transparent);
+}
+.recent-symbol .symbol, .stock-row .symbol, .mover-row .symbol { color: var(--text); }
+.section-heading { min-height: 30px; margin-bottom: 12px; }
+.section-heading h2 { font-size: 13px; }
+.section-heading>div>span { color: var(--muted); }
+.dashboard-columns { gap: 14px; }
+.content-panel { padding: 18px 19px 16px; }
+.stock-row { min-height: 54px; }
+.stock-row:hover, .mover-row:hover, .news-row:hover { background: color-mix(in srgb, var(--surface-hover) 75%, transparent); }
+.stock-name { color: var(--muted); }
+.movers-columns { gap: 20px; }
+.mover-row { min-height: 34px; }
+.mover-price { color: var(--muted); }
+.news-title { color: var(--text); }
+.portfolio-empty strong { color: var(--text); }
+.data-note { color: var(--muted); }
+.dashboard-footer { color: var(--muted); }
+.dashboard-footer>span:first-child { color: var(--muted); }
+.icon-button {
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  background: var(--surface);
+}
+.button { border-radius: 7px; }
+.button-primary { box-shadow: 0 3px 10px color-mix(in srgb, var(--accent) 14%, transparent); }
+
+:root[data-theme="light"] .sidebar {
+  background: #f8f9fb;
+  border-right-color: var(--border);
+}
+:root[data-theme="light"] .brand-mark {
+  background: linear-gradient(145deg, #fff, #edf1f7);
+}
+:root[data-theme="light"] .brand-mark span { background: #456dcc; }
+:root[data-theme="light"] .sidebar-search { background: #fff; }
+:root[data-theme="light"] .nav-link.active {
+  color: #29477f;
+  background: #e9effb;
+  box-shadow: inset 0 0 0 1px #dce6f8;
+}
+:root[data-theme="light"] .nav-link.active svg { color: #456dcc; }
+:root[data-theme="light"] .avatar { color: #34435d; background: #edf1f7; }
+:root[data-theme="light"] .index-card {
+  background: linear-gradient(155deg, #fff, #f8fafe 80%);
+  box-shadow: 0 5px 16px rgba(33, 49, 78, .045);
+}
+:root[data-theme="light"] .index-card:hover { background: #fff; }
+:root[data-theme="light"] .recent-symbol { background: #fafbfd; }
+:root[data-theme="light"] .stock-row:hover,
+:root[data-theme="light"] .mover-row:hover,
+:root[data-theme="light"] .news-row:hover { background: #f5f7fa; }
+:root[data-theme="light"] .symbol,
+:root[data-theme="light"] .stock-row .symbol,
+:root[data-theme="light"] .mover-row .symbol { color: #273244; }
+:root[data-theme="light"] .stock-name { color: #737f90; }
+:root[data-theme="light"] .news-title { color: #273244; }
+
+@media (max-width: 1050px) {
+  .page-content { padding-inline: 25px; }
+  .topbar, .app-footer { padding-inline: 25px; }
+}
+@media (max-width: 760px) {
+  .sidebar, .sidebar-collapsed .sidebar { width: 258px; }
+  .page-content { padding: 23px 17px 20px; }
+  .topbar { padding-inline: 16px; }
+  .app-footer { padding-inline: 17px; }
+  .page-heading h1 { font-size: 24px; }
+  .home-page { gap: 22px; }
+}
+@media (max-width: 430px) {
+  .page-content { padding-inline: 13px; }
+  .page-heading h1 { font-size: 22px; }
+  .home-heading-actions .search-compact { width: min(195px, 47vw); }
+  .content-panel { padding-inline: 14px; }
+}

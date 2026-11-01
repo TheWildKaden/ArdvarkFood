@@ -65,6 +65,10 @@ def create_app(
     async def home() -> FileResponse:
         return FileResponse(os.path.join(ROOT, "static", "index.html"))
 
+    @application.get("/project", include_in_schema=False)
+    async def project_site() -> FileResponse:
+        return FileResponse(os.path.join(ROOT, "docs", "index.html"))
+
     @application.get("/api/health")
     async def health() -> dict[str, str]:
         return {"status": "ok"}

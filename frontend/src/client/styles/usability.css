@@ -1,0 +1,105 @@
+button,
+a,
+input,
+select {
+  touch-action: manipulation;
+}
+
+.sidebar-search,
+.nav-link {
+  min-height: 42px;
+}
+
+.sidebar-collapse {
+  width: 34px;
+  height: 34px;
+}
+
+.topbar-search {
+  min-width: 38px;
+  min-height: 38px;
+}
+
+.icon-button {
+  min-width: 38px;
+  min-height: 38px;
+}
+
+.button {
+  min-height: 38px;
+  height: auto;
+  font-size: 12px;
+}
+
+.button-small {
+  min-height: 34px;
+}
+
+.tiny-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.search-box,
+.table-search {
+  min-height: 40px;
+}
+
+.search-box input,
+.table-search input {
+  font-size: 12px;
+}
+
+.chart-type-tabs button,
+.volume-toggle,
+.chart-export,
+.range-tabs button,
+.segmented-control button {
+  min-height: 34px;
+}
+
+.watch-table th {
+  height: 40px;
+}
+
+.watch-table tbody tr:hover {
+  background: color-mix(in srgb, var(--surface-hover) 65%, transparent);
+}
+
+.watch-table a:focus-visible,
+.stock-row:focus-visible,
+.mover-row:focus-visible,
+.news-row:focus-visible {
+  position: relative;
+  z-index: 1;
+  border-radius: 5px;
+  outline-offset: -2px;
+}
+
+@media (max-width: 760px) {
+  .page-heading {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 13px;
+  }
+
+  .home-heading-actions {
+    width: 100%;
+  }
+
+  .home-heading-actions .search-compact {
+    width: auto;
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

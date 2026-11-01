@@ -2,19 +2,19 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Start Pages Preview",
+      "label": "Start AI Buddy Dev Preview",
       "type": "shell",
-      "command": "./scripts/preview-pages.sh",
+      "command": "./scripts/start-dev-preview.sh",
       "isBackground": true,
       "problemMatcher": {
-        "owner": "pages-preview",
+        "owner": "ai-buddy-preview",
         "pattern": {
           "regexp": "^$"
         },
         "background": {
           "activeOnStart": true,
-          "beginsPattern": "^Serving HTTP on",
-          "endsPattern": "^Serving HTTP on"
+          "beginsPattern": "Uvicorn running on",
+          "endsPattern": "Application startup complete"
         }
       },
       "presentation": {
