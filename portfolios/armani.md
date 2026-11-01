@@ -37,4 +37,8 @@ a clever one:
 
 ## Notes
 
-`portfolios/` collects these per-contributor notes; `kaden.md` is the other one.
+`portfolios/` collects these per-contributor notes — one file per contributor.
+
+Kaden's original note, kept verbatim: *"rlly cool AI Guy"*. This file is the same
+entry as `AcHamm.md` (`AcHamm` is the GitHub display name for this account), so
+it absorbs that file rather than leaving two entries for one person.
