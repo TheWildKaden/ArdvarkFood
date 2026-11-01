@@ -2,10 +2,16 @@ name: Deploy GitHub Pages
 
 on:
   push:
-    branches:
-      - main
     paths:
       - "docs/**"
+      - "scripts/build-pages.mjs"
+      - "package.json"
+      - ".github/workflows/pages.yml"
+  pull_request:
+    paths:
+      - "docs/**"
+      - "scripts/build-pages.mjs"
+      - "package.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
@@ -13,11 +19,34 @@ permissions:
   contents: read
 
 concurrency:
-  group: github-pages
+  group: pages-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build fork-aware Pages site
+        run: npm run build:pages
+      - name: Check generated site
+        run: test -s dist/index.html && test -f dist/_headers && test -f dist/.nojekyll
+      - name: Upload built site
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pages-site
+          path: dist
+          if-no-files-found: error
+
   deploy:
+    if: github.event_name != 'pull_request' && github.ref_name == github.event.repository.default_branch
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -27,12 +56,17 @@ jobs:
       id-token: write
     runs-on: ubuntu-latest
     steps:
+      - name: Download built site
+        uses: actions/download-artifact@v4
+        with:
+          name: pages-site
+          path: dist
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: docs
+          path: dist
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

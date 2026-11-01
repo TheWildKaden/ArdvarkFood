@@ -28,13 +28,14 @@ image generator. Its existing app now also mounts a modular LLM and agent
 runtime under `/api/runtime`; the runtime does not replace the original chat,
 image, or encoding modules.
 
-The static project site is published with GitHub Pages. To preview the
+The static project site can be published with GitHub Pages or Cloudflare Pages.
+For fork and hosting setup, see [FORKING.md](./FORKING.md). To preview the
 interactive Ardvark frontend and its API locally, run
 `./scripts/start-dev-preview.sh` (or the **Start Ardvark Dev Preview** task in
 VS Code), then open `http://localhost:8000`. The app serves the existing chat
 and image-generator frontend at `/` and the Pages-style project overview at
-`/project`. Alternatively, preview only the static Pages site with
-`./scripts/preview-pages.sh` at `http://localhost:4173`.
+`/project`. Build the static site with `npm run build:pages`; preview it with
+`npm run preview:pages` at `http://localhost:4173`.
 
 ## LLM and agent runtime
 

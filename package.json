@@ -1,0 +1,9 @@
+{
+  "name": "ardvarkfood-pages",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:pages": "node scripts/build-pages.mjs",
+    "preview:pages": "bash scripts/preview-pages.sh"
+  }
+}
