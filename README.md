@@ -34,10 +34,12 @@ The static project site can be published with GitHub Pages or Cloudflare Pages.
 For fork and hosting setup, see [FORKING.md](./FORKING.md). To preview the
 interactive Ardvark frontend and its API locally, run
 `./scripts/start-dev-preview.sh` (or the **Start Ardvark Dev Preview** task in
-VS Code), then open `http://localhost:8000`. The app serves the existing chat
-and image-generator frontend at `/` and the Pages-style project overview at
-`/project`. Build the static site with `npm run build:pages`; preview it with
-`npm run preview:pages` at `http://localhost:4173`.
+VS Code), or run `.\startpreview.ps1` in PowerShell, then open
+`http://localhost:8000`. The FastAPI app serves the chat and image-generator
+interface from `static/index.html` at `/` and the Pages-style project overview
+from `docs/index.html` at `/project`. Build the static site with
+`npm run build:pages`; preview it with `npm run preview:pages` at
+`http://localhost:4173`.
 
 ## Project layout
 
@@ -49,8 +51,8 @@ and image-generator frontend at `/` and the Pages-style project overview at
 │   ├── image_generation/   Local SD-Turbo integration
 │   └── encoding/           Message-format encoding implementation
 ├── AI-Runtime/             LLM adapters, agent, tools, memory, and storage
-├── frontend/               Client/server source and public assets
-├── static/                 Interactive app shell served by FastAPI
+├── frontend/               Separate React/Fastify stock-watch source and assets
+├── static/                 Live Ardvark chat/image UI served by FastAPI at /
 ├── docs/                   Project site, architecture, and references
 ├── scripts/                Build, preview, and architecture tools
 ├── tests/                  Application and architecture tests
