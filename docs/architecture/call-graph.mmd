@@ -1,40 +1,44 @@
 flowchart LR
+  AI_Runtime_agent_agent_AgentRuntime_cancel["cancel · AI-Runtime/agent/agent.py:123"]
+  AI_Runtime_agent_agent_AgentRuntime_close["close · AI-Runtime/agent/agent.py:144"]
+  AI_Runtime_agent_agent_AgentRuntime_execute["execute · AI-Runtime/agent/agent.py:83"]
   AI_Runtime_agent_agent_AgentRuntime_notify["notify · AI-Runtime/agent/agent.py:80"]
   AI_Runtime_agent_agent_AgentRuntime_start["start · AI-Runtime/agent/agent.py:63"]
   AI_Runtime_agent_context_context_builder_ContextBuilder_build["build · AI-Runtime/agent/context/context_builder.py:22"]
   AI_Runtime_agent_loop_agent_loop_AgentLoop__generate["_generate · AI-Runtime/agent/loop/agent_loop.py:129"]
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run["run · AI-Runtime/agent/loop/agent_loop.py:38"]
+  AI_Runtime_api_routes_chat__event_stream["_event_stream · AI-Runtime/api/routes/chat.py:23"]
   AI_Runtime_api_routes_chat__runtime["_runtime · AI-Runtime/api/routes/chat.py:16"]
-  AI_Runtime_config_settings_RuntimeSettings_load["load · AI-Runtime/config/settings.py:82"]
+  AI_Runtime_api_routes_chat_chat["chat · AI-Runtime/api/routes/chat.py:185"]
+  AI_Runtime_memory_memory_manager_MemoryManager_retrieve["retrieve · AI-Runtime/memory/memory_manager.py:12"]
+  AI_Runtime_memory_retrieval_retriever_MemoryRetriever_retrieve["retrieve · AI-Runtime/memory/retrieval/retriever.py:10"]
   AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model["_require_model · AI-Runtime/models/adapters/llama_cpp.py:155"]
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__sampling_params["_sampling_params · AI-Runtime/models/adapters/llama_cpp.py:161"]
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_generate["generate · AI-Runtime/models/adapters/llama_cpp.py:84"]
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_stream["stream · AI-Runtime/models/adapters/llama_cpp.py:103"]
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__headers["_headers · AI-Runtime/models/adapters/openai_compatible.py:154"]
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload["_payload · AI-Runtime/models/adapters/openai_compatible.py:125"]
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request["_request · AI-Runtime/models/adapters/openai_compatible.py:109"]
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client["_require_client · AI-Runtime/models/adapters/openai_compatible.py:160"]
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url["_url · AI-Runtime/models/adapters/openai_compatible.py:151"]
   AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream["stream · AI-Runtime/models/adapters/openai_compatible.py:75"]
+  AI_Runtime_models_inference_InferenceEngine__generate_with_adapter["_generate_with_adapter · AI-Runtime/models/inference.py:141"]
   AI_Runtime_models_inference_InferenceEngine_fit_context["fit_context · AI-Runtime/models/inference.py:85"]
+  AI_Runtime_models_inference_InferenceEngine_generate["generate · AI-Runtime/models/inference.py:126"]
   AI_Runtime_models_inference_InferenceEngine_stream["stream · AI-Runtime/models/inference.py:153"]
   AI_Runtime_storage_storage_manager_StorageManager__connect["_connect · AI-Runtime/storage/storage_manager.py:16"]
+  AI_Runtime_storage_storage_manager_StorageManager__initialize["_initialize · AI-Runtime/storage/storage_manager.py:22"]
   AI_Runtime_storage_storage_manager_StorageManager_add_memory["add_memory · AI-Runtime/storage/storage_manager.py:216"]
   AI_Runtime_storage_storage_manager_StorageManager_new_id["new_id · AI-Runtime/storage/storage_manager.py:72"]
   AI_Runtime_tools_executor_executor_ToolExecutor__register_builtin_tools["_register_builtin_tools · AI-Runtime/tools/executor/executor.py:149"]
   AI_Runtime_tools_executor_executor_ToolExecutor__resolve_path["_resolve_path · AI-Runtime/tools/executor/executor.py:286"]
   AI_Runtime_tools_executor_executor_ToolExecutor_execute["execute · AI-Runtime/tools/executor/executor.py:37"]
-  AI_Runtime_tools_registry_registry_ToolRegistry_get["get · AI-Runtime/tools/registry/registry.py:25"]
   frontend_scripts_dev_js_stop["stop · frontend/scripts/dev.js:14"]
-  frontend_src_client_components_SearchBox_jsx_select["select · frontend/src/client/components/SearchBox.jsx:34"]
-  frontend_src_client_pages_StockPage_jsx_StockPage["StockPage · frontend/src/client/pages/StockPage.jsx:10"]
   frontend_src_client_services_api_js_request["request · frontend/src/client/services/api.js:1"]
-  frontend_src_server_routes_index_js_registerApiRoutes["registerApiRoutes · frontend/src/server/routes/index.js:8"]
-  frontend_src_server_routes_market_js_callback_23["callback@23 · frontend/src/server/routes/market.js:23"]
-  frontend_src_server_services_database_js_addToWatchlist["addToWatchlist · frontend/src/server/services/database.js:15"]
   frontend_src_server_services_database_js_db["db · frontend/src/server/services/database.js:7"]
-  frontend_src_server_services_database_js_getSettings["getSettings · frontend/src/server/services/database.js:38"]
   frontend_src_server_services_database_js_getWatchlist["getWatchlist · frontend/src/server/services/database.js:11"]
-  frontend_src_server_services_database_js_removeFromWatchlist["removeFromWatchlist · frontend/src/server/services/database.js:21"]
-  frontend_src_server_services_database_js_reorderWatchlist["reorderWatchlist · frontend/src/server/services/database.js:32"]
-  frontend_src_server_services_database_js_updateSettings["updateSettings · frontend/src/server/services/database.js:42"]
   frontend_src_server_services_market_data_js_cached["cached · frontend/src/server/services/market-data.js:130"]
   frontend_src_server_services_market_data_js_callback_174["callback@174 · frontend/src/server/services/market-data.js:174"]
-  frontend_src_server_services_market_data_js_callback_196["callback@196 · frontend/src/server/services/market-data.js:196"]
-  frontend_src_server_services_market_data_js_callback_308["callback@308 · frontend/src/server/services/market-data.js:308"]
   frontend_src_server_services_market_data_js_fetchJson["fetchJson · frontend/src/server/services/market-data.js:27"]
   frontend_src_server_services_market_data_js_fetchYahooJson["fetchYahooJson · frontend/src/server/services/market-data.js:55"]
   frontend_src_server_services_market_data_js_getChart["getChart · frontend/src/server/services/market-data.js:305"]
@@ -48,17 +52,13 @@ flowchart LR
   frontend_src_server_services_market_data_js_getYahooChart["getYahooChart · frontend/src/server/services/market-data.js:227"]
   frontend_src_server_services_market_data_js_parseNumber["parseNumber · frontend/src/server/services/market-data.js:73"]
   frontend_src_server_services_market_data_js_validateSymbol["validateSymbol · frontend/src/server/services/market-data.js:23"]
-  scripts_architecture_analyzers_modules_analyze["analyze · scripts/architecture/analyzers/modules.py:62"]
-  scripts_architecture_analyzers_routes_analyze["analyze · scripts/architecture/analyzers/routes.py:20"]
   scripts_architecture_analyzers_runtime_analyze["analyze · scripts/architecture/analyzers/runtime.py:117"]
   scripts_architecture_contributors_generate["generate · scripts/architecture/contributors.py:120"]
-  scripts_architecture_diagram_flowchart["flowchart · scripts/architecture/diagram.py:21"]
-  scripts_architecture_generator__render_readme["_render_readme · scripts/architecture/generator.py:233"]
-  scripts_architecture_generator_analyze_repository["analyze_repository · scripts/architecture/generator.py:307"]
-  scripts_architecture_generator_generate["generate · scripts/architecture/generator.py:354"]
-  scripts_architecture_index_SourceIndex__name["_name · scripts/architecture/index.py:202"]
-  scripts_architecture_index_SourceIndex_python_symbols["python_symbols · scripts/architecture/index.py:94"]
-  scripts_architecture_validate_validate_generated["validate_generated · scripts/architecture/validate.py:131"]
+  scripts_architecture_generator__render_readme["_render_readme · scripts/architecture/generator.py:237"]
+  scripts_architecture_generator_analyze_repository["analyze_repository · scripts/architecture/generator.py:277"]
+  scripts_architecture_generator_generate["generate · scripts/architecture/generator.py:324"]
+  scripts_architecture_index_SourceIndex_python_symbols["python_symbols · scripts/architecture/index.py:109"]
+  scripts_architecture_validate_validate_generated["validate_generated · scripts/architecture/validate.py:103"]
   scripts_SVG_Path_dumper_js_add["add · scripts/SVG_Path_dumper.js:28"]
   scripts_SVG_Path_dumper_js_domPath["domPath · scripts/SVG_Path_dumper.js:5"]
   src_encoding_encoding__encode_messages_text["_encode_messages_text · src/encoding/encoding.py:759"]
@@ -75,40 +75,42 @@ flowchart LR
   src_sample_body["body · src/sample.py:62"]
   src_sample_sample_sequence["sample_sequence · src/sample.py:43"]
   src_sample_top_k_logits["top_k_logits · src/sample.py:5"]
+  AI_Runtime_agent_agent_AgentRuntime_close -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_cancel
+  AI_Runtime_agent_agent_AgentRuntime_execute -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
+  AI_Runtime_agent_agent_AgentRuntime_execute -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
+  AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_execute
   AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
   AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
-  AI_Runtime_agent_loop_agent_loop_AgentLoop__generate -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
+  AI_Runtime_agent_context_context_builder_ContextBuilder_build -->|"detected call"| AI_Runtime_memory_memory_manager_MemoryManager_retrieve
+  AI_Runtime_agent_loop_agent_loop_AgentLoop__generate -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_generate
   AI_Runtime_agent_loop_agent_loop_AgentLoop__generate -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_stream
-  AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_context_context_builder_ContextBuilder_build
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop__generate
   AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_tools_executor_executor_ToolExecutor_execute
+  AI_Runtime_api_routes_chat_chat -->|"detected call"| AI_Runtime_api_routes_chat__event_stream
+  AI_Runtime_api_routes_chat_chat -->|"detected call"| AI_Runtime_api_routes_chat__runtime
+  AI_Runtime_memory_memory_manager_MemoryManager_retrieve -->|"detected call"| AI_Runtime_memory_retrieval_retriever_MemoryRetriever_retrieve
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_generate -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_generate -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__sampling_params
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model
+  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__sampling_params
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__headers
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__headers
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client
+  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url
+  AI_Runtime_models_inference_InferenceEngine__generate_with_adapter -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_fit_context
+  AI_Runtime_models_inference_InferenceEngine_generate -->|"detected call"| AI_Runtime_models_inference_InferenceEngine__generate_with_adapter
   AI_Runtime_models_inference_InferenceEngine_stream -->|"detected call"| AI_Runtime_models_inference_InferenceEngine_fit_context
+  AI_Runtime_storage_storage_manager_StorageManager__initialize -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager__connect
   AI_Runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager__connect
   AI_Runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager_new_id
-  AI_Runtime_tools_executor_executor_ToolExecutor_execute -->|"detected call"| AI_Runtime_tools_registry_registry_ToolRegistry_get
-  frontend_src_server_routes_index_js_registerApiRoutes -->|"detected call"| AI_Runtime_tools_registry_registry_ToolRegistry_get
-  frontend_src_server_routes_market_js_callback_23 -->|"detected call"| frontend_src_server_services_database_js_getWatchlist
-  frontend_src_server_routes_market_js_callback_23 -->|"detected call"| frontend_src_server_services_market_data_js_getCompanyNews
-  frontend_src_server_services_database_js_addToWatchlist -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
-  frontend_src_server_services_database_js_addToWatchlist -->|"detected call"| AI_Runtime_tools_registry_registry_ToolRegistry_get
-  frontend_src_server_services_database_js_addToWatchlist -->|"detected call"| frontend_src_server_services_database_js_db
-  frontend_src_server_services_database_js_addToWatchlist -->|"detected call"| frontend_src_server_services_database_js_getWatchlist
-  frontend_src_server_services_database_js_getSettings -->|"detected call"| frontend_src_server_services_database_js_db
   frontend_src_server_services_database_js_getWatchlist -->|"detected call"| frontend_src_server_services_database_js_db
-  frontend_src_server_services_database_js_removeFromWatchlist -->|"detected call"| frontend_src_server_services_database_js_db
-  frontend_src_server_services_database_js_removeFromWatchlist -->|"detected call"| frontend_src_server_services_database_js_getWatchlist
-  frontend_src_server_services_database_js_reorderWatchlist -->|"detected call"| frontend_src_server_services_database_js_db
-  frontend_src_server_services_database_js_reorderWatchlist -->|"detected call"| frontend_src_server_services_database_js_getWatchlist
-  frontend_src_server_services_database_js_updateSettings -->|"detected call"| frontend_src_server_services_database_js_db
-  frontend_src_server_services_database_js_updateSettings -->|"detected call"| frontend_src_server_services_database_js_getSettings
-  frontend_src_server_services_market_data_js_cached -->|"detected call"| AI_Runtime_tools_registry_registry_ToolRegistry_get
   frontend_src_server_services_market_data_js_callback_174 -->|"detected call"| frontend_src_server_services_market_data_js_fetchYahooJson
   frontend_src_server_services_market_data_js_callback_174 -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqQuote
-  frontend_src_server_services_market_data_js_callback_196 -->|"detected call"| frontend_src_server_services_market_data_js_fetchYahooJson
-  frontend_src_server_services_market_data_js_callback_196 -->|"detected call"| frontend_src_server_services_market_data_js_getQuote
-  frontend_src_server_services_market_data_js_callback_308 -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqChart
-  frontend_src_server_services_market_data_js_callback_308 -->|"detected call"| frontend_src_server_services_market_data_js_getYahooChart
   frontend_src_server_services_market_data_js_fetchYahooJson -->|"detected call"| frontend_src_server_services_market_data_js_fetchJson
   frontend_src_server_services_market_data_js_getChart -->|"detected call"| frontend_src_server_services_market_data_js_cached
   frontend_src_server_services_market_data_js_getChart -->|"detected call"| frontend_src_server_services_market_data_js_validateSymbol
@@ -131,14 +133,8 @@ flowchart LR
   frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_parseNumber
   frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_validateSymbol
   frontend_src_server_services_market_data_js_getYahooChart -->|"detected call"| frontend_src_server_services_market_data_js_fetchYahooJson
-  scripts_architecture_analyzers_modules_analyze -->|"detected call"| scripts_architecture_diagram_flowchart
-  scripts_architecture_analyzers_routes_analyze -->|"detected call"| scripts_architecture_diagram_flowchart
-  scripts_architecture_analyzers_routes_analyze -->|"detected call"| scripts_architecture_index_SourceIndex__name
-  scripts_architecture_analyzers_runtime_analyze -->|"detected call"| scripts_architecture_diagram_flowchart
   scripts_architecture_generator_generate -->|"detected call"| scripts_architecture_generator__render_readme
   scripts_architecture_generator_generate -->|"detected call"| scripts_architecture_generator_analyze_repository
-  scripts_architecture_generator_generate -->|"detected call"| scripts_architecture_validate_validate_generated
-  scripts_architecture_index_SourceIndex_python_symbols -->|"detected call"| scripts_architecture_index_SourceIndex__name
   src_encoding_encoding__encode_messages_text -->|"detected call"| src_encoding_encoding_render_message
   src_encoding_encoding__tool_name_for_encoding -->|"detected call"| src_encoding_encoding__split_tool_name
   src_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| src_encoding_encoding__split_tool_name
@@ -155,6 +151,6 @@ flowchart LR
   src_sample_sample_sequence -->|"detected call"| src_sample_top_k_logits
   analysis_note_0["Edges resolve direct call syntax to a unique local function or an instance attribute assigned a local class."]
   class analysis_note_0 note
-  analysis_note_1["Dynamic dispatch, reflection, unresolved names, and callbacks are omitted; diagram is capped to the 76 most c…"]
+  analysis_note_1["Unqualified calls resolve only within the same source file; dynamic dispatch, reflection, imported calls, unr…"]
   class analysis_note_1 note
   classDef note fill:#fff7d6,stroke:#b38b00,color:#333

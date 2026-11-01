@@ -25,14 +25,18 @@ documentation, testing, and thoughtful issue reports are welcome.
 5. Run the relevant checks. For example:
 
    ```bash
-   pytest -q AI-Runtime/tests
-   PYTHONPATH=. pytest -q tests/test_app.py
+   python -m pytest -q tests AI-Runtime/tests
    ```
 
-   The encoding test suite also has fixture-dependent cases under
-   `src/inference/examples/`; if the fixtures are unavailable in your checkout,
-   mention that limitation in the pull request rather than claiming those
-   cases passed.
+   The standalone encoding suite is:
+
+   ```bash
+   python -m pytest -q src/encoding/test_encoding.py
+   ```
+
+   Two example-based tests need fixtures under `src/inference/examples/`; if
+   the fixtures are unavailable, report that limitation rather than claiming
+   those cases passed.
 6. Open a pull request using the repository template and explain the change,
    tests, and any known limitations.
 

@@ -32,6 +32,13 @@ def test_homepage_and_health_endpoint() -> None:
     assert client.get("/api/health").json() == {"status": "ok"}
 
 
+def test_legacy_image_generator_import_remains_compatible() -> None:
+    from local_image_generator import LocalImageGenerator as LegacyImageGenerator
+    from src.image_generation import LocalImageGenerator
+
+    assert LegacyImageGenerator is LocalImageGenerator
+
+
 def test_image_generation_runs_the_local_model_and_serves_the_result(
     tmp_path, monkeypatch: pytest.MonkeyPatch,
 ) -> None:

@@ -19,6 +19,8 @@ jobs:
   generate:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    env:
+      PUPPETEER_CACHE_DIR: ${{ runner.temp }}/puppeteer-cache
     steps:
       - uses: actions/checkout@v4
         with:
@@ -33,7 +35,10 @@ jobs:
       - name: Install source parsers and Mermaid renderer
         run: npm ci
       - name: Install Mermaid browser
-        run: npx puppeteer browsers install chrome
+        run: |
+          mkdir -p "$PUPPETEER_CACHE_DIR"
+          sudo env PUPPETEER_CACHE_DIR="$PUPPETEER_CACHE_DIR" \
+            npx puppeteer browsers install chrome --install-deps
       - name: Generate and validate architecture docs
         env:
           GH_TOKEN: ${{ github.token }}
@@ -42,7 +47,14 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md docs/architecture/
+          git add README.md \
+            docs/architecture/*.mmd \
+            docs/architecture/architecture.json \
+            docs/architecture/assets/contributors.json \
+            docs/architecture/assets/statistics.json \
+            docs/architecture/assets/statistics.svg \
+            docs/architecture/assets/contributors/*.svg \
+            docs/architecture/previews/*.svg
           if git diff --cached --quiet; then
             echo "Generated architecture is already current."
           else

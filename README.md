@@ -41,16 +41,25 @@ and image-generator frontend at `/` and the Pages-style project overview at
 
 ## Project layout
 
-- `app.py` remains the stable ASGI/CLI entry point (`uvicorn app:app`).
-- `src/web/` contains the FastAPI factory, API routes, request schemas, and
-  chat-provider service; these are separated from model and agent runtimes.
-- `AI-Runtime/` owns LLM adapters, agent orchestration, tools, permissions,
-  memory, and runtime persistence.
-- `local_image_generator.py` owns the independent local image model adapter.
-- `src/encoding/` retains the original message-encoding implementation.
-- `static/`, `docs/`, and `frontend/` hold the interactive app UI, static
-  project site, and separately maintained frontend source, respectively.
-- `tests/` contains application and runtime integration tests.
+```text
+.
+├── app.py                  Stable ASGI entry point
+├── src/
+│   ├── web/                FastAPI routes, schemas, and app factory
+│   ├── image_generation/   Local SD-Turbo integration
+│   └── encoding/           Message-format encoding implementation
+├── AI-Runtime/             LLM adapters, agent, tools, memory, and storage
+├── frontend/               Client/server source and public assets
+├── static/                 Interactive app shell served by FastAPI
+├── docs/                   Project site, architecture, and references
+├── scripts/                Build, preview, and architecture tools
+├── tests/                  Application and architecture tests
+└── portfolios/             Contributor profiles
+```
+
+`local_image_generator.py` remains as a compatibility import for the image
+generator, whose implementation now lives in `src/image_generation/`.
+Generated runtime images and SQLite state stay local and are ignored by Git.
 
 ## Architecture
 
@@ -60,6 +69,7 @@ when the local target is unambiguous. Dynamic dispatch and external runtime
 behavior are not claimed as detected facts.
 
 The diagrams below are local SVG previews; every one links to its editable Mermaid source.
+For analyzer details, local commands, rate-limit behavior, and workflow policy, see the [architecture generator guide](docs/architecture/README.md).
 
 <details>
 <summary>Project structure · <a href="docs/architecture/project-structure.mmd">Mermaid source</a></summary>
@@ -145,7 +155,7 @@ The diagrams below are local SVG previews; every one links to its editable Merma
 
 </details>
 
-Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `npm run architecture:generate`. The source and dependency analysis uses Python AST and Babel; unsupported or dynamic relationships are omitted or explicitly marked as inferred.
+Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `npm run architecture:generate`. The source and dependency analysis uses Python AST and Babel; unsupported or dynamic relationships are omitted or explicitly marked as inferred. On a minimal Debian/Ubuntu host missing Chromium libraries, run `sudo npx puppeteer browsers install chrome --install-deps` before rendering.
 
 ### Technology stack
 
@@ -162,6 +172,41 @@ Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `
 - **Node.js**
 - **Mermaid CLI**
 - **Babel parser**
+
+## Development
+
+Use Python 3.10+ and Node.js 22. Install the application/runtime dependencies
+with `python -m pip install -r AI-Runtime/requirements.txt`. The local image
+model is optional; install its dependencies separately with
+`python -m pip install -r requirements-image-generator.txt`. Install the
+Node.js tooling with `npm ci`.
+
+Run the API and interactive application locally:
+
+```bash
+python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
+```
+
+Build the static project site with `npm run build:pages`; serve that build with
+`npm run preview:pages`. Run the application, runtime, and architecture tests
+with:
+
+```bash
+python -m pytest -q tests AI-Runtime/tests
+```
+
+The standalone encoding suite is:
+
+```bash
+python -m pytest -q src/encoding/test_encoding.py
+```
+
+Its two example-based tests also need fixtures under `src/inference/examples/`,
+which are not included in every checkout.
+To contribute, fork the repository, create a focused branch, make and test your
+change, then open a pull request. Read [CONTRIBUTING.md](./CONTRIBUTING.md) for
+the full workflow and review expectations. Architecture diagrams can be
+regenerated with `npm run architecture:generate`.
 
 ## LLM and agent runtime
 
@@ -231,8 +276,8 @@ local image pipeline.
 - The original DeepSeek message-encoding implementation remains in
   `src/encoding/`.
 
-See [SOURES.TXT](./SOURES.TXT) for upstream model, runtime, and framework
-references.
+See [docs/SOURCES.md](./docs/SOURCES.md) for upstream model, runtime, and
+framework references.
 
 ## Statistics
 
@@ -254,7 +299,7 @@ read from the contributors API when available; otherwise local commit author
 names are used without publishing email addresses.
 
 <table>
-<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />47 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
+<tr><td align="center"><a href="https://github.com/TheWildKaden"><img src="docs/architecture/assets/contributors/824c0ce4b0eb.svg" width="72" height="72" alt="TheWildKaden avatar" /></a><br /><sub>TheWildKaden<br />6 contributions</sub></td><td align="center"><a href="https://github.com/acunningham-ship-it"><img src="docs/architecture/assets/contributors/2ad2b4a035a3.svg" width="72" height="72" alt="acunningham-ship-it avatar" /></a><br /><sub>acunningham-ship-it<br />1 contributions</sub></td></tr>
 </table>
 
 ---

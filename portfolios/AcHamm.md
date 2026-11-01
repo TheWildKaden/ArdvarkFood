@@ -24,8 +24,8 @@ a clever one:
   in version control.
 - `.gitignore` now covers model weights, virtualenvs, local secrets and runtime
   state, so the next `add -A` can't vacuum up a GGUF or a sqlite file.
-- Removed a scratch file and a redundant note; corrected `SOURES.TXT` →
-  `SOURCES.txt`, since that file is real attribution for the SD-Turbo pipeline
+- Removed a scratch file and a redundant note; moved `SOURES.TXT` to
+  `docs/SOURCES.md`, since that file is real attribution for the SD-Turbo pipeline
   and shouldn't be misspelled.
 
 ## Next

@@ -69,7 +69,10 @@ def analyze(index: SourceIndex) -> dict[str, Any]:
         degree[target] += 1
     selected = {
         name
-        for name, _ in degree.most_common(76)
+        for name, _ in sorted(
+            degree.items(),
+            key=lambda item: (-item[1], item[0]),
+        )[:76]
     }
     if len(selected) < 2:
         selected.update(function["qualname"] for function in functions[:40])

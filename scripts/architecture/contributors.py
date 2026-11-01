@@ -182,15 +182,21 @@ def generate(
     output_dir.mkdir(parents=True, exist_ok=True)
     avatar_dir = output_dir / "contributors"
     avatar_dir.mkdir(parents=True, exist_ok=True)
+    expected_avatars: set[str] = set()
     for item in contributors:
         identity = item.get("login") or item["name"]
         slug = hashlib.sha256(identity.casefold().encode("utf-8")).hexdigest()[:12]
-        item["avatar"] = f"docs/architecture/assets/contributors/{slug}.svg"
+        avatar_name = f"{slug}.svg"
+        expected_avatars.add(avatar_name)
+        item["avatar"] = f"docs/architecture/assets/contributors/{avatar_name}"
         color_index = int(slug[:4], 16) % len(PALETTE)
-        (avatar_dir / f"{slug}.svg").write_text(
+        (avatar_dir / avatar_name).write_text(
             _avatar_svg(item["name"], PALETTE[color_index]),
             encoding="utf-8",
         )
+    for existing in avatar_dir.glob("*.svg"):
+        if existing.name not in expected_avatars:
+            existing.unlink()
 
     stats = {
         **repository_stats,

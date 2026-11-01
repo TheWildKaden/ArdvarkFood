@@ -13,7 +13,7 @@ flowchart LR
   workflow_pages_6["CI command: test -s dist/index.html && test -f dist/_headers && test -f dist/…"]
   workflow_update_architecture["Update generated architecture · .github/workflows/update-architecture.yml"]
   workflow_update_architecture_7["CI command: npm ci"]
-  workflow_update_architecture_8["CI command: npx puppeteer browsers install chrome"]
+  workflow_update_architecture_8["CI command: mkdir -p '$PUPPETEER_CACHE_DIR"]
   workflow_update_architecture_9["CI command: python scripts/generate_architecture.py"]
   workflow_update_architecture_10["CI command: git config user.name 'github-actions[bot]"]
   scripts_generate_architecture_py["scripts/generate_architecture.py"]

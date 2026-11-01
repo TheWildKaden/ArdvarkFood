@@ -5,7 +5,7 @@ import httpx
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
 
-from local_image_generator import ImageGenerator, LocalImageGenerator
+from src.image_generation import ImageGenerator, LocalImageGenerator
 from .routes import create_api_router
 
 

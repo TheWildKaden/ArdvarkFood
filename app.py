@@ -5,7 +5,7 @@ from pathlib import Path
 import httpx
 from fastapi import FastAPI
 
-from local_image_generator import ImageGenerator
+from src.image_generation import ImageGenerator
 from src.web.app_factory import (
     DEFAULT_GENERATED_IMAGE_DIR,
     REPOSITORY_ROOT,

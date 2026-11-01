@@ -7,7 +7,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse
 
-from local_image_generator import (
+from src.image_generation import (
     ImageGenerationError,
     ImageGenerator,
     ImageModelUnavailable,

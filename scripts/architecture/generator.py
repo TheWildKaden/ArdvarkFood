@@ -5,7 +5,6 @@ import html
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -26,6 +25,7 @@ from .analyzers import (
 )
 from .diagram import flowchart
 from .index import SourceIndex
+from .render import render_mermaid_files
 from .validate import validate_generated
 
 
@@ -171,7 +171,9 @@ def _runtime_diagrams(
 
 def _architecture_readme_section() -> str:
     pieces = [
-        "The diagrams below are local SVG previews; every one links to its editable Mermaid source."
+        "The diagrams below are local SVG previews; every one links to its editable Mermaid source.",
+        "For analyzer details, local commands, rate-limit behavior, and workflow policy, "
+        "see the [architecture generator guide](docs/architecture/README.md).",
     ]
     for name, title in DIAGRAM_TITLES:
         mmd = f"docs/architecture/{name}.mmd"
@@ -193,7 +195,9 @@ def _architecture_readme_section() -> str:
             "Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, "
             "and `npm run architecture:generate`. The source and dependency analysis "
             "uses Python AST and Babel; unsupported or dynamic relationships are "
-            "omitted or explicitly marked as inferred.",
+            "omitted or explicitly marked as inferred. On a minimal Debian/Ubuntu "
+            "host missing Chromium libraries, run "
+            "`sudo npx puppeteer browsers install chrome --install-deps` before rendering.",
         ]
     )
     return "\n".join(pieces)
@@ -258,50 +262,16 @@ def _render_readme(
     (root / "README.md").write_text(template, encoding="utf-8")
 
 
-def _renderer(root: Path) -> list[str]:
-    local = root / "node_modules" / ".bin" / (
-        "mmdc.cmd" if os.name == "nt" else "mmdc"
-    )
-    executable = str(local) if local.is_file() else shutil.which("mmdc")
-    if not executable:
-        raise RuntimeError(
-            "Mermaid CLI was not found. Run `npm ci`, then install its browser with "
-            "`npx puppeteer browsers install chrome`."
-        )
-    return [executable]
-
-
 def render_diagrams(root: Path, diagrams: dict[str, str], output_dir: Path) -> None:
-    command = _renderer(root)
     output_dir.mkdir(parents=True, exist_ok=True)
+    render_queue: list[tuple[Path, Path]] = []
     for name, source in diagrams.items():
         mmd_path = root / "docs" / "architecture" / f"{name}.mmd"
         mmd_path.parent.mkdir(parents=True, exist_ok=True)
         mmd_path.write_text(source, encoding="utf-8")
         svg_path = output_dir / f"{name}.svg"
-        result = subprocess.run(
-            [
-                *command,
-                "-i",
-                str(mmd_path),
-                "-o",
-                str(svg_path),
-                "-t",
-                "neutral",
-                "-b",
-                "transparent",
-            ],
-            cwd=root,
-            capture_output=True,
-            text=True,
-        )
-        if result.returncode:
-            raise RuntimeError(
-                f"Mermaid rendering failed for {mmd_path.relative_to(root)}:\n"
-                f"{result.stderr.strip() or result.stdout.strip()}"
-            )
-        if not svg_path.is_file() or svg_path.stat().st_size == 0:
-            raise RuntimeError(f"Mermaid CLI produced no SVG for {mmd_path}.")
+        render_queue.append((mmd_path, svg_path))
+    render_mermaid_files(root, render_queue)
 
 
 def analyze_repository(root: Path) -> dict[str, Any]:

@@ -3,11 +3,11 @@ from __future__ import annotations
 import html
 import json
 import re
-import shutil
-import subprocess
 import tempfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
+
+from .render import render_mermaid_files
 
 
 DIAGRAM_NAMES = (
@@ -87,45 +87,17 @@ def _validate_readme_links(root: Path) -> None:
                 raise ValueError(f"README links to missing heading anchor: {raw_link}")
 
 
-def _mermaid_command(root: Path) -> list[str]:
-    local = root / "node_modules" / ".bin" / "mmdc"
-    executable = str(local) if local.is_file() else shutil.which("mmdc")
-    if not executable:
-        raise RuntimeError(
-            "Mermaid validation needs Mermaid CLI. Run `npm ci` and "
-            "`npx puppeteer browsers install chrome`."
-        )
-    return [executable]
-
-
 def _validate_mermaid(root: Path) -> None:
-    command = _mermaid_command(root)
     with tempfile.TemporaryDirectory(prefix="ardvark-mermaid-check-") as directory:
         temp = Path(directory)
+        render_queue: list[tuple[Path, Path]] = []
         for name in DIAGRAM_NAMES:
             source = root / "docs" / "architecture" / f"{name}.mmd"
             if not source.is_file():
                 raise ValueError(f"Missing Mermaid source file: {source}")
             output = temp / f"{name}.svg"
-            result = subprocess.run(
-                [
-                    *command,
-                    "-i",
-                    str(source),
-                    "-o",
-                    str(output),
-                    "-t",
-                    "neutral",
-                    "-b",
-                    "transparent",
-                ],
-                cwd=root,
-                capture_output=True,
-                text=True,
-            )
-            if result.returncode:
-                details = result.stderr.strip() or result.stdout.strip()
-                raise ValueError(f"Invalid Mermaid diagram {source}: {details}")
+            render_queue.append((source, output))
+        render_mermaid_files(root, render_queue)
 
 
 def validate_generated(root: Path, *, require_mermaid: bool) -> None:

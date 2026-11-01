@@ -1,4 +1,4 @@
-AI Buddy local image generator — primary sources
+# Project references
 
 1. Stability AI, SD-Turbo model card:
    https://huggingface.co/stabilityai/sd-turbo

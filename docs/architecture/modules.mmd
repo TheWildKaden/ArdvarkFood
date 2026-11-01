@@ -1,6 +1,6 @@
 flowchart LR
   AI_Runtime["AI-Runtime (25 source files)"]
-  Architecture_generator["Architecture generator (18 source files)"]
+  Architecture_generator["Architecture generator (20 source files)"]
   FastAPI__src_web_["FastAPI (src/web) (5 source files)"]
   Frontend_client["Frontend client (13 source files)"]
   Frontend_server["Frontend server (9 source files)"]
@@ -8,9 +8,10 @@ flowchart LR
   Repository_root["Repository root (2 source files)"]
   frontend["frontend (2 source files)"]
   scripts["scripts (3 source files)"]
-  src["src (2 source files)"]
-  FastAPI__src_web_ -->|"2 detected imports"| Repository_root
+  src["src (4 source files)"]
+  FastAPI__src_web_ -->|"2 detected imports"| src
   Repository_root -->|"1 detected imports"| FastAPI__src_web_
+  Repository_root -->|"2 detected imports"| src
   frontend -->|"1 detected imports"| Frontend_server
   analysis_note_0["Edges are resolved relative/local imports detected by Python AST or Babel parser."]
   class analysis_note_0 note

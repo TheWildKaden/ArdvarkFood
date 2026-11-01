@@ -1,27 +1,20 @@
 {
   "repository": "TheWildKaden/ArdvarkFood",
-  "source": "local git author names",
+  "source": "GitHub contributors API (first 100 accounts)",
   "contributors": [
     {
-      "login": null,
-      "name": "Tide Sync Bot",
-      "profile_url": null,
-      "contributions": 47,
-      "avatar": "docs/architecture/assets/contributors/86b346e793a6.svg"
+      "login": "TheWildKaden",
+      "name": "TheWildKaden",
+      "profile_url": "https://github.com/TheWildKaden",
+      "contributions": 6,
+      "avatar": "docs/architecture/assets/contributors/824c0ce4b0eb.svg"
     },
     {
-      "login": null,
-      "name": "Vlint",
-      "profile_url": null,
-      "contributions": 7,
-      "avatar": "docs/architecture/assets/contributors/ce889fc0a8a6.svg"
-    },
-    {
-      "login": null,
-      "name": "AcHamm",
-      "profile_url": null,
+      "login": "acunningham-ship-it",
+      "name": "acunningham-ship-it",
+      "profile_url": "https://github.com/acunningham-ship-it",
       "contributions": 1,
-      "avatar": "docs/architecture/assets/contributors/a3e534c0d6da.svg"
+      "avatar": "docs/architecture/assets/contributors/2ad2b4a035a3.svg"
     }
   ]
 }

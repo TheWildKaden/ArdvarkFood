@@ -14,8 +14,13 @@ from scripts.architecture.index import SourceIndex
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def test_source_index_detects_real_app_routes_and_runtime_wiring() -> None:
-    result = analyze_repository(ROOT)
+@pytest.fixture(scope="module")
+def analysis() -> dict:
+    return analyze_repository(ROOT)
+
+
+def test_source_index_detects_real_app_routes_and_runtime_wiring(analysis: dict) -> None:
+    result = analysis
 
     route_pairs = {
         (route["method"], route["path"])
@@ -35,8 +40,8 @@ def test_source_index_detects_real_app_routes_and_runtime_wiring() -> None:
     )
 
 
-def test_parser_and_encoder_diagram_does_not_invent_a_lexer() -> None:
-    result = analyze_repository(ROOT)
+def test_parser_and_encoder_diagram_does_not_invent_a_lexer(analysis: dict) -> None:
+    result = analysis
 
     names = {item["name"] for item in result["compiler"]["components"]}
     assert "parse_tagged_text" in names
@@ -68,8 +73,8 @@ def test_utf16_requirements_manifest_is_parsed(tmp_path: Path) -> None:
     assert _read_requirements(manifest) == ["FastAPI", "httpx"]
 
 
-def test_analyzer_output_is_json_serializable() -> None:
-    result = analyze_repository(ROOT)
+def test_analyzer_output_is_json_serializable(analysis: dict) -> None:
+    result = analysis
     summary = {
         "routes": result["routes"]["routes"],
         "functions": result["functions"]["functions"],

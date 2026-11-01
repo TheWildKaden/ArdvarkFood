@@ -1,10 +1,10 @@
 {
   "repository": "TheWildKaden/ArdvarkFood",
   "analysis": {
-    "source_files": 80,
-    "python_modules": 53,
-    "javascript_modules": 27,
-    "functions": 504,
+    "source_files": 84,
+    "python_modules": 56,
+    "javascript_modules": 28,
+    "functions": 503,
     "classes": 57,
     "api_routes": [
       {
@@ -424,7 +424,7 @@
     ],
     "module_groups": {
       "AI-Runtime": 25,
-      "Architecture generator": 18,
+      "Architecture generator": 20,
       "FastAPI (src/web)": 5,
       "Frontend client": 13,
       "Frontend server": 9,
@@ -432,18 +432,23 @@
       "Repository root": 2,
       "frontend": 2,
       "scripts": 3,
-      "src": 2
+      "src": 4
     },
     "module_import_edges": [
       {
         "from": "FastAPI (src/web)",
-        "to": "Repository root",
+        "to": "src",
         "imports": 2
       },
       {
         "from": "Repository root",
         "to": "FastAPI (src/web)",
         "imports": 1
+      },
+      {
+        "from": "Repository root",
+        "to": "src",
+        "imports": 2
       },
       {
         "from": "frontend",
