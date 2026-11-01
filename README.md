@@ -1,50 +1,73 @@
 # ArdvarkFood
 
-## AI Buddy
+## Your own AI image generator
 
-This repository includes a live, general-purpose AI chat app. The FastAPI
-server runs inside your GitHub Codespace and sends chat requests from the
-server to an OpenAI-compatible AI provider. Your API key stays on the server;
-it is never sent to the browser or committed to the repository.
+The **Make images** tab runs Stability AI's open-weight SD-Turbo model directly
+inside this Codespace. Image prompts and generated images stay in the local app;
+image generation does not use ChatGPT, an external image API, or an API key.
+Generated PNGs are saved to `.generated/` in the workspace and can be downloaded
+from the app.
 
-### Configure the AI provider
+This is a self-hosted application using an existing open-weight model, not a
+model trained from scratch. The model weights are downloaded from Hugging Face
+the first time you generate an image and cached for later runs. Review SD-Turbo's
+model card and usage terms in [SOURES.TXT](./SOURES.TXT). SD-Turbo is designed
+for 512 × 512 images and one to four inference steps; higher step counts take
+longer.
 
-Create an API key with your AI provider, then add it to your Codespace as a
-secret named `AI_API_KEY`:
+### Install the local image model dependencies
 
-1. In GitHub, open **Settings → Secrets and variables → Codespaces**.
-2. Select **New repository secret**, name it `AI_API_KEY`, and paste your key.
-3. Restart the Codespace so the secret is available in its environment.
+This Codespace has no NVIDIA GPU, so use the PyTorch CPU build:
 
-OpenAI is used by default. To use another OpenAI-compatible provider, add
-the corresponding variables in Codespaces settings. The chat backend uses the
-standard [OpenAI Chat Completions endpoint](https://platform.openai.com/docs/api-reference/chat/create)
-so compatible providers can use the same integration:
+```bash
+pip install torch --index-url https://download.pytorch.org/whl/cpu
+pip install -r requirements-image-generator.txt
+```
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `AI_API_KEY` | — | Provider API key. `OPENAI_API_KEY` is also accepted. |
-| `AI_BASE_URL` | `https://api.openai.com/v1` | Provider's API base URL. |
-| `AI_MODEL` | `gpt-5.5` | Model name available to your provider account. |
-| `AI_SYSTEM_PROMPT` | Buddy's built-in assistant instructions | Optional personality and behavior instructions. |
+The first install downloads the runtime packages. The first generated image
+downloads the model weights and needs an internet connection and enough free
+disk space. CPU generation is slower than a compatible GPU. For Codespaces with
+a GPU, install the matching PyTorch build from the official
+[PyTorch installation selector](https://pytorch.org/get-started/locally/) before
+installing the image-generator requirements.
 
-Provider usage may incur charges under your provider account's pricing and
-limits. Keep the Codespace port private, and never put API keys in frontend
-code, chat messages, or committed files.
+### Run the app in a Codespace
 
-### Run in a Codespace
-
-From the repository root, start the app:
+Start the app from the repository root:
 
 ```bash
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
 Open the forwarded port 8000 in the Codespaces **Ports** tab. Codespaces also
-detects the printed localhost address and provides a link to the app. If the
-dependencies are not installed yet, run `pip install -r requirements.txt`
-first.
+detects the localhost address and provides a link to the app.
 
-Chat requests go to `/api/chat`; `/api/health` reports whether the web server
-is running. The app shows provider and configuration errors instead of
-generating pretend replies.
+### Chat
+
+The separate **Chat** tab keeps the existing AI Buddy chat feature. It uses an
+OpenAI-compatible chat provider and needs a provider API key. Image generation
+is a separate locally run model and does not use those chat settings.
+
+Chat configuration:
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `AI_API_KEY` | — | Chat provider API key. `OPENAI_API_KEY` is also accepted. |
+| `AI_BASE_URL` | `https://api.openai.com/v1` | Chat provider API base URL. |
+| `AI_MODEL` | `gpt-5.5` | Model available to your chat provider account. |
+| `AI_SYSTEM_PROMPT` | Buddy's built-in assistant instructions | Optional chat behavior instructions. |
+
+Keep the Codespace port private, never put API keys in frontend code or
+committed files, and check provider pricing before using the separate chat
+feature.
+
+### API
+
+- `POST /api/images/generate` generates and saves a PNG using the local model.
+- `GET /api/images/status` reports the local model's load status.
+- `GET /api/images/{filename}` serves a generated PNG.
+- `POST /api/chat` sends a request to the separately configured chat provider.
+- `GET /api/health` reports whether the web server is running.
+
+The app reports missing dependencies or model loading errors instead of
+returning a pretend generated image.

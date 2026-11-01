@@ -12,6 +12,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from local_image_generator import (
     ImageGenerationError,
+    ImageGenerator,
     ImageModelUnavailable,
     LocalImageGenerator,
 )
@@ -54,7 +55,7 @@ class ImageGenerationRequest(BaseModel):
 def create_app(
     *,
     ai_transport: httpx.AsyncBaseTransport | None = None,
-    image_generator: LocalImageGenerator | None = None,
+    image_generator: ImageGenerator | None = None,
 ) -> FastAPI:
     application = FastAPI(title="AI Buddy")
     local_generator = image_generator or LocalImageGenerator()
@@ -157,7 +158,7 @@ def create_app(
         return {
             "model": "SD-Turbo",
             "model_id": "stabilityai/sd-turbo",
-            "device": "cuda" if local_generator.status == "ready" else "automatic",
+            "device": local_generator.device,
             "status": local_generator.status,
         }
 

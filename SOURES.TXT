@@ -1,0 +1,29 @@
+AI Buddy local image generator — primary sources
+
+1. Stability AI, SD-Turbo model card:
+   https://huggingface.co/stabilityai/sd-turbo
+   Model description, intended uses, model limitations, image size, recommended
+   inference steps, Diffusers example, and applicable Stability AI terms.
+
+2. Stability AI, SD-Turbo model repository:
+   https://huggingface.co/stabilityai/sd-turbo/tree/main
+   Published model files and pipeline configuration loaded by this application.
+
+3. Hugging Face Diffusers, loading pipelines:
+   https://huggingface.co/docs/diffusers/using-diffusers/loading
+   Official documentation for downloading and loading a model into a local
+   Diffusers pipeline.
+
+4. Hugging Face Diffusers, reducing memory usage:
+   https://huggingface.co/docs/diffusers/optimization/memory
+   Official recommendations for local inference on memory-constrained hardware.
+
+5. PyTorch, install:
+   https://pytorch.org/get-started/locally/
+   Official installation instructions for choosing a CPU or accelerator build.
+
+This image generator runs the downloaded SD-Turbo open-weight model in this
+Codespace through the Diffusers library. It does not send image prompts to
+ChatGPT, OpenAI, or a hosted image-generation API. Model availability, license,
+acceptable-use terms, and hardware requirements are set by the cited upstream
+project and may change; review the model card and applicable terms before use.

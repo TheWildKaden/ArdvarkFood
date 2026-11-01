@@ -20,11 +20,12 @@
 
       * { box-sizing: border-box; }
       body { margin: 0; min-height: 100vh; }
-      button, textarea { font: inherit; }
+      button, textarea, select, input { font: inherit; }
       .shell { display: flex; flex-direction: column; min-height: 100vh; }
       header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 12px;
         width: min(100%, 900px);
         margin: 0 auto;
@@ -43,6 +44,20 @@
       }
       .brand { margin: 0; font-size: 16px; font-weight: 650; }
       .tagline { margin: 3px 0 0; color: var(--muted); font-size: 12px; }
+      .brand-group { display: flex; align-items: center; gap: 12px; }
+      .tabs { display: flex; gap: 6px; }
+      .tabs button {
+        width: auto;
+        height: 36px;
+        flex: 0 0 auto;
+        padding: 0 13px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--muted);
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .tabs button[aria-pressed="true"] { border-color: #394432; background: #202a1e; color: var(--accent); }
       main {
         display: flex;
         flex: 1;
@@ -121,35 +136,103 @@
       }
       button:disabled { cursor: wait; opacity: .55; }
       .hint { margin: 10px 0 0; color: #818b7e; font-size: 11px; text-align: center; }
-      @media (max-width: 560px) {
-        header { padding: 16px; }
-        main { padding: 26px 16px 18px; }
-        .bubble { max-width: 88%; }
+      #image-view { width: 100%; max-width: 700px; margin: auto; }
+      #image-view h1 { margin: 0 0 8px; font-size: clamp(26px, 5vw, 36px); letter-spacing: -1px; }
+      #image-view > p { margin: 0 0 24px; color: var(--muted); line-height: 1.6; }
+      #image-form { display: grid; gap: 14px; }
+      #image-prompt {
+        width: 100%;
+        min-height: 116px;
+        resize: vertical;
+        padding: 16px;
+        border: 1px solid #3a4439;
+        border-radius: 15px;
+        outline: 0;
+        background: #171d17;
+        color: inherit;
+        line-height: 1.6;
       }
+      #image-prompt:focus { border-color: #768a69; }
+      .image-options { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+      .image-options label { color: var(--muted); font-size: 13px; }
+      .image-options select, .image-options input {
+        min-height: 38px;
+        margin-left: 6px;
+        padding: 0 10px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: #171d17;
+        color: inherit;
+      }
+      .image-options input { width: 120px; }
+      #generate-image { display: flex; width: auto; height: 44px; flex-basis: auto; gap: 8px; justify-self: start; padding: 0 16px; font-size: 14px; }
+      #image-status { min-height: 22px; color: var(--muted); font-size: 13px; }
+      #image-result { margin-top: 20px; }
+      #image-result img { display: block; width: min(100%, 512px); height: auto; border: 1px solid var(--line); border-radius: 16px; }
+      #download-image { display: inline-block; margin-top: 12px; color: var(--accent); }
+      @media (max-width: 560px) {
+        header { flex-wrap: wrap; padding: 16px; }
+        header .tabs { width: 100%; }
+        header .tabs button { flex: 1; }
+        .image-options { align-items: flex-start; flex-direction: column; }
+        .image-options select, .image-options input { margin-left: 8px; }
+      }
+      @media (max-width: 560px) { main { padding: 26px 16px 18px; } .bubble { max-width: 88%; } }
     </style>
   </head>
   <body>
     <div class="shell">
       <header>
-        <div class="mark" aria-hidden="true">✦</div>
-        <div>
-          <p class="brand">AI Buddy</p>
-          <p class="tagline">Your general-purpose AI, running from this Codespace</p>
+        <div class="brand-group">
+          <div class="mark" aria-hidden="true">✦</div>
+          <div>
+            <p class="brand">AI Buddy</p>
+            <p class="tagline">Your own AI, running in this Codespace</p>
+          </div>
+        </div>
+        <div class="tabs" role="group" aria-label="Choose a tool">
+          <button type="button" class="tab" data-view="chat-view" aria-pressed="true">Chat</button>
+          <button type="button" class="tab" data-view="image-view" aria-pressed="false">Make images</button>
         </div>
       </header>
       <main>
-        <section id="welcome" aria-label="Welcome">
-          <div class="mark" aria-hidden="true">✦</div>
-          <h1>Hey, I'm Buddy.</h1>
-          <p>Ask me anything. Let's figure it out together.</p>
+        <section id="chat-view">
+          <section id="welcome" aria-label="Welcome">
+            <div class="mark" aria-hidden="true">✦</div>
+            <h1>Hey, I'm Buddy.</h1>
+            <p>Ask me anything. Let's figure it out together.</p>
+          </section>
+          <section id="messages" aria-live="polite" aria-label="Conversation"></section>
+          <p id="status" role="status"></p>
+          <form id="chat-form" class="composer">
+            <textarea id="prompt" aria-label="Message Buddy" placeholder="Message Buddy..." maxlength="8000" required></textarea>
+            <button id="send" type="submit" aria-label="Send message">↑</button>
+          </form>
+          <p class="hint">Enter to send · Shift + Enter for a new line</p>
         </section>
-        <section id="messages" aria-live="polite" aria-label="Conversation"></section>
-        <p id="status" role="status"></p>
-        <form id="chat-form" class="composer">
-          <textarea id="prompt" aria-label="Message Buddy" placeholder="Message Buddy..." maxlength="8000" required></textarea>
-          <button id="send" type="submit" aria-label="Send message">↑</button>
-        </form>
-        <p class="hint">Enter to send · Shift + Enter for a new line</p>
+        <section id="image-view" hidden>
+          <h1>Your own image generator.</h1>
+          <p>Describe what you want to see. SD-Turbo runs locally in this Codespace—no ChatGPT, image API, or API key. First use downloads the model weights.</p>
+          <form id="image-form">
+            <textarea id="image-prompt" maxlength="4000" aria-label="Describe an image" placeholder="A tiny red panda astronaut tending a moon garden, cinematic storybook illustration..." required></textarea>
+            <div class="image-options">
+              <label for="image-steps">Image detail
+                <select id="image-steps">
+                  <option value="1">Fast · 1 step</option>
+                  <option value="2">Balanced · 2 steps</option>
+                  <option value="4">More detail · 4 steps</option>
+                </select>
+              </label>
+              <label for="image-seed">Seed
+                <input id="image-seed" type="number" min="0" max="4294967295" placeholder="Random">
+              </label>
+            </div>
+            <button id="generate-image" type="submit">✦ Generate image</button>
+          </form>
+          <p id="image-status" role="status" aria-live="polite"></p>
+          <div id="image-result"></div>
+          <p class="hint">SD-Turbo creates 512 × 512 images. Generation uses this Codespace's CPU or GPU.</p>
+        </section>
       </main>
     </div>
     <script>
@@ -160,6 +243,63 @@
       const welcome = document.querySelector("#welcome");
       const status = document.querySelector("#status");
       const send = document.querySelector("#send");
+      const imageForm = document.querySelector("#image-form");
+      const imagePrompt = document.querySelector("#image-prompt");
+      const imageStatus = document.querySelector("#image-status");
+      const imageResult = document.querySelector("#image-result");
+      const generateImage = document.querySelector("#generate-image");
+
+      document.querySelectorAll(".tab").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          document.querySelectorAll(".tab").forEach((item) => {
+            item.setAttribute("aria-pressed", String(item === tab));
+          });
+          document.querySelectorAll("#chat-view, #image-view").forEach((view) => {
+            view.hidden = view.id !== tab.dataset.view;
+          });
+        });
+      });
+
+      imageForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const prompt = imagePrompt.value.trim();
+        if (!prompt || generateImage.disabled) return;
+
+        generateImage.disabled = true;
+        imageStatus.textContent = "Loading your local model and generating the image. First use may take a few minutes.";
+        imageResult.replaceChildren();
+
+        try {
+          const response = await fetch("/api/images/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              prompt,
+              steps: Number(document.querySelector("#image-steps").value),
+              seed: document.querySelector("#image-seed").value === ""
+                ? null
+                : Number(document.querySelector("#image-seed").value),
+            }),
+          });
+          const result = await response.json();
+          if (!response.ok) throw new Error(result.detail || "Image generation failed.");
+
+          const image = document.createElement("img");
+          image.src = result.image_url;
+          image.alt = prompt;
+          const download = document.createElement("a");
+          download.id = "download-image";
+          download.href = result.image_url;
+          download.download = "ai-buddy-image.png";
+          download.textContent = "Download image";
+          imageResult.append(image, download);
+          imageStatus.textContent = `Generated locally with ${result.model}.`;
+        } catch (error) {
+          imageStatus.textContent = error.message || "Image generation failed. Try again.";
+        } finally {
+          generateImage.disabled = false;
+        }
+      });
 
       function addMessage(role, content) {
         const row = document.createElement("article");

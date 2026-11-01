@@ -1,10 +1,21 @@
 import logging
 from io import BytesIO
 from threading import Lock
+from typing import Protocol
 
 
 logger = logging.getLogger(__name__)
 MODEL_ID = "stabilityai/sd-turbo"
+
+
+class ImageGenerator(Protocol):
+    @property
+    def status(self) -> str: ...
+
+    @property
+    def device(self) -> str: ...
+
+    def generate(self, prompt: str, steps: int, seed: int | None) -> bytes: ...
 
 
 class ImageModelUnavailable(RuntimeError):
@@ -25,6 +36,10 @@ class LocalImageGenerator:
     @property
     def status(self) -> str:
         return self._status
+
+    @property
+    def device(self) -> str:
+        return self._device if self._status == "ready" else "automatic"
 
     def generate(self, prompt: str, steps: int, seed: int | None) -> bytes:
         with self._lock:
