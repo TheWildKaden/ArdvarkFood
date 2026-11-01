@@ -1,0 +1,27 @@
+{
+  "repository": "TheWildKaden/ArdvarkFood",
+  "source": "local git author names",
+  "contributors": [
+    {
+      "login": null,
+      "name": "Tide Sync Bot",
+      "profile_url": null,
+      "contributions": 46,
+      "avatar": "docs/architecture/assets/contributors/86b346e793a6.svg"
+    },
+    {
+      "login": null,
+      "name": "Vlint",
+      "profile_url": null,
+      "contributions": 6,
+      "avatar": "docs/architecture/assets/contributors/ce889fc0a8a6.svg"
+    },
+    {
+      "login": null,
+      "name": "AcHamm",
+      "profile_url": null,
+      "contributions": 1,
+      "avatar": "docs/architecture/assets/contributors/a3e534c0d6da.svg"
+    }
+  ]
+}
