@@ -1,18 +1,27 @@
 import os
+import re
 from typing import Literal
+from uuid import uuid4
 from urllib.parse import urlsplit
 
 import httpx
 from fastapi import FastAPI, HTTPException
+from fastapi.concurrency import run_in_threadpool
 from fastapi.responses import FileResponse
 from pydantic import BaseModel, Field, model_validator
+
+from local_image_generator import (
+    ImageGenerationError,
+    ImageModelUnavailable,
+    LocalImageGenerator,
+)
 
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 MAX_MESSAGE_LENGTH = 8_000
 MAX_CONVERSATION_MESSAGES = 32
 MAX_IMAGE_PROMPT_LENGTH = 4_000
-MAX_IMAGE_BASE64_LENGTH = 32_000_000
+GENERATED_IMAGE_DIR = os.path.join(ROOT, ".generated")
 
 
 class ChatMessage(BaseModel):
@@ -38,18 +47,17 @@ class ChatRequest(BaseModel):
 
 class ImageGenerationRequest(BaseModel):
     prompt: str = Field(min_length=1, max_length=MAX_IMAGE_PROMPT_LENGTH)
-    model: Literal["gpt-image-2.5-flare", "gpt-image-2.5-sunburst"] = (
-        "gpt-image-2.5-flare"
-    )
-    size: Literal["1024x1024", "1536x1024", "1024x1536"] = "1024x1024"
-    quality: Literal["low", "medium", "high", "auto"] = "medium"
+    steps: int = Field(default=1, ge=1, le=4)
+    seed: int | None = Field(default=None, ge=0, le=4_294_967_295)
 
 
 def create_app(
     *,
     ai_transport: httpx.AsyncBaseTransport | None = None,
+    image_generator: LocalImageGenerator | None = None,
 ) -> FastAPI:
     application = FastAPI(title="AI Buddy")
+    local_generator = image_generator or LocalImageGenerator()
 
     @application.get("/", include_in_schema=False)
     async def home() -> FileResponse:
@@ -144,109 +152,52 @@ def create_app(
 
         return {"reply": content, "model": model}
 
+    @application.get("/api/images/status")
+    async def image_status() -> dict[str, str]:
+        return {
+            "model": "SD-Turbo",
+            "model_id": "stabilityai/sd-turbo",
+            "device": "cuda" if local_generator.status == "ready" else "automatic",
+            "status": local_generator.status,
+        }
+
     @application.post("/api/images/generate")
     async def generate_image(request: ImageGenerationRequest) -> dict[str, str]:
-        api_key = (
-            os.getenv("IMAGE_API_KEY")
-            or os.getenv("AI_API_KEY")
-            or os.getenv("OPENAI_API_KEY")
-        )
-        if not api_key:
-            raise HTTPException(
-                status_code=503,
-                detail=(
-                    "Image generation needs an API key. Add IMAGE_API_KEY or "
-                    "AI_API_KEY as a Codespaces secret, then restart the app."
-                ),
-            )
-
-        base_url = os.getenv(
-            "IMAGE_BASE_URL", "https://api.openai.com/v1"
-        ).rstrip("/")
-        parsed_url = urlsplit(base_url)
-        if parsed_url.scheme not in {"http", "https"} or not parsed_url.netloc:
-            raise HTTPException(
-                status_code=500,
-                detail="IMAGE_BASE_URL must be a valid HTTP or HTTPS URL.",
-            )
-
         try:
-            async with httpx.AsyncClient(
-                transport=ai_transport,
-                timeout=httpx.Timeout(180.0, connect=10.0),
-            ) as client:
-                response = await client.post(
-                    f"{base_url}/images/generations",
-                    headers={"Authorization": f"Bearer {api_key}"},
-                    json={
-                        "model": request.model,
-                        "prompt": request.prompt,
-                        "size": request.size,
-                        "quality": request.quality,
-                        "output_format": "png",
-                        "n": 1,
-                    },
-                )
-                response.raise_for_status()
-        except httpx.TimeoutException as error:
-            raise HTTPException(
-                status_code=504,
-                detail="Image generation took too long. Try again.",
-            ) from error
-        except httpx.HTTPStatusError as error:
-            raise HTTPException(
-                status_code=502,
-                detail=(
-                    f"The image provider returned HTTP "
-                    f"{error.response.status_code}. Check your API key, model, "
-                    "and provider settings."
-                ),
-            ) from error
-        except httpx.RequestError as error:
-            raise HTTPException(
-                status_code=502,
-                detail="Could not reach the image provider. Check its URL and try again.",
-            ) from error
-
-        try:
-            image_base64 = response.json()["data"][0]["b64_json"]
-        except (ValueError, KeyError, IndexError, TypeError) as error:
-            raise HTTPException(
-                status_code=502,
-                detail="The image provider returned an invalid image response.",
-            ) from error
-        if not isinstance(image_base64, str) or not image_base64:
-            raise HTTPException(
-                status_code=502,
-                detail="The image provider returned an empty image.",
+            image_bytes = await run_in_threadpool(
+                local_generator.generate,
+                request.prompt,
+                request.steps,
+                request.seed,
             )
-        if len(image_base64) > MAX_IMAGE_BASE64_LENGTH:
-            raise HTTPException(
-                status_code=502,
-                detail="The generated image exceeded the maximum supported size.",
-            )
-
-        import base64
-        import binascii
-
-        try:
-            image_bytes = base64.b64decode(image_base64, validate=True)
-        except (binascii.Error, ValueError) as error:
-            raise HTTPException(
-                status_code=502,
-                detail="The image provider returned invalid image data.",
-            ) from error
+        except ImageModelUnavailable as error:
+            raise HTTPException(status_code=503, detail=str(error)) from error
+        except ImageGenerationError as error:
+            raise HTTPException(status_code=500, detail=str(error)) from error
         if not image_bytes.startswith(b"\x89PNG\r\n\x1a\n"):
             raise HTTPException(
                 status_code=502,
-                detail="The image provider did not return a valid PNG image.",
+                detail="The local image model did not return a valid PNG image.",
             )
 
+        filename = f"{uuid4().hex}.png"
+        os.makedirs(GENERATED_IMAGE_DIR, exist_ok=True)
+        with open(os.path.join(GENERATED_IMAGE_DIR, filename), "wb") as image_file:
+            image_file.write(image_bytes)
         return {
-            "image": f"data:image/png;base64,{image_base64}",
-            "model": request.model,
+            "image_url": f"/api/images/{filename}",
+            "model": "SD-Turbo",
             "prompt": request.prompt,
         }
+
+    @application.get("/api/images/{filename}", include_in_schema=False)
+    async def get_generated_image(filename: str) -> FileResponse:
+        if not re.fullmatch(r"[a-f0-9]{32}\.png", filename):
+            raise HTTPException(status_code=404, detail="Image not found.")
+        image_path = os.path.join(GENERATED_IMAGE_DIR, filename)
+        if not os.path.isfile(image_path):
+            raise HTTPException(status_code=404, detail="Image not found.")
+        return FileResponse(image_path, media_type="image/png")
 
     return application
 
