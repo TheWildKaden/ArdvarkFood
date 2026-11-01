@@ -83,7 +83,7 @@ def _adapter_edges(index: SourceIndex) -> list[tuple[str, str, str]]:
 def _execution_edges(index: SourceIndex) -> list[tuple[str, str, str]]:
     python_functions, _ = index.python_symbols()
     class_names = {
-        item["name"]
+        item.name
         for _, module in index.python_modules.items()
         for item in ast.walk(module.tree)
         if isinstance(item, ast.ClassDef)

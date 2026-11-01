@@ -100,7 +100,7 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
         stack.append("Babel parser")
     return {
         "manifests": manifests,
-        "package": package,
+        "package": package_json,
         "stack": stack,
         "diagram": flowchart(
             "LR",
