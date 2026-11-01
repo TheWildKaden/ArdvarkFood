@@ -37,6 +37,19 @@ and image-generator frontend at `/` and the Pages-style project overview at
 `/project`. Build the static site with `npm run build:pages`; preview it with
 `npm run preview:pages` at `http://localhost:4173`.
 
+## Project layout
+
+- `app.py` remains the stable ASGI/CLI entry point (`uvicorn app:app`).
+- `src/web/` contains the FastAPI factory, API routes, request schemas, and
+  chat-provider service; these are separated from model and agent runtimes.
+- `AI-Runtime/` owns LLM adapters, agent orchestration, tools, permissions,
+  memory, and runtime persistence.
+- `local_image_generator.py` owns the independent local image model adapter.
+- `src/encoding/` retains the original message-encoding implementation.
+- `static/`, `docs/`, and `frontend/` hold the interactive app UI, static
+  project site, and separately maintained frontend source, respectively.
+- `tests/` contains application and runtime integration tests.
+
 ## LLM and agent runtime
 
 The runtime defaults to local GGUF inference through `llama.cpp`. No model
