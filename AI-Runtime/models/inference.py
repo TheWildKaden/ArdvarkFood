@@ -87,8 +87,9 @@ class InferenceEngine:
         messages: list[dict[str, Any]],
         max_tokens: int | None = None,
         tools: list[dict[str, Any]] | None = None,
+        adapter: ModelAdapter | None = None,
     ) -> list[dict[str, Any]]:
-        adapter = self.model_manager.get_adapter()
+        adapter = adapter or self.model_manager.get_adapter()
         context_size = adapter.metadata.context_size
         output_budget = max_tokens or min(1024, context_size // 4)
         tool_tokens = (
@@ -98,7 +99,9 @@ class InferenceEngine:
             context_size - output_budget - self.context_reserve - tool_tokens
         )
         if input_budget < 1:
-            raise ContextWindowExceeded("The model context window is too small.")
+            raise ContextWindowExceeded(
+                "System instructions and tool schemas exceed the model's available context window."
+            )
 
         retained = [dict(message) for message in messages]
         system = retained[:1] if retained and retained[0].get("role") == "system" else []
@@ -126,10 +129,26 @@ class InferenceEngine:
         sampling: SamplingConfig,
         tools: list[dict[str, Any]] | None = None,
     ) -> GenerationResponse:
+        acquire = getattr(self.model_manager, "inference_session", None)
+        if acquire is not None:
+            async with acquire() as adapter:
+                return await self._generate_with_adapter(
+                    adapter, messages, sampling, tools or []
+                )
         adapter = self.model_manager.get_adapter()
-        tool_schemas = tools or []
-        prepared = self.fit_context(messages, sampling.max_tokens, tool_schemas)
-        return await adapter.generate(prepared, sampling, tool_schemas)
+        return await self._generate_with_adapter(adapter, messages, sampling, tools or [])
+
+    async def _generate_with_adapter(
+        self,
+        adapter: ModelAdapter,
+        messages: list[dict[str, Any]],
+        sampling: SamplingConfig,
+        tools: list[dict[str, Any]],
+    ) -> GenerationResponse:
+        prepared = self.fit_context(
+            messages, sampling.max_tokens, tools, adapter=adapter
+        )
+        return await adapter.generate(prepared, sampling, tools)
 
     async def stream(
         self,
@@ -137,11 +156,22 @@ class InferenceEngine:
         sampling: SamplingConfig,
         tools: list[dict[str, Any]] | None = None,
     ) -> AsyncIterator[GenerationDelta]:
-        adapter = self.model_manager.get_adapter()
         tool_schemas = tools or []
-        prepared = self.fit_context(messages, sampling.max_tokens, tool_schemas)
-        async for delta in adapter.stream(prepared, sampling, tool_schemas):
-            yield delta
+        acquire = getattr(self.model_manager, "inference_session", None)
+        if acquire is not None:
+            async with acquire() as adapter:
+                prepared = self.fit_context(
+                    messages, sampling.max_tokens, tool_schemas, adapter=adapter
+                )
+                async for delta in adapter.stream(prepared, sampling, tool_schemas):
+                    yield delta
+        else:
+            adapter = self.model_manager.get_adapter()
+            prepared = self.fit_context(
+                messages, sampling.max_tokens, tool_schemas, adapter=adapter
+            )
+            async for delta in adapter.stream(prepared, sampling, tool_schemas):
+                yield delta
 
     @staticmethod
     def _count(adapter: ModelAdapter, messages: list[dict[str, Any]]) -> int:

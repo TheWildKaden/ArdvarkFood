@@ -51,7 +51,7 @@ class FakeAdapter:
         return None
 
     def tokenize(self, text: str) -> list[int]:
-        return list(text.encode("utf-8"))
+        return list(range((len(text) + 3) // 4))
 
     async def generate(self, messages, sampling, tools):
         return self.responses.pop(0)

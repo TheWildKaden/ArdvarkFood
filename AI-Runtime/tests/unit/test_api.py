@@ -30,7 +30,7 @@ class StreamingAdapter:
         return None
 
     def tokenize(self, text: str) -> list[int]:
-        return list(text.encode())
+        return list(range((len(text) + 3) // 4))
 
     async def generate(self, messages, sampling, tools):
         return inference_module.GenerationResponse(content="unused")

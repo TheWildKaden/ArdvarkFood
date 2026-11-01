@@ -50,6 +50,11 @@ class ToolExecutor:
         try:
             definition, handler = self.registry.get(call.name)
         except KeyError:
+            self.storage.add_audit(
+                execution_id,
+                "tool.unknown",
+                {"tool": call.name, "tool_call_id": call.call_id},
+            )
             return ToolResult(
                 call_id=call.call_id,
                 name=call.name,
@@ -389,27 +394,42 @@ class ToolExecutor:
 
     async def _fetch(self, url: str) -> dict[str, Any]:
         await self._validate_public_https(url)
-        async with httpx.AsyncClient(
-            timeout=10.0, follow_redirects=False, trust_env=False
-        ) as client:
-            response = await client.get(url, headers={"User-Agent": "ArdvarkRuntime/1.0"})
-            response.raise_for_status()
-            body = response.text[: self.settings.tools.max_tool_output_chars]
-        return {"status_code": response.status_code, "content": body}
+        return await self._request_public_https("GET", url)
 
     async def _api_request(
         self, method: str, url: str, json_body: dict[str, Any] | None = None
     ) -> dict[str, Any]:
+        if method == "GET" and json_body is not None:
+            raise ValueError("GET requests cannot include a JSON body.")
         await self._validate_public_https(url)
+        return await self._request_public_https(method, url, json_body)
+
+    async def _request_public_https(
+        self, method: str, url: str, json_body: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        limit = self.settings.tools.max_tool_output_chars
         async with httpx.AsyncClient(
             timeout=10.0, follow_redirects=False, trust_env=False
         ) as client:
-            response = await client.request(
+            async with client.stream(
                 method,
                 url,
                 json=json_body if method == "POST" else None,
                 headers={"User-Agent": "ArdvarkRuntime/1.0"},
-            )
-            response.raise_for_status()
-            body = response.text[: self.settings.tools.max_tool_output_chars]
-        return {"status_code": response.status_code, "content": body}
+            ) as response:
+                response.raise_for_status()
+                content = bytearray()
+                async for chunk in response.aiter_bytes():
+                    remaining = limit + 1 - len(content)
+                    content.extend(chunk[:remaining])
+                    if len(content) > limit:
+                        break
+                truncated = len(content) > limit
+                body = bytes(content[:limit]).decode(
+                    response.encoding or "utf-8", errors="replace"
+                )
+                return {
+                    "status_code": response.status_code,
+                    "content": body,
+                    "truncated": truncated,
+                }

@@ -1,4 +1,6 @@
 import asyncio
+from collections.abc import AsyncIterator
+from contextlib import asynccontextmanager
 import logging
 from typing import Any
 
@@ -45,6 +47,12 @@ class ModelManager:
             )
         return self._adapter
 
+    @asynccontextmanager
+    async def inference_session(self) -> AsyncIterator[ModelAdapter]:
+        """Prevent model replacement or unloading while an inference is active."""
+        async with self._load_lock:
+            yield self.get_adapter()
+
     async def load(self, settings: ModelSettings | None = None) -> dict[str, Any]:
         async with self._load_lock:
             target = settings or self.settings
@@ -58,11 +66,10 @@ class ModelManager:
 
             self._status = "loading"
             self._last_error = None
-            if current is not None:
-                await current.unload()
-                self._adapter = None
-
             try:
+                if current is not None:
+                    await current.unload()
+                    self._adapter = None
                 adapter = self._make_adapter(target)
                 await adapter.load()
             except Exception as error:

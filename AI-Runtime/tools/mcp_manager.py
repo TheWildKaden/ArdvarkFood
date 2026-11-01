@@ -31,6 +31,9 @@ class MCPManager:
         await stack.__aenter__()
         try:
             for server_name, config in self.settings.tools.mcp_servers.items():
+                safe_server_name = re.sub(r"[^a-zA-Z0-9_.-]", "_", server_name)
+                if not safe_server_name:
+                    raise ValueError("MCP server names must include letters or digits.")
                 command = config.get("command")
                 args = config.get("args", [])
                 env = config.get("env")
@@ -58,7 +61,7 @@ class MCPManager:
                 listed = await session.list_tools()
                 for remote_tool in listed.tools:
                     suffix = re.sub(r"[^a-zA-Z0-9_.-]", "_", remote_tool.name)
-                    tool_name = f"mcp.{server_name}.{suffix}"
+                    tool_name = f"mcp.{safe_server_name}.{suffix}"
 
                     async def invoke(
                         _session: Any = session,

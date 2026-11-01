@@ -125,6 +125,10 @@ class AgentRuntime:
         if handle is None or handle.task.done():
             return False
         handle.state.cancelled = True
+        handle.state.status = "cancelled"
+        self.storage.update_execution(
+            execution_id, "cancelled", handle.state.snapshot()
+        )
         self.permissions.cancel_execution(execution_id)
         handle.task.cancel()
         return True

@@ -1,6 +1,7 @@
 import json
 from dataclasses import dataclass
 from typing import Any
+from uuid import uuid4
 
 
 class InvalidToolCall(ValueError):
@@ -15,12 +16,14 @@ class ToolCall:
 
     @classmethod
     def from_model(cls, payload: dict[str, Any]) -> "ToolCall":
+        if not isinstance(payload, dict):
+            raise InvalidToolCall("The model returned a malformed tool call.")
         function = payload.get("function")
         if not isinstance(function, dict):
             raise InvalidToolCall("The model returned a tool call without a function.")
         name = function.get("name")
         raw_arguments = function.get("arguments", "{}")
-        if not isinstance(name, str) or not name:
+        if not isinstance(name, str) or not name or len(name) > 128:
             raise InvalidToolCall("The model returned a tool call without a name.")
         if isinstance(raw_arguments, str):
             if len(raw_arguments) > 16000:
@@ -36,5 +39,5 @@ class ToolCall:
 
         call_id = payload.get("id")
         if not isinstance(call_id, str) or not call_id:
-            call_id = "call-" + str(abs(hash((name, raw_arguments))))
+            call_id = "call-" + uuid4().hex
         return cls(call_id=call_id[:128], name=name, arguments=arguments)
