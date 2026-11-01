@@ -92,9 +92,14 @@ def test_workspace_write_requires_current_digest_for_replacements(
     target.write_text(original, encoding="utf-8")
 
     try:
+        read_result = runtime.tool_executor._read_file("module.py")
+        assert read_result["sha256"] == hashlib.sha256(
+            original.encode("utf-8")
+        ).hexdigest()
+
         try:
             runtime.tool_executor._write_file("module.py", "value = 2\n")
-        except agent_module.PermissionDenied as error:
+        except PermissionError as error:
             assert "SHA-256" in str(error)
         else:
             raise AssertionError("Replacing a file without a digest must be rejected.")
@@ -104,7 +109,7 @@ def test_workspace_write_requires_current_digest_for_replacements(
             runtime.tool_executor._write_file(
                 "module.py", "value = 2\n", stale_digest
             )
-        except agent_module.PermissionDenied as error:
+        except PermissionError as error:
             assert "changed since it was read" in str(error)
         else:
             raise AssertionError("Replacing a changed file must be rejected.")

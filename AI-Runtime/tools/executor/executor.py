@@ -307,9 +307,11 @@ class ToolExecutor:
         target = self._resolve_path(path)
         if not target.is_file():
             raise FileNotFoundError("The requested workspace file does not exist.")
-        content = target.read_text(encoding="utf-8")
+        content_bytes = target.read_bytes()
+        content = content_bytes.decode("utf-8")
         limit = self.settings.tools.max_tool_output_chars
         return {"path": str(target.relative_to(self.workspace)), "content": content[:limit],
+                "sha256": hashlib.sha256(content_bytes).hexdigest(),
                 "truncated": len(content) > limit}
 
     def _list_directory(self, path: str = ".") -> dict[str, Any]:
