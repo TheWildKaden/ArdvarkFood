@@ -60,6 +60,7 @@ class ToolSettings(BaseModel):
     denied_permissions: list[str] = Field(default_factory=list)
     command_timeout_seconds: int = Field(default=10, ge=1, le=120)
     max_tool_output_chars: int = Field(default=16000, ge=256, le=100000)
+    outbound_allowed_hosts: list[str] = Field(default_factory=list)
     mcp_servers: dict[str, dict[str, Any]] = Field(default_factory=dict)
 
 

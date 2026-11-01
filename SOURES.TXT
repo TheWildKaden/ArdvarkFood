@@ -27,3 +27,26 @@ Codespace through the Diffusers library. It does not send image prompts to
 ChatGPT, OpenAI, or a hosted image-generation API. Model availability, license,
 acceptable-use terms, and hardware requirements are set by the cited upstream
 project and may change; review the model card and applicable terms before use.
+
+LLM and agent runtime — primary implementation references
+
+6. llama.cpp:
+   https://github.com/ggml-org/llama.cpp
+   Local GGUF model inference, chat completion, tool calling, and streaming
+   backend used by the default LLM adapter.
+
+7. llama-cpp-python:
+   https://github.com/abetlen/llama-cpp-python
+   Python bindings for loading GGUF models and invoking chat completion.
+
+8. FastAPI:
+   https://fastapi.tiangolo.com/
+   Existing application framework and HTTP/SSE API integration.
+
+9. JSON Schema:
+   https://json-schema.org/
+   Tool argument and optional result-schema validation.
+
+10. Model Context Protocol:
+    https://modelcontextprotocol.io/
+    Optional configured stdio MCP server integration.

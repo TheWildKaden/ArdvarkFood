@@ -32,6 +32,7 @@
     "denied_permissions": [],
     "command_timeout_seconds": 10,
     "max_tool_output_chars": 16000,
+    "outbound_allowed_hosts": [],
     "mcp_servers": {}
   },
   "storage": {

@@ -92,6 +92,7 @@ async def get_runtime_config(request: Request) -> dict[str, Any]:
             "approval_permissions": runtime.settings.tools.approval_permissions,
             "denied_permissions": runtime.settings.tools.denied_permissions,
             "command_timeout_seconds": runtime.settings.tools.command_timeout_seconds,
+            "outbound_allowed_hosts": runtime.settings.tools.outbound_allowed_hosts,
         },
     }
 

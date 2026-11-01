@@ -213,7 +213,7 @@ class ToolExecutor:
         )
         self._register(
             "browser.fetch",
-            "Fetch a public HTTPS page without following redirects.",
+            "Fetch an allowlisted public HTTPS page without following redirects.",
             {
                 "type": "object",
                 "properties": {"url": {"type": "string", "maxLength": 2048}},
@@ -221,6 +221,21 @@ class ToolExecutor:
                 "additionalProperties": False,
             },
             self._fetch,
+        )
+        self._register(
+            "api.request",
+            "Make an allowlisted HTTPS GET or JSON POST request (approval required).",
+            {
+                "type": "object",
+                "properties": {
+                    "method": {"type": "string", "enum": ["GET", "POST"]},
+                    "url": {"type": "string", "maxLength": 2048},
+                    "json_body": {"type": "object"},
+                },
+                "required": ["method", "url"],
+                "additionalProperties": False,
+            },
+            self._api_request,
         )
         self._register(
             "git.status",
@@ -339,13 +354,30 @@ class ToolExecutor:
             "truncated": len(completed.stdout) > limit or len(completed.stderr) > limit,
         }
 
-    async def _fetch(self, url: str) -> dict[str, Any]:
+    async def _validate_public_https(self, url: str):
         parsed = urlsplit(url)
-        if parsed.scheme != "https" or not parsed.hostname or parsed.username:
-            raise PermissionDenied("Only public HTTPS URLs without credentials are allowed.")
+        if (
+            parsed.scheme != "https"
+            or not parsed.hostname
+            or parsed.username
+            or parsed.password
+            or parsed.port not in (None, 443)
+        ):
+            raise PermissionDenied(
+                "Only allowlisted HTTPS URLs on port 443 without credentials are allowed."
+            )
+        hostname = parsed.hostname.lower().rstrip(".")
+        allowed = {
+            entry.lower().strip().lstrip(".").rstrip(".")
+            for entry in self.settings.tools.outbound_allowed_hosts
+        }
+        if not any(
+            hostname == entry or hostname.endswith("." + entry) for entry in allowed
+        ):
+            raise PermissionDenied("The requested host is not in the outbound allowlist.")
         try:
             addresses = await asyncio.to_thread(
-                socket.getaddrinfo, parsed.hostname, parsed.port or 443, type=socket.SOCK_STREAM
+                socket.getaddrinfo, hostname, 443, type=socket.SOCK_STREAM
             )
         except OSError as error:
             raise ValueError("The requested host could not be resolved.") from error
@@ -353,10 +385,31 @@ class ToolExecutor:
             ip = ipaddress.ip_address(address[4][0])
             if not ip.is_global:
                 raise PermissionDenied("Requests to private or reserved network addresses are blocked.")
+        return hostname
+
+    async def _fetch(self, url: str) -> dict[str, Any]:
+        await self._validate_public_https(url)
         async with httpx.AsyncClient(
             timeout=10.0, follow_redirects=False, trust_env=False
         ) as client:
             response = await client.get(url, headers={"User-Agent": "ArdvarkRuntime/1.0"})
+            response.raise_for_status()
+            body = response.text[: self.settings.tools.max_tool_output_chars]
+        return {"status_code": response.status_code, "content": body}
+
+    async def _api_request(
+        self, method: str, url: str, json_body: dict[str, Any] | None = None
+    ) -> dict[str, Any]:
+        await self._validate_public_https(url)
+        async with httpx.AsyncClient(
+            timeout=10.0, follow_redirects=False, trust_env=False
+        ) as client:
+            response = await client.request(
+                method,
+                url,
+                json=json_body if method == "POST" else None,
+                headers={"User-Agent": "ArdvarkRuntime/1.0"},
+            )
             response.raise_for_status()
             body = response.text[: self.settings.tools.max_tool_output_chars]
         return {"status_code": response.status_code, "content": body}
