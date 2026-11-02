@@ -51,6 +51,17 @@ def test_parser_and_encoder_diagram_does_not_invent_a_lexer(analysis: dict) -> N
     assert "No standalone lexer or parser package was detected." in result["compiler"]["diagram"]
 
 
+def test_project_structure_diagram_lists_moved_top_level_components_once(
+    analysis: dict,
+) -> None:
+    diagram = analysis["diagrams"]["project-structure"]
+
+    for component in ("agent", "cli", "core", "infrastructure", "packages", "runtime", "services", "website"):
+        assert diagram.count(f'  {component}["') == 1
+    assert '  Agent["' not in diagram
+    assert '  Runtime["' not in diagram
+
+
 def test_source_index_uses_babel_for_javascript_and_python_ast_for_python() -> None:
     index = SourceIndex.build(ROOT)
 

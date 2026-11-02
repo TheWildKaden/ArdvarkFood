@@ -48,7 +48,11 @@ DIAGRAM_TITLES = [
 def _project_structure(index: SourceIndex, module_data: dict[str, Any]) -> str:
     nodes: list[tuple[str, str]] = [("root", "ArdvarkFood repository")]
     edges: list[tuple[str, str, str | None]] = []
-    components = dict(module_data["groups"])
+    components: dict[str, int] = {}
+    for module in module_data["modules"]:
+        path_parts = Path(module["path"]).parts
+        component = path_parts[0] if len(path_parts) > 1 else "repository root"
+        components[component] = components.get(component, 0) + 1
     for path in (
         "agent",
         "cli",

@@ -473,7 +473,7 @@ def test_v41_task_sp_token() -> None:
 
 
 # ============================================================
-# Golden fixtures from encoding/tests
+# Golden encoding fixtures
 # ============================================================
 
 ENCODING_DIR = Path(__file__).resolve().parent
@@ -488,16 +488,16 @@ FIXTURE_CASE_IDS = sorted(
 
 @pytest.mark.parametrize("case_id", FIXTURE_CASE_IDS)
 def test_examples_encoding_golden_outputs(case_id: int) -> None:
-    """Each tests/encoding input must encode to its checked-in golden output."""
+    """Each checked-in encoding fixture must match its golden output."""
     input_file = ENCODING_FIXTURES_DIR / f"test_input_{case_id}.json"
     output_file = ENCODING_FIXTURES_DIR / f"test_output_{case_id}.txt"
-    assert output_file.exists(), f"missing golden output: {output_file.name} (run tests/encoding/regen_outputs.py)"
+    assert output_file.exists(), f"missing golden output: {output_file}"
 
     case = enc.load_cases(str(input_file))[0]
     prompt, _ = enc.encode_case(case, thinking_mode="chat")
 
     assert prompt == output_file.read_text(), (
-        f"{output_file.name} is stale; regenerate with tests/encoding/regen_outputs.py"
+        f"{output_file.name} is stale; update the checked-in golden fixture"
     )
 
 

@@ -4,6 +4,9 @@ The generated architecture in this folder is derived from source in the current
 checkout. It is not a hand-maintained replacement for the existing app or
 runtime.
 
+For module ownership, startup flow, state locations, and deployment boundaries,
+see the [monorepo architecture guide](monorepo.md).
+
 ## Run locally
 
 Requirements: Python 3.10+ (standard library only), Node.js 22+, npm, and a

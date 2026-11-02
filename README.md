@@ -326,7 +326,7 @@ read from the contributors API when available; otherwise local commit author
 names are used without publishing email addresses.
 
 <table>
-<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />63 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
+<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />64 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
 </table>
 
 ---
