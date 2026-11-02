@@ -128,6 +128,7 @@ async function sendMessage(text) {
   if (!content || busy) return;
   clearNotice(elements.chatNotice);
   setBusy(true);
+  if (messages.length >= MAX_CHAT_MESSAGES) messages.splice(0, 2);
   messages.push({ role: "user", content });
   const pending = createMessage("assistant", "Thinking…", { pending: true });
   renderMessages();
@@ -151,6 +152,9 @@ async function sendMessage(text) {
     setConnection("online", "Ardvark is ready");
   } catch (error) {
     messages.pop();
+    elements.prompt.value = content;
+    elements.prompt.style.height = "auto";
+    elements.prompt.style.height = `${Math.min(elements.prompt.scrollHeight, 180)}px`;
     const reason = error instanceof TypeError
       ? "Could not reach Ardvark. Check that the application server is running."
       : error.message;

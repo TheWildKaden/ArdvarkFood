@@ -28,6 +28,7 @@ def test_homepage_and_health_endpoint() -> None:
     homepage = client.get("/")
     assert homepage.status_code == 200
     assert "Ardvark" in homepage.text
+    assert "llama.ui" not in homepage.text
     assert "ChatGPT, image API, or API key" in homepage.text
     assert client.get("/api/health").json() == {"status": "ok"}
 
@@ -45,7 +46,9 @@ def test_homepage_loads_separate_frontend_assets() -> None:
     assert "grid-template-columns" in stylesheet.text
     assert script.status_code == 200
     assert 'fetch("/api/chat"' in script.text
+    assert 'fetch("/api/images/status"' in script.text
     assert 'fetch("/api/images/generate"' in script.text
+    assert 'fetch("/api/health"' in script.text
 
 
 def test_legacy_image_generator_import_remains_compatible() -> None:
