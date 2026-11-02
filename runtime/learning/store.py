@@ -121,6 +121,12 @@ class LearningStore:
                 );
                 CREATE INDEX IF NOT EXISTS compiler_builds_created_idx
                     ON compiler_builds(created_at);
+                CREATE TABLE IF NOT EXISTS training_schedule (
+                    id INTEGER PRIMARY KEY CHECK(id=1),
+                    last_scheduled_at TEXT
+                );
+                INSERT OR IGNORE INTO training_schedule(id, last_scheduled_at)
+                    VALUES(1, NULL);
                 """
             )
             example_columns = {
@@ -559,6 +565,31 @@ class LearningStore:
                 return None
             job["dataset_path"] = dataset["artifact_path"]
             return job
+
+    def claim_training_schedule(
+        self, interval_hours: int, minimum_examples: int
+    ) -> bool:
+        with self._connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            pending = db.execute(
+                "SELECT COUNT(*) FROM training_examples e WHERE e.status='approved' "
+                "AND NOT EXISTS (SELECT 1 FROM dataset_examples de "
+                "JOIN dataset_versions d ON d.id=de.dataset_id "
+                "WHERE de.example_id=e.id AND d.status='active')"
+            ).fetchone()[0]
+            row = db.execute(
+                "SELECT last_scheduled_at FROM training_schedule WHERE id=1"
+            ).fetchone()
+            due = row["last_scheduled_at"] is None or db.execute(
+                "SELECT datetime(?) <= datetime('now', ?)",
+                (row["last_scheduled_at"], f"-{interval_hours} hours"),
+            ).fetchone()[0]
+            if not due or pending < minimum_examples:
+                return False
+            db.execute(
+                "UPDATE training_schedule SET last_scheduled_at=CURRENT_TIMESTAMP WHERE id=1"
+            )
+        return True
 
     def finish_training_job(
         self,

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass
 import hashlib
 import json
 import os
@@ -208,38 +208,58 @@ class ArtifactCompiler:
             _write_atomic(output, write_json)
             records = 1
         else:
-            compiled_records: dict[int, str] = {}
+            offsets: dict[int, int] = {}
             try:
-                with compiled.open(encoding="utf-8") as file:
-                    for line_number, raw_line in enumerate(file, 1):
+                with compiled.open("rb") as file:
+                    output_line = 0
+                    while True:
+                        offset = file.tell()
+                        raw_line = file.readline()
+                        if not raw_line:
+                            break
                         if raw_line.strip():
-                            compiled_records[line_number] = json.dumps(
-                                json.loads(raw_line),
-                                ensure_ascii=False,
-                                separators=(",", ":"),
-                                allow_nan=False,
-                            )
+                            json.loads(raw_line)
+                            output_line += 1
+                            offsets[output_line] = offset
             except (OSError, UnicodeError, json.JSONDecodeError, ValueError) as error:
                 raise CompilationError(f"Invalid compiled JSONL: {error}") from error
             mappings = manifest.get("source_map", [])
-            source_records: list[tuple[int, str]] = []
+            source_records: list[tuple[int, int]] = []
             if restore_source_order and mappings:
-                for mapping in mappings:
-                    record = compiled_records.get(mapping["output_line"])
-                    if record is None:
-                        raise CompilationError("Manifest source map references a missing record.")
-                    source_records.extend(
-                        (source_line, record) for source_line in mapping["source_lines"]
-                    )
+                try:
+                    for mapping in mappings:
+                        output_line = mapping["output_line"]
+                        source_lines = mapping["source_lines"]
+                        if (
+                            not isinstance(output_line, int)
+                            or output_line not in offsets
+                            or not isinstance(source_lines, list)
+                            or not all(isinstance(line, int) and line > 0 for line in source_lines)
+                        ):
+                            raise CompilationError("Manifest contains an invalid source map.")
+                        source_records.extend(
+                            (source_line, output_line) for source_line in source_lines
+                        )
+                except (KeyError, TypeError) as error:
+                    raise CompilationError("Manifest contains an invalid source map.") from error
                 source_records.sort(key=lambda item: item[0])
             else:
-                source_records = list(enumerate(compiled_records.values(), 1))
+                source_records = [(line, line) for line in offsets]
 
             def write_jsonl(file: Any) -> None:
-                for index, (_, record) in enumerate(source_records):
-                    if index:
-                        file.write("\n")
-                    file.write(record)
+                with compiled.open("rb") as input_file:
+                    for index, (_, output_line) in enumerate(source_records):
+                        if index:
+                            file.write("\n")
+                        input_file.seek(offsets[output_line])
+                        record = json.loads(input_file.readline())
+                        json.dump(
+                            record,
+                            file,
+                            ensure_ascii=False,
+                            separators=(",", ":"),
+                            allow_nan=False,
+                        )
                 if source_records:
                     file.write("\n")
 
@@ -271,6 +291,13 @@ class ArtifactCompiler:
         try:
             with manifest_path.open(encoding="utf-8") as file:
                 manifest = json.load(file)
+            previous = output.with_name(output.name + ".previous")
+            if (
+                (not output.is_file() or manifest.get("output_sha256") != _digest_file(output))
+                and previous.is_file()
+                and manifest.get("output_sha256") == _digest_file(previous)
+            ):
+                shutil.copy2(previous, output)
             if (
                 output.is_file()
                 and manifest.get("source_sha256") == source_hash

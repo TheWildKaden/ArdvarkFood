@@ -79,6 +79,7 @@ class LearningSettings(BaseModel):
     max_sequence_length: int = Field(default=2048, ge=128, le=32768)
     training_interval_hours: int = Field(default=168, ge=1, le=8760)
     automatic_training: bool = False
+    training_base_model: str = Field(default="", max_length=512)
 
 
 class RuntimeSettings(BaseModel):

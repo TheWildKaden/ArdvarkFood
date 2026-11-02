@@ -3,7 +3,6 @@ from __future__ import annotations
 import os
 from pathlib import Path
 import threading
-import time
 from typing import Any, Callable
 
 from .compiler import ArtifactCompiler, CompilationError
@@ -29,10 +28,12 @@ class ArtifactWatcher:
             raise ValueError("Every watch path must be a directory.")
         self.output_directory = Path(output_directory).expanduser().resolve()
         if any(
-            self.output_directory == path or path in self.output_directory.parents
+            self.output_directory == path
+            or path in self.output_directory.parents
+            or self.output_directory in path.parents
             for path in self.directories
         ):
-            raise ValueError("Compiler output must be outside watched directories.")
+            raise ValueError("Compiler output and watch directories must not overlap.")
         self.compiler = compiler or ArtifactCompiler()
         self.interval_seconds = interval_seconds
         self.exclusions = set(exclusions)
@@ -60,6 +61,7 @@ class ArtifactWatcher:
                     output = output.with_suffix(output.suffix + source.suffix.lower())
                     try:
                         result = self.compiler.compile(source, output)
+                        result["source_path"] = str(source)
                     except (OSError, CompilationError) as error:
                         result = {
                             "source": str(source),
