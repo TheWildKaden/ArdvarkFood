@@ -5,10 +5,12 @@ from fastapi import FastAPI
 from ..config.settings import RuntimeSettings
 from agent.agent import AgentRuntime
 from .routes.chat import router
+from .routes.learning import router as learning_router
 
 
 def mount_runtime(application: FastAPI) -> None:
     application.include_router(router)
+    application.include_router(learning_router)
     previous_lifespan = application.router.lifespan_context
 
     @asynccontextmanager
