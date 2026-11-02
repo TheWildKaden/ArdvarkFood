@@ -4,6 +4,7 @@ import asyncio
 import hashlib
 import json
 import logging
+import os
 from pathlib import Path
 import re
 from typing import Any
@@ -61,7 +62,23 @@ class ConversationLearningManager:
             self._worker = None
 
     def set_conversation_learning(self, conversation_id: str, enabled: bool) -> None:
-        self.store.set_conversation_learning(conversation_id, enabled)
+        withdrawn_paths = self.store.set_conversation_learning(conversation_id, enabled)
+        if not enabled:
+            root = (self.store.database_path.parent / "learning" / "datasets").resolve()
+            for value in withdrawn_paths:
+                artifact = Path(value).resolve()
+                if root not in artifact.parents:
+                    logger.error("Skipped cleanup of a dataset outside the managed directory.")
+                    continue
+                paths = (
+                    artifact,
+                    Path(str(artifact) + ".manifest.json"),
+                    artifact.with_name(artifact.stem + ".source.jsonl"),
+                    Path(str(artifact) + ".previous"),
+                )
+                for path in paths:
+                    if path.exists() and root in path.resolve().parents:
+                        path.unlink()
         if enabled:
             self.store.enqueue(conversation_id, "memory")
 
@@ -370,7 +387,8 @@ class ConversationLearningManager:
         version = len(self.store.list_datasets()) + 1
         source = dataset_directory / f"dataset-v{version}.source.jsonl"
         compiled = dataset_directory / f"dataset-v{version}.jsonl"
-        with source.open("w", encoding="utf-8", newline="\n") as file:
+        temporary = source.with_name(source.name + ".tmp")
+        with temporary.open("w", encoding="utf-8", newline="\n") as file:
             for example in examples:
                 record = {
                     "id": example["id"],
@@ -384,6 +402,9 @@ class ConversationLearningManager:
                     },
                 }
                 file.write(json.dumps(record, ensure_ascii=False) + "\n")
+            file.flush()
+            os.fsync(file.fileno())
+        os.replace(temporary, source)
         compiler = ArtifactCompiler()
         build = compiler.compile(source, compiled, format="jsonl")
         metadata = {

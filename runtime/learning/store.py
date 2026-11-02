@@ -206,6 +206,23 @@ class LearningStore:
                 )
         return dataset_paths
 
+    def training_job_status(self, job_id: str) -> str | None:
+        with self._connect() as db:
+            row = db.execute(
+                "SELECT status FROM training_jobs WHERE id=?", (job_id,)
+            ).fetchone()
+        return str(row["status"]) if row else None
+
+    def cancel_training_job(self, job_id: str) -> bool:
+        with self._connect() as db:
+            result = db.execute(
+                "UPDATE training_jobs SET status='cancelled', "
+                "error='Cancellation requested', completed_at=CURRENT_TIMESTAMP "
+                "WHERE id=? AND status IN ('queued','running')",
+                (job_id,),
+            )
+        return result.rowcount == 1
+
     def conversation_learning_enabled(self, conversation_id: str) -> bool:
         with self._connect() as db:
             row = db.execute(
