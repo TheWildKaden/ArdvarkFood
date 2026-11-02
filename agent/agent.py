@@ -50,6 +50,7 @@ class AgentRuntime:
             self.learning_store,
             minimum_training_examples=settings.learning.minimum_training_examples,
             maximum_dataset_examples=settings.learning.maximum_dataset_examples,
+            enabled=settings.learning.enabled,
         )
         self.training = TrainingJobManager(
             self.learning_store,
@@ -58,6 +59,10 @@ class AgentRuntime:
             / "models",
             minimum_examples=settings.learning.minimum_training_examples,
             max_sequence_length=settings.learning.max_sequence_length,
+            dataset_builder=self.learning.build_dataset,
+            automatic_training=settings.learning.automatic_training,
+            training_interval_hours=settings.learning.training_interval_hours,
+            training_base_model=settings.learning.training_base_model,
         )
         self.compiler = ArtifactCompiler()
         self.watcher: ArtifactWatcher | None = None

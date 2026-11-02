@@ -5,7 +5,7 @@ from datetime import datetime, timezone
 import inspect
 import logging
 from pathlib import Path
-import threading
+from collections.abc import Callable
 from typing import Any
 
 from .store import LearningStore
@@ -28,11 +28,19 @@ class TrainingJobManager:
         output_directory: str | Path,
         minimum_examples: int = 20,
         max_sequence_length: int = 2048,
+        dataset_builder: Callable[[], dict[str, Any]] | None = None,
+        automatic_training: bool = False,
+        training_interval_hours: int = 168,
+        training_base_model: str = "",
     ) -> None:
         self.store = store
         self.output_directory = Path(output_directory).expanduser().resolve()
         self.minimum_examples = minimum_examples
         self.max_sequence_length = max_sequence_length
+        self.dataset_builder = dataset_builder
+        self.automatic_training = automatic_training
+        self.training_interval_hours = training_interval_hours
+        self.training_base_model = training_base_model
         self._closed = False
         self._worker: asyncio.Task[None] | None = None
 
@@ -94,6 +102,20 @@ class TrainingJobManager:
     async def _run_worker(self) -> None:
         while not self._closed:
             try:
+                if (
+                    self.automatic_training
+                    and self.training_base_model
+                    and self.dataset_builder is not None
+                    and await asyncio.to_thread(
+                        self.store.claim_training_schedule,
+                        self.training_interval_hours,
+                        self.minimum_examples,
+                    )
+                ):
+                    dataset = await asyncio.to_thread(self.dataset_builder)
+                    await asyncio.to_thread(
+                        self.queue, dataset["id"], self.training_base_model
+                    )
                 job = await asyncio.to_thread(self.store.claim_training_job)
                 if job is None:
                     await asyncio.sleep(0.5)

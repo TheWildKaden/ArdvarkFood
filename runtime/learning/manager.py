@@ -38,11 +38,13 @@ class ConversationLearningManager:
         *,
         minimum_training_examples: int = 20,
         maximum_dataset_examples: int = 1000,
+        enabled: bool = True,
     ) -> None:
         self.storage = storage
         self.store = store
         self.minimum_training_examples = minimum_training_examples
         self.maximum_dataset_examples = maximum_dataset_examples
+        self.enabled = enabled
         self._worker: asyncio.Task[None] | None = None
         self._closed = False
 
@@ -62,6 +64,8 @@ class ConversationLearningManager:
             self._worker = None
 
     def set_conversation_learning(self, conversation_id: str, enabled: bool) -> None:
+        if enabled and not self.enabled:
+            raise PermissionError("Conversation learning is disabled in runtime settings.")
         withdrawn_paths = self.store.set_conversation_learning(conversation_id, enabled)
         if not enabled:
             self.storage.delete_memories_for_conversation(conversation_id)
@@ -97,7 +101,7 @@ class ConversationLearningManager:
                     path.unlink()
 
     def queue_memory(self, conversation_id: str) -> None:
-        if self.store.conversation_learning_enabled(conversation_id):
+        if self.enabled and self.store.conversation_learning_enabled(conversation_id):
             self.store.enqueue(conversation_id, "memory")
 
     def handle_command(self, conversation_id: str, content: str) -> str | None:
@@ -179,6 +183,8 @@ class ConversationLearningManager:
             return "Learning is disabled for this conversation, and its unapproved learning items were removed."
 
         if lowered == "add this conversation to training":
+            if not self.enabled:
+                return "Conversation learning is disabled in runtime settings."
             self.set_conversation_learning(conversation_id, True)
             self.queue_training_examples(conversation_id)
             self.start_worker()
@@ -189,7 +195,7 @@ class ConversationLearningManager:
         return None
 
     def process_conversation(self, conversation_id: str, kind: str) -> None:
-        if not self.store.conversation_learning_enabled(conversation_id):
+        if not self.enabled or not self.store.conversation_learning_enabled(conversation_id):
             return
         messages = self.storage.get_messages(conversation_id, limit=500)
         if kind == "memory":
@@ -244,6 +250,8 @@ class ConversationLearningManager:
             user_message = None
             if not isinstance(prompt, str) or not isinstance(response, str):
                 continue
+            prompt = redact_sensitive_data(prompt)
+            response = redact_sensitive_data(response)
             if len(prompt) < 8 or len(response) < 16 or len(prompt) + len(response) > 24000:
                 continue
             if contains_sensitive_data(prompt) or contains_sensitive_data(response):
@@ -390,6 +398,8 @@ class ConversationLearningManager:
         return normalized, tools
 
     def build_dataset(self) -> dict[str, Any]:
+        if not self.enabled:
+            raise ValueError("Learning is disabled in runtime settings.")
         examples = self.store.approved_examples()
         if len(examples) < self.minimum_training_examples:
             raise ValueError(

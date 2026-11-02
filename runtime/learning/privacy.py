@@ -4,11 +4,15 @@ import re
 
 
 _SENSITIVE_PATTERNS = (
-    re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----", re.IGNORECASE),
+    re.compile(
+        r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----[\s\S]*?"
+        r"-----END (?:RSA |EC |OPENSSH )?PRIVATE KEY-----",
+        re.IGNORECASE,
+    ),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     re.compile(
         r"(?i)\b(?:api[_-]?key|access[_-]?token|password|passwd|secret|authorization)"
-        r"\s*[:=]\s*['\"]?[^\s,'\";]{6,}"
+        r"\s*[:=]\s*['\"]?(?!\[REDACTED\])[^\s,'\";]{6,}"
     ),
     re.compile(r"\b(?:sk|ghp|github_pat)_[A-Za-z0-9_-]{16,}\b"),
     re.compile(r"(?i)\bBearer\s+[A-Za-z0-9._~+/-]{12,}"),
