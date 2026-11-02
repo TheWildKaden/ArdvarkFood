@@ -35,9 +35,9 @@ to the generated `README.md` will be replaced on the next generation run.
 
 ## Analyzer boundaries
 
-- **Dependencies** — reads root, runtime, core, and image-generation
-  requirements files plus the root `package.json`. Declarations are not proof
-  that a feature is installed or runnable.
+- **Dependencies** — reads root, runtime, core, optional CLI, and
+  image-generation requirements files plus the root `package.json`.
+  Declarations are not proof that a feature is installed or runnable.
 - **Modules** — resolves local Python imports using Python's AST and relative
   JavaScript/TypeScript imports using Babel's parser.
 - **Functions and classes** — parses Python syntax with `ast` and JavaScript,

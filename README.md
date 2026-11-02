@@ -46,7 +46,7 @@ with `npm run build:pages`; preview it with `npm run preview:pages` at
 ```text
 .
 ├── agent/                   Agent orchestration, context, planning, and memory
-├── cli/                     Python command-line entry point and preview launcher
+├── cli/                     Terminal workbench, server command, and preview launcher
 ├── core/                    Shared foundations, including message encoding
 ├── docs/                    Project site, architecture, and technical guides
 ├── infrastructure/          Build/deployment scripts and architecture tooling
@@ -72,7 +72,7 @@ Generated runtime images and SQLite state stay local and are ignored by Git.
 | Component | Responsibility | Interface |
 | --- | --- | --- |
 | `website/` | Browser UI and static project assets | HTTP from `services/api/` |
-| `cli/` | Developer-facing command-line entry point | Starts the stable `app:app` ASGI application |
+| `cli/` | Terminal workbench and local server command | Textual UI or stable `app:app` ASGI target |
 | `services/api/` | Web app factory and chat/image endpoints | FastAPI routes and the `ImageGenerator` protocol |
 | `agent/` | Context, planning, memory, and agent loop | Python interfaces consumed by `runtime/` |
 | `runtime/` | Model inference, tools, permissions, persistence, and runtime API | Python interfaces plus `/api/runtime/*` |
@@ -188,8 +188,7 @@ Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `
 - **llama.cpp Python binding**
 - **PyTorch**
 - **Diffusers**
-- **React source**
-- **Fastify source**
+- **Textual**
 - **SQLite**
 - **Node.js**
 - **Mermaid CLI**
@@ -198,12 +197,20 @@ Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `
 ## Development
 
 Use Python 3.10+ and Node.js 22. Install the application, runtime, core, and
-test dependencies with `python -m pip install -r requirements.txt`. The local
-image model is optional; install its dependencies separately with
+test dependencies with `python -m pip install -r requirements.txt`. For the
+optional Textual terminal workbench, install `python -m pip install -r
+cli/requirements.txt`. The local image model is optional; install its dependencies separately with
 `python -m pip install -r requirements-image-generator.txt`. Install the
 Node.js tooling with `npm ci`.
 
-Run the API and interactive application locally:
+Open the terminal workbench (the no-argument invocation is retained for
+compatibility):
+
+```bash
+python -m cli tui
+```
+
+Run the API and interactive web application locally:
 
 ```bash
 python -m cli serve --reload --host 0.0.0.0 --port 8000
@@ -326,7 +333,7 @@ read from the contributors API when available; otherwise local commit author
 names are used without publishing email addresses.
 
 <table>
-<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />64 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
+<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />66 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
 </table>
 
 ---

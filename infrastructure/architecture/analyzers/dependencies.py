@@ -33,6 +33,9 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
     core_requirements = root / "core" / "requirements.txt"
     if core_requirements.is_file():
         manifests["core/requirements.txt"] = _read_requirements(core_requirements)
+    cli_requirements = root / "cli" / "requirements.txt"
+    if cli_requirements.is_file():
+        manifests["cli/requirements.txt"] = _read_requirements(cli_requirements)
     image_requirements = root / "packages" / "image_generation" / "requirements.txt"
     if image_requirements.is_file():
         manifests["packages/image_generation/requirements.txt"] = _read_requirements(
@@ -91,6 +94,7 @@ def analyze(root: Path, index: Any) -> dict[str, Any]:
         ("llama-cpp-python", "llama.cpp Python binding"),
         ("torch", "PyTorch"),
         ("diffusers", "Diffusers"),
+        ("textual", "Textual"),
     ):
         if package_name in declared or package_name.replace("-", "_") in python_imports:
             stack.append(title)

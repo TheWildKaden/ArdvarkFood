@@ -16,6 +16,8 @@ flowchart LR
   dep_runtime_requirements_txt_mcp["mcp"]
   manifest_core_requirements_txt["core/requirements.txt (1 packages)"]
   dep_core_requirements_txt_regex["regex"]
+  manifest_cli_requirements_txt["cli/requirements.txt (1 packages)"]
+  dep_cli_requirements_txt_textual["textual"]
   manifest_packages_image_generation_requirements_txt["packages/image_generation/requirements.txt (6 packages)"]
   dep_packages_image_generation_requirements_txt_torch["torch"]
   dep_packages_image_generation_requirements_txt_diffusers["diffusers"]
@@ -39,6 +41,7 @@ flowchart LR
   manifest_runtime_requirements_txt -->|"declares"| dep_runtime_requirements_txt_llama_cpp_python
   manifest_runtime_requirements_txt -->|"declares"| dep_runtime_requirements_txt_mcp
   manifest_core_requirements_txt -->|"declares"| dep_core_requirements_txt_regex
+  manifest_cli_requirements_txt -->|"declares"| dep_cli_requirements_txt_textual
   manifest_packages_image_generation_requirements_txt -->|"declares"| dep_packages_image_generation_requirements_txt_torch
   manifest_packages_image_generation_requirements_txt -->|"declares"| dep_packages_image_generation_requirements_txt_diffusers
   manifest_packages_image_generation_requirements_txt -->|"declares"| dep_packages_image_generation_requirements_txt_transformers

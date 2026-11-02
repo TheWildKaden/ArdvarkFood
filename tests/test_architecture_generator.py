@@ -62,6 +62,14 @@ def test_project_structure_diagram_lists_moved_top_level_components_once(
     assert '  Runtime["' not in diagram
 
 
+def test_optional_cli_dependency_is_included_in_architecture_manifest(
+    analysis: dict,
+) -> None:
+    manifests = analysis["dependencies"]["manifests"]
+
+    assert manifests["cli/requirements.txt"] == ["textual"]
+
+
 def test_source_index_uses_babel_for_javascript_and_python_ast_for_python() -> None:
     index = SourceIndex.build(ROOT)
 

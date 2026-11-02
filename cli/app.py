@@ -1,6 +1,6 @@
 """Main application shell: sidebar navigation plus a switchable content area.
 
-Modules are discovered from ``tuiapp.modules.MODULES``; this file does not
+Modules are discovered from ``cli.modules.MODULES``; this file does not
 need to change when a module is added.
 """
 

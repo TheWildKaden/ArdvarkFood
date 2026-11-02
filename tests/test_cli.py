@@ -1,7 +1,25 @@
 import sys
-from types import SimpleNamespace
+from types import ModuleType, SimpleNamespace
 
 from cli.main import main
+
+
+def test_tui_is_available_with_explicit_and_legacy_default_commands(
+    monkeypatch,
+) -> None:
+    calls = []
+
+    class FakeTUI:
+        def run(self) -> None:
+            calls.append("run")
+
+    module = ModuleType("cli.app")
+    module.TUIApp = FakeTUI
+    monkeypatch.setitem(sys.modules, "cli.app", module)
+
+    assert main(["tui"]) == 0
+    assert main([]) == 0
+    assert calls == ["run", "run"]
 
 
 def test_serve_command_starts_the_stable_asgi_entry_point(monkeypatch) -> None:

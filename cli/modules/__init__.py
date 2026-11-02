@@ -1,7 +1,7 @@
 """Module registry.
 
 To add a feature:
-  1. Create ``tuiapp/modules/<name>.py`` with a Container subclass (the "pane").
+  1. Create ``cli/modules/<name>.py`` with a Container subclass (the "pane").
   2. Import it here and append a ``ModuleSpec`` to ``MODULES``.
 The app picks it up automatically: sidebar entry, F-key-free navigation, and all.
 """

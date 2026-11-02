@@ -19,8 +19,9 @@ runtime/api/ ──creates──> agent/ ──uses──> runtime/models, runti
 
 - `app.py` is the stable ASGI import target (`app:app`) and delegates
   application construction to `services/api/app_factory.py`.
-- `cli/` provides `python -m cli serve`; the development launcher delegates to
-  the same command rather than maintaining a second server implementation.
+- `cli/` provides the Textual workbench (`python -m cli tui`) and the
+  `python -m cli serve` command. Invoking `python -m cli` without a subcommand
+  continues to open the workbench.
 - `services/api/` serves the browser UI from `website/` and exposes the
   existing chat and local image-generation endpoints.
 - `runtime/api/server.py` mounts the agent API into that FastAPI app. The
@@ -31,7 +32,7 @@ runtime/api/ ──creates──> agent/ ──uses──> runtime/models, runti
 | Directory | Owns | Depends on |
 | --- | --- | --- |
 | `website/` | Ardvark HTML, browser assets, and the separately retained Stock Watch source | HTTP API contract |
-| `cli/` | CLI parsing and local development entry point | Stable `app:app` target |
+| `cli/` | Textual terminal workbench, CLI parsing, and local server command | `app:app` target; optional Textual dependency |
 | `services/api/` | FastAPI routes, request schemas, and app factory | `packages/`, `runtime/api/`, `website/` |
 | `agent/` | Agent loop, context, planning, memory, and multimodal input routing | `runtime/` contracts |
 | `runtime/` | Model adapters, inference, tool registry/execution, permissions, config, persistence, and runtime routes | `agent/`, Python dependencies |

@@ -7,9 +7,7 @@ flowchart LR
   Packages["Packages (3 source files)"]
   Repository_root["Repository root (2 source files)"]
   Runtime["Runtime (18 source files)"]
-  Stock_Watch_client["Stock Watch client (13 source files)"]
-  Stock_Watch_server["Stock Watch server (9 source files)"]
-  Website["Website (3 source files)"]
+  Website["Website (7 source files)"]
   cli["cli (12 source files)"]
   core["core (2 source files)"]
   services["services (1 source files)"]
@@ -23,7 +21,6 @@ flowchart LR
   Repository_root -->|"4 detected imports"| Packages
   Repository_root -->|"1 detected imports"| services
   Runtime -->|"4 detected imports"| Agent
-  Website -->|"1 detected imports"| Stock_Watch_server
   analysis_note_0["Edges are resolved relative/local imports detected by Python AST or Babel parser."]
   class analysis_note_0 note
   classDef note fill:#fff7d6,stroke:#b38b00,color:#333

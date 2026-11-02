@@ -18,14 +18,28 @@ def _port(value: str) -> int:
 def main(argv: Sequence[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="ardvark",
-        description="Run the Ardvark web application and agent API.",
+        description="Open the terminal workbench or serve the Ardvark web application.",
     )
-    commands = parser.add_subparsers(dest="command", required=True)
+    commands = parser.add_subparsers(dest="command")
+    commands.add_parser("tui", help="open the terminal workbench")
     serve = commands.add_parser("serve", help="serve the web application")
     serve.add_argument("--host", default="127.0.0.1")
     serve.add_argument("--port", type=_port, default=os.getenv("PORT", "8000"))
     serve.add_argument("--reload", action="store_true")
     arguments = parser.parse_args(argv)
+
+    if arguments.command in (None, "tui"):
+        try:
+            from .app import TUIApp
+        except ModuleNotFoundError as error:
+            if error.name != "textual":
+                raise
+            raise SystemExit(
+                "Textual is required for the terminal workbench. Install it with "
+                "`python -m pip install -r cli/requirements.txt`."
+            ) from error
+        TUIApp().run()
+        return 0
 
     try:
         import uvicorn

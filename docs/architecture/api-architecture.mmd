@@ -22,31 +22,6 @@ flowchart LR
   GET__api_runtime_status_runtime_api_routes_chat_py["GET /api/runtime/status → runtime_status (runtime/api/routes/chat.py:42)"]
   GET__api_runtime_tools_runtime_api_routes_chat_py["GET /api/runtime/tools → list_tools (runtime/api/routes/chat.py:101)"]
   GET__project_services_api_app_factory_py["GET /project → project_site (services/api/app_factory.py:44)"]
-  Fastify__method_call_syntax_["Fastify (method call syntax)"]
-  GET__api_health__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_index_js["GET /api/health → route callback (/workspaces/ArdvarkFood/website/stock-watch…"]
-  GET__api_logger_events__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js["GET /api/logger/events → route callback (/workspaces/ArdvarkFood/website/stoc…"]
-  GET__api_logger_incidents__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js["GET /api/logger/incidents → route callback (/workspaces/ArdvarkFood/website/s…"]
-  GET__api_logger_logs__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js["GET /api/logger/logs → route callback (/workspaces/ArdvarkFood/website/stock-…"]
-  GET__api_logger_metrics__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js["GET /api/logger/metrics → route callback (/workspaces/ArdvarkFood/website/sto…"]
-  GET__api_logger_monitors__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js["GET /api/logger/monitors → route callback (/workspaces/ArdvarkFood/website/st…"]
-  GET__api_logger_status__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js["GET /api/logger/status → route callback (/workspaces/ArdvarkFood/website/stoc…"]
-  GET__api_market__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_market_js["GET /api/market → route callback (/workspaces/ArdvarkFood/website/stock-watch…"]
-  GET__api_metrics__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_index_js["GET /api/metrics → route callback (/workspaces/ArdvarkFood/website/stock-watc…"]
-  GET__api_search__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js["GET /api/search → route callback (/workspaces/ArdvarkFood/website/stock-watch…"]
-  GET__api_settings__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_settings_js["GET /api/settings → route callback (/workspaces/ArdvarkFood/website/stock-wat…"]
-  PATCH__api_settings__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_settings_js["PATCH /api/settings → route callback (/workspaces/ArdvarkFood/website/stock-w…"]
-  GET__api_stocks__symbol__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js["GET /api/stocks/:symbol → route callback (/workspaces/ArdvarkFood/website/sto…"]
-  GET__api_stocks__symbol_chart__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js["GET /api/stocks/:symbol/chart → route callback (/workspaces/ArdvarkFood/websi…"]
-  GET__api_stocks__symbol_news__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js["GET /api/stocks/:symbol/news → route callback (/workspaces/ArdvarkFood/websit…"]
-  GET__api_stocks__symbol_quote__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js["GET /api/stocks/:symbol/quote → route callback (/workspaces/ArdvarkFood/websi…"]
-  GET__api_watchlist__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js["GET /api/watchlist → route callback (/workspaces/ArdvarkFood/website/stock-wa…"]
-  POST__api_watchlist__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js["POST /api/watchlist → route callback (/workspaces/ArdvarkFood/website/stock-w…"]
-  DELETE__api_watchlist__symbol__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js["DELETE /api/watchlist/:symbol → route callback (/workspaces/ArdvarkFood/websi…"]
-  PUT__api_watchlist_reorder__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js["PUT /api/watchlist/reorder → route callback (/workspaces/ArdvarkFood/website/…"]
-  GET__settings__workspaces_ArdvarkFood_website_stock_watch_src_client_App_jsx["GET /settings → route callback (/workspaces/ArdvarkFood/website/stock-watch/s…"]
-  GET__watchlist__workspaces_ArdvarkFood_website_stock_watch_src_client_App_jsx["GET /watchlist → route callback (/workspaces/ArdvarkFood/website/stock-watch/…"]
-  GET__watchlist__workspaces_ArdvarkFood_website_stock_watch_src_client_pages_StockPage_jsx["GET /watchlist → route callback (/workspaces/ArdvarkFood/website/stock-watch/…"]
-  POST__watchlist__workspaces_ArdvarkFood_website_stock_watch_src_client_pages_StockPage_jsx["POST /watchlist → route callback (/workspaces/ArdvarkFood/website/stock-watch…"]
   FastAPI -->|"detected route"| GET___services_api_app_factory_py
   FastAPI -->|"detected route"| POST__api_chat_services_api_routes_py
   FastAPI -->|"detected route"| GET__api_health_services_api_routes_py
@@ -69,30 +44,6 @@ flowchart LR
   FastAPI -->|"detected route"| GET__api_runtime_status_runtime_api_routes_chat_py
   FastAPI -->|"detected route"| GET__api_runtime_tools_runtime_api_routes_chat_py
   FastAPI -->|"detected route"| GET__project_services_api_app_factory_py
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_health__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_index_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_logger_events__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_logger_incidents__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_logger_logs__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_logger_metrics__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_logger_monitors__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_logger_status__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_logger_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_market__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_market_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_metrics__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_index_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_search__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_settings__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_settings_js
-  Fastify__method_call_syntax_ -->|"detected route"| PATCH__api_settings__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_settings_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_stocks__symbol__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_stocks__symbol_chart__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_stocks__symbol_news__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_stocks__symbol_quote__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_stocks_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__api_watchlist__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js
-  Fastify__method_call_syntax_ -->|"detected route"| POST__api_watchlist__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js
-  Fastify__method_call_syntax_ -->|"detected route"| DELETE__api_watchlist__symbol__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js
-  Fastify__method_call_syntax_ -->|"detected route"| PUT__api_watchlist_reorder__workspaces_ArdvarkFood_website_stock_watch_src_server_routes_watchlist_js
-  Fastify__method_call_syntax_ -->|"detected route"| GET__settings__workspaces_ArdvarkFood_website_stock_watch_src_client_App_jsx
-  Fastify__method_call_syntax_ -->|"detected route"| GET__watchlist__workspaces_ArdvarkFood_website_stock_watch_src_client_App_jsx
-  Fastify__method_call_syntax_ -->|"detected route"| GET__watchlist__workspaces_ArdvarkFood_website_stock_watch_src_client_pages_StockPage_jsx
-  Fastify__method_call_syntax_ -->|"detected route"| POST__watchlist__workspaces_ArdvarkFood_website_stock_watch_src_client_pages_StockPage_jsx
   analysis_note_0["Only literal HTTP paths found in FastAPI decorators or JavaScript HTTP-method calls are listed."]
   class analysis_note_0 note
   analysis_note_1["Dynamically composed paths and mounts may not appear; detected paths are not an OpenAPI contract check."]

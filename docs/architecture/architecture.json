@@ -1,11 +1,11 @@
 {
   "repository": "TheWildKaden/ArdvarkFood",
   "analysis": {
-    "source_files": 103,
+    "source_files": 85,
     "python_modules": 74,
-    "javascript_modules": 29,
-    "functions": 538,
-    "classes": 64,
+    "javascript_modules": 11,
+    "functions": 7097,
+    "classes": 262,
     "api_routes": [
       {
         "method": "GET",
@@ -204,222 +204,6 @@
         "line": 44,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/health",
-        "line": 9,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/index.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/logger/events",
-        "line": 30,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/logger/incidents",
-        "line": 20,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/logger/logs",
-        "line": 25,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/logger/metrics",
-        "line": 35,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/logger/monitors",
-        "line": 19,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/logger/status",
-        "line": 18,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/market",
-        "line": 23,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/market.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/metrics",
-        "line": 15,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/index.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/search",
-        "line": 10,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/settings",
-        "line": 17,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/settings.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "PATCH",
-        "path": "/api/settings",
-        "line": 18,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/settings.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/stocks/:symbol",
-        "line": 15,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/stocks/:symbol/chart",
-        "line": 28,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/stocks/:symbol/news",
-        "line": 34,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/stocks/:symbol/quote",
-        "line": 23,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/api/watchlist",
-        "line": 8,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "POST",
-        "path": "/api/watchlist",
-        "line": 14,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "DELETE",
-        "path": "/api/watchlist/:symbol",
-        "line": 21,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "PUT",
-        "path": "/api/watchlist/reorder",
-        "line": 26,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/settings",
-        "line": 19,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/App.jsx",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/watchlist",
-        "line": 19,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/App.jsx",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "GET",
-        "path": "/watchlist",
-        "line": 38,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/pages/StockPage.jsx",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
-      },
-      {
-        "method": "POST",
-        "path": "/watchlist",
-        "line": 37,
-        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/pages/StockPage.jsx",
-        "framework": "Fastify (method call syntax)",
-        "handler": "route callback",
-        "confidence": "detected (Babel AST call)"
       }
     ],
     "module_groups": {
@@ -431,9 +215,7 @@
       "Packages": 3,
       "Repository root": 2,
       "Runtime": 18,
-      "Stock Watch client": 13,
-      "Stock Watch server": 9,
-      "Website": 3,
+      "Website": 7,
       "cli": 12,
       "core": 2,
       "services": 1
@@ -488,11 +270,6 @@
         "from": "Runtime",
         "to": "Agent",
         "imports": 4
-      },
-      {
-        "from": "Website",
-        "to": "Stock Watch server",
-        "imports": 1
       }
     ],
     "dependencies": {
@@ -516,6 +293,9 @@
       ],
       "core/requirements.txt": [
         "regex"
+      ],
+      "cli/requirements.txt": [
+        "textual"
       ],
       "packages/image_generation/requirements.txt": [
         "torch",

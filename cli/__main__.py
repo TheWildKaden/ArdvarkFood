@@ -1,11 +1,6 @@
-"""Entry point: ``python -m tuiapp``."""
+"""Entry point for ``python -m cli``."""
 
-from .app import TUIApp
-
-
-def main() -> None:
-    TUIApp().run()
+from .main import main
 
 
-if __name__ == "__main__":
-    main()
+raise SystemExit(main())
