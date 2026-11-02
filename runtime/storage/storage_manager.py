@@ -122,7 +122,7 @@ class StorageManager:
     def get_messages(self, conversation_id: str, limit: int = 100) -> list[dict[str, Any]]:
         with self._connect() as db:
             rows = db.execute(
-                "SELECT role, content, metadata, created_at FROM "
+                "SELECT id, role, content, metadata, created_at FROM "
                 "(SELECT * FROM messages WHERE conversation_id=? "
                 "ORDER BY id DESC LIMIT ?) ORDER BY id ASC",
                 (conversation_id, min(max(limit, 1), 500)),
@@ -245,5 +245,58 @@ class StorageManager:
         for row in rows:
             item = dict(row)
             item["metadata"] = json.loads(item["metadata"])
-            result.append(item)
+            if not item["metadata"].get("superseded_by"):
+                result.append(item)
         return result
+
+    def list_memories(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as db:
+            rows = db.execute(
+                "SELECT id, conversation_id, content, metadata, created_at FROM memories "
+                "ORDER BY created_at DESC LIMIT ?",
+                (min(max(limit, 1), 500),),
+            ).fetchall()
+        result = []
+        for row in rows:
+            item = dict(row)
+            item["metadata"] = json.loads(item["metadata"])
+            if not item["metadata"].get("superseded_by"):
+                result.append(item)
+        return result
+
+    def update_memory(
+        self, memory_id: str, content: str, metadata: Any | None = None
+    ) -> bool:
+        with self._connect() as db:
+            row = db.execute(
+                "SELECT metadata FROM memories WHERE id=?", (memory_id,)
+            ).fetchone()
+            if row is None:
+                return False
+            updated_metadata = (
+                json.dumps(metadata, ensure_ascii=False, default=str)
+                if metadata is not None
+                else row["metadata"]
+            )
+            result = db.execute(
+                "UPDATE memories SET content=?, metadata=? WHERE id=?",
+                (content, updated_metadata, memory_id),
+            )
+        return result.rowcount == 1
+
+    def delete_memory(self, memory_id: str) -> bool:
+        with self._connect() as db:
+            result = db.execute("DELETE FROM memories WHERE id=?", (memory_id,))
+        return result.rowcount == 1
+
+    def delete_memory_by_content(self, content: str) -> int:
+        normalized = " ".join(content.casefold().split())
+        with self._connect() as db:
+            rows = db.execute("SELECT id, content FROM memories").fetchall()
+            matched = [
+                row["id"]
+                for row in rows
+                if " ".join(row["content"].casefold().split()) == normalized
+            ]
+            db.executemany("DELETE FROM memories WHERE id=?", [(item,) for item in matched])
+        return len(matched)

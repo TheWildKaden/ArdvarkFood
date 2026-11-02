@@ -70,6 +70,17 @@ class StorageSettings(BaseModel):
     database_path: str = str(RUNTIME_ROOT / "storage" / "runtime.sqlite3")
 
 
+class LearningSettings(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    enabled: bool = True
+    minimum_training_examples: int = Field(default=20, ge=2, le=10000)
+    maximum_dataset_examples: int = Field(default=1000, ge=1, le=10000)
+    max_sequence_length: int = Field(default=2048, ge=128, le=32768)
+    training_interval_hours: int = Field(default=168, ge=1, le=8760)
+    automatic_training: bool = False
+
+
 class RuntimeSettings(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -77,6 +88,7 @@ class RuntimeSettings(BaseModel):
     agent: AgentSettings = Field(default_factory=AgentSettings)
     tools: ToolSettings = Field(default_factory=ToolSettings)
     storage: StorageSettings = Field(default_factory=StorageSettings)
+    learning: LearningSettings = Field(default_factory=LearningSettings)
 
     @classmethod
     def load(cls, path: str | Path | None = None) -> "RuntimeSettings":
