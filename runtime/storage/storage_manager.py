@@ -1,5 +1,7 @@
 import json
+import os
 import sqlite3
+import tempfile
 from pathlib import Path
 from typing import Any
 from uuid import uuid4
@@ -60,6 +62,11 @@ class StorageManager:
                     action TEXT NOT NULL, details TEXT NOT NULL,
                     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
+                CREATE TABLE IF NOT EXISTS schema_migrations (
+                    version INTEGER PRIMARY KEY,
+                    applied_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+                INSERT OR IGNORE INTO schema_migrations(version) VALUES(1);
                 """
             )
             db.execute(
@@ -245,7 +252,7 @@ class StorageManager:
         for row in rows:
             item = dict(row)
             item["metadata"] = json.loads(item["metadata"])
-            if not item["metadata"].get("superseded_by"):
+            if self._memory_is_active(item["metadata"]):
                 result.append(item)
         return result
 
@@ -260,9 +267,26 @@ class StorageManager:
         for row in rows:
             item = dict(row)
             item["metadata"] = json.loads(item["metadata"])
-            if not item["metadata"].get("superseded_by"):
+            if self._memory_is_active(item["metadata"]):
                 result.append(item)
         return result
+
+    @staticmethod
+    def _memory_is_active(metadata: dict[str, Any]) -> bool:
+        if metadata.get("superseded_by"):
+            return False
+        expires_at = metadata.get("expires_at")
+        if not isinstance(expires_at, str) or not expires_at:
+            return True
+        try:
+            from datetime import datetime, timezone
+
+            expiry = datetime.fromisoformat(expires_at.replace("Z", "+00:00"))
+            if expiry.tzinfo is None:
+                expiry = expiry.replace(tzinfo=timezone.utc)
+            return expiry > datetime.now(timezone.utc)
+        except ValueError:
+            return False
 
     def update_memory(
         self, memory_id: str, content: str, metadata: Any | None = None
@@ -307,3 +331,76 @@ class StorageManager:
             ]
             db.executemany("DELETE FROM memories WHERE id=?", [(item,) for item in matched])
         return len(matched)
+
+    def backup(self, destination: str | Path | None = None) -> Path:
+        backup_directory = self.database_path.parent / "backups"
+        target = (
+            Path(destination).expanduser().resolve()
+            if destination is not None
+            else backup_directory / f"runtime-{self.new_id()}.sqlite3"
+        )
+        if target == self.database_path:
+            raise ValueError("A database backup cannot overwrite the live database.")
+        target.parent.mkdir(parents=True, exist_ok=True)
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=f".{target.name}.", suffix=".tmp", dir=target.parent
+        )
+        os.close(descriptor)
+        temporary = Path(temporary_name)
+        try:
+            with sqlite3.connect(self.database_path, timeout=30) as source:
+                with sqlite3.connect(temporary, timeout=30) as backup:
+                    source.backup(backup)
+                    integrity = backup.execute("PRAGMA integrity_check").fetchone()[0]
+                    if integrity != "ok":
+                        raise sqlite3.DatabaseError(
+                            f"Backup integrity check failed: {integrity}"
+                        )
+            os.replace(temporary, target)
+        except Exception:
+            temporary.unlink(missing_ok=True)
+            raise
+        return target
+
+    def restore(self, backup_path: str | Path) -> Path:
+        """Restore a verified SQLite snapshot; call only while the runtime is stopped."""
+        source = Path(backup_path).expanduser().resolve(strict=True)
+        if source == self.database_path or not source.is_file():
+            raise ValueError("Restore source must be a separate database file.")
+        try:
+            with sqlite3.connect(f"file:{source}?mode=ro", uri=True) as backup:
+                integrity = backup.execute("PRAGMA integrity_check").fetchone()[0]
+                tables = {
+                    row[0]
+                    for row in backup.execute(
+                        "SELECT name FROM sqlite_master WHERE type='table'"
+                    )
+                }
+                if integrity != "ok" or not {"conversations", "messages", "memories"}.issubset(tables):
+                    raise ValueError("Restore source is not a valid Ardvark SQLite backup.")
+        except sqlite3.DatabaseError as error:
+            raise ValueError("Restore source is not a valid SQLite database.") from error
+
+        backup_of_current = self.backup()
+        descriptor, temporary_name = tempfile.mkstemp(
+            prefix=f".{self.database_path.name}.restore.",
+            suffix=".tmp",
+            dir=self.database_path.parent,
+        )
+        os.close(descriptor)
+        temporary = Path(temporary_name)
+        try:
+            with sqlite3.connect(f"file:{source}?mode=ro", uri=True) as backup:
+                with sqlite3.connect(temporary) as restored:
+                    backup.backup(restored)
+                    integrity = restored.execute("PRAGMA integrity_check").fetchone()[0]
+                    if integrity != "ok":
+                        raise sqlite3.DatabaseError(
+                            f"Restored database integrity check failed: {integrity}"
+                        )
+            os.replace(temporary, self.database_path)
+            self._initialize()
+        except Exception:
+            temporary.unlink(missing_ok=True)
+            raise
+        return backup_of_current
