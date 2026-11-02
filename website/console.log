@@ -1,0 +1,94 @@
+Website Source Downloader - console log
+====================================================
+Page      : https://llama-ui.js.org/
+Title     : llama.ui
+Started   : 2026-11-02T01:00:16.827Z
+Finished  : 2026-11-02T01:00:17.982Z
+Files     : 76
+Size      : 3.9 MB
+Skipped   : 0
+Failed    : 1
+
+Failed URLs:
+  - https://llama-ui.js.org/css/%23a
+
+Trace
+----------------------------------------------------
+2026-11-02T01:00:16.827Z  INFO   Active page: https://llama-ui.js.org/
+2026-11-02T01:00:16.836Z  INFO   Captured 14.9 KB of HTML from https://llama-ui.js.org/
+2026-11-02T01:00:16.996Z  INFO   Saved assets/favicon-196.png (18.2 KB)
+2026-11-02T01:00:16.997Z  INFO   Saved assets/favicon.svg (267 B)
+2026-11-02T01:00:17.019Z  INFO   Saved js/katex-Dpfoupes.js (260 KB)
+2026-11-02T01:00:17.038Z  INFO   Saved js/highlight-DnWwF2T8.js (932 KB)
+2026-11-02T01:00:17.072Z  INFO   Saved js/react-icons-DklJ-slT.js (21.9 KB)
+2026-11-02T01:00:17.076Z  INFO   Saved js/vendor-U_R19qKe.js (643 KB)
+2026-11-02T01:00:17.094Z  INFO   Saved assets/favicon.ico (14.7 KB)
+2026-11-02T01:00:17.095Z  INFO   Saved js/pdfjs-1UVhggrJ.js (339 KB)
+2026-11-02T01:00:17.096Z  INFO   Saved js/radix-ui-B3BDZ7LM.js (8.1 KB)
+2026-11-02T01:00:17.109Z  INFO   Saved manifest.webmanifest.webmanifest (1.2 KB)
+2026-11-02T01:00:17.122Z  INFO   Saved js/index-C7tppToL.js (318 KB)
+2026-11-02T01:00:17.138Z  INFO   Saved fonts/KaTeX_AMS-Regular.woff (32.7 KB)
+2026-11-02T01:00:17.140Z  INFO   Saved fonts/KaTeX_AMS-Regular.woff2 (27.4 KB)
+2026-11-02T01:00:17.149Z  INFO   Saved fonts/KaTeX_Caligraphic-Bold.woff2 (6.8 KB)
+2026-11-02T01:00:17.160Z  INFO   Saved fonts/KaTeX_Caligraphic-Bold.woff (7.5 KB)
+2026-11-02T01:00:17.187Z  INFO   Saved fonts/KaTeX_Caligraphic-Regular.woff2 (6.7 KB)
+2026-11-02T01:00:17.188Z  INFO   Saved fonts/KaTeX_AMS-Regular.ttf (62.1 KB)
+2026-11-02T01:00:17.197Z  INFO   Saved fonts/KaTeX_Caligraphic-Regular.woff (7.5 KB)
+2026-11-02T01:00:17.227Z  INFO   Saved fonts/KaTeX_Fraktur-Bold.woff2 (11.1 KB)
+2026-11-02T01:00:17.234Z  INFO   Saved fonts/KaTeX_Caligraphic-Regular.ttf (12.1 KB)
+2026-11-02T01:00:17.242Z  INFO   Saved fonts/KaTeX_Fraktur-Bold.woff (13.0 KB)
+2026-11-02T01:00:17.248Z  INFO   Saved fonts/KaTeX_Fraktur-Regular.woff2 (11.1 KB)
+2026-11-02T01:00:17.251Z  INFO   Saved fonts/KaTeX_Caligraphic-Bold.ttf (12.1 KB)
+2026-11-02T01:00:17.272Z  INFO   Saved fonts/KaTeX_Fraktur-Regular.woff (12.9 KB)
+2026-11-02T01:00:17.282Z  INFO   Saved fonts/KaTeX_Main-Bold.woff2 (24.7 KB)
+2026-11-02T01:00:17.289Z  INFO   Saved fonts/KaTeX_Main-Bold.woff (29.2 KB)
+2026-11-02T01:00:17.292Z  INFO   Saved fonts/KaTeX_Fraktur-Bold.ttf (19.1 KB)
+2026-11-02T01:00:17.319Z  INFO   Saved fonts/KaTeX_Fraktur-Regular.ttf (19.1 KB)
+2026-11-02T01:00:17.324Z  INFO   Saved fonts/KaTeX_Main-BoldItalic.woff2 (16.4 KB)
+2026-11-02T01:00:17.326Z  INFO   Saved fonts/KaTeX_Main-BoldItalic.woff (19.0 KB)
+2026-11-02T01:00:17.333Z  INFO   Saved fonts/KaTeX_Main-Bold.ttf (50.1 KB)
+2026-11-02T01:00:17.355Z  INFO   Saved fonts/KaTeX_Main-BoldItalic.ttf (32.2 KB)
+2026-11-02T01:00:17.355Z  INFO   Saved fonts/KaTeX_Main-Italic.woff2 (16.6 KB)
+2026-11-02T01:00:17.364Z  INFO   Saved fonts/KaTeX_Main-Italic.woff (19.2 KB)
+2026-11-02T01:00:17.380Z  INFO   Saved fonts/KaTeX_Main-Regular.woff2 (25.7 KB)
+2026-11-02T01:00:17.395Z  INFO   Saved assets/apple-icon-180.png (16.0 KB)
+2026-11-02T01:00:17.395Z  INFO   JavaScript was saved as-is; bundles that load extra chunks at runtime may need them online.
+2026-11-02T01:00:17.399Z  INFO   Saved fonts/KaTeX_Math-BoldItalic.woff2 (16.0 KB)
+2026-11-02T01:00:17.409Z  INFO   Saved fonts/KaTeX_Main-Italic.ttf (32.8 KB)
+2026-11-02T01:00:17.413Z  INFO   Saved fonts/KaTeX_Math-BoldItalic.woff (18.2 KB)
+2026-11-02T01:00:17.438Z  INFO   Saved fonts/KaTeX_Main-Regular.ttf (52.3 KB)
+2026-11-02T01:00:17.465Z  INFO   Saved fonts/KaTeX_Math-Italic.woff2 (16.1 KB)
+2026-11-02T01:00:17.465Z  INFO   Saved fonts/KaTeX_Math-Italic.woff (18.3 KB)
+2026-11-02T01:00:17.502Z  INFO   Saved fonts/KaTeX_Math-Italic.ttf (30.6 KB)
+2026-11-02T01:00:17.503Z  INFO   Saved fonts/KaTeX_SansSerif-Bold.woff (14.1 KB)
+2026-11-02T01:00:17.507Z  INFO   Saved fonts/KaTeX_SansSerif-Bold.woff2 (11.9 KB)
+2026-11-02T01:00:17.532Z  INFO   Saved fonts/KaTeX_SansSerif-Bold.ttf (23.9 KB)
+2026-11-02T01:00:17.550Z  INFO   Saved fonts/KaTeX_SansSerif-Italic.woff (13.8 KB)
+2026-11-02T01:00:17.569Z  INFO   Saved fonts/KaTeX_SansSerif-Regular.woff2 (10.1 KB)
+2026-11-02T01:00:17.570Z  INFO   Saved fonts/KaTeX_SansSerif-Italic.woff2 (11.7 KB)
+2026-11-02T01:00:17.579Z  INFO   Saved fonts/KaTeX_SansSerif-Regular.woff (12.0 KB)
+2026-11-02T01:00:17.602Z  INFO   Saved fonts/KaTeX_Script-Regular.woff2 (9.4 KB)
+2026-11-02T01:00:17.623Z  INFO   Saved fonts/KaTeX_Script-Regular.woff (10.3 KB)
+2026-11-02T01:00:17.628Z  INFO   Saved fonts/KaTeX_Main-Regular.woff (30.1 KB)
+2026-11-02T01:00:17.633Z  INFO   Saved fonts/KaTeX_SansSerif-Regular.ttf (19.0 KB)
+2026-11-02T01:00:17.660Z  INFO   Saved fonts/KaTeX_SansSerif-Italic.ttf (21.8 KB)
+2026-11-02T01:00:17.668Z  INFO   Saved fonts/KaTeX_Size1-Regular.woff2 (5.3 KB)
+2026-11-02T01:00:17.670Z  INFO   Saved fonts/KaTeX_Script-Regular.ttf (16.3 KB)
+2026-11-02T01:00:17.673Z  INFO   Saved fonts/KaTeX_Size1-Regular.woff (6.3 KB)
+2026-11-02T01:00:17.683Z  INFO   Saved fonts/KaTeX_Math-BoldItalic.ttf (30.5 KB)
+2026-11-02T01:00:17.700Z  INFO   Saved fonts/KaTeX_Size2-Regular.woff2 (5.1 KB)
+2026-11-02T01:00:17.721Z  INFO   Saved fonts/KaTeX_Size1-Regular.ttf (11.9 KB)
+2026-11-02T01:00:17.723Z  INFO   Saved fonts/KaTeX_Size2-Regular.woff (6.0 KB)
+2026-11-02T01:00:17.723Z  INFO   Saved fonts/KaTeX_Size3-Regular.woff (4.3 KB)
+2026-11-02T01:00:17.733Z  INFO   Saved fonts/KaTeX_Size4-Regular.woff2 (4.8 KB)
+2026-11-02T01:00:17.741Z  INFO   Saved fonts/KaTeX_Size2-Regular.ttf (11.2 KB)
+2026-11-02T01:00:17.763Z  INFO   Saved fonts/KaTeX_Size4-Regular.woff (5.8 KB)
+2026-11-02T01:00:17.765Z  INFO   Saved fonts/KaTeX_Typewriter-Regular.woff2 (13.3 KB)
+2026-11-02T01:00:17.773Z  INFO   Saved fonts/KaTeX_Typewriter-Regular.woff (15.7 KB)
+2026-11-02T01:00:17.789Z  INFO   Saved fonts/KaTeX_Size4-Regular.ttf (10.1 KB)
+2026-11-02T01:00:17.811Z  INFO   Saved fonts/KaTeX_Typewriter-Regular.ttf (26.9 KB)
+2026-11-02T01:00:17.844Z  INFO   Saved assets/brown-papersq.png (17.8 KB)
+2026-11-02T01:00:17.937Z  ERROR  Could not download https://llama-ui.js.org/css/%23a - HTTP 404 
+2026-11-02T01:00:17.937Z  INFO   Saved css/index-CebrH42y.css (358 KB)
+2026-11-02T01:00:17.980Z  INFO   Saved fonts/KaTeX_Size3-Regular.ttf (7.4 KB)
+2026-11-02T01:00:17.981Z  INFO   Saved css/katex-XYn6C46j.css (27.6 KB)
