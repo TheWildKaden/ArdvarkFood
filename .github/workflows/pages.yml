@@ -4,13 +4,13 @@ on:
   push:
     paths:
       - "docs/**"
-      - "scripts/build-pages.mjs"
+      - "infrastructure/scripts/build-pages.mjs"
       - "package.json"
       - ".github/workflows/pages.yml"
   pull_request:
     paths:
       - "docs/**"
-      - "scripts/build-pages.mjs"
+      - "infrastructure/scripts/build-pages.mjs"
       - "package.json"
       - ".github/workflows/pages.yml"
   workflow_dispatch:

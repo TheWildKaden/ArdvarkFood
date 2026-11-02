@@ -1,6 +1,6 @@
 """Compatibility exports for the image-generation package."""
 
-from src.image_generation import (
+from packages.image_generation import (
     ImageGenerationError,
     ImageGenerator,
     ImageModelUnavailable,

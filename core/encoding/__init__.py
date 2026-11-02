@@ -1,0 +1,1 @@
+"""Message-format encoding primitives."""

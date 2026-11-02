@@ -20,20 +20,21 @@ On a minimal Debian/Ubuntu host where Chromium reports missing shared libraries,
 install browser dependencies with
 `sudo npx puppeteer browsers install chrome --install-deps`, then run the
 non-sudo browser install command above so Puppeteer stores the browser in your
-user cache. Add `--offline` to `python3 scripts/generate_architecture.py` to
+user cache. Add `--offline` to
+`python3 infrastructure/scripts/generate_architecture.py` to
 skip GitHub API calls and use commit authors from local git history.
 
 `npm run architecture:generate` parses sources, writes Mermaid and JSON files,
 renders SVGs to local previews, updates `README.md` from
-[`templates/README.md.in`](../../scripts/architecture/templates/README.md.in),
+[`templates/README.md.in`](../../infrastructure/architecture/templates/README.md.in),
 and validates the result. Edit that template for README content; direct edits
 to the generated `README.md` will be replaced on the next generation run.
 
 ## Analyzer boundaries
 
-- **Dependencies** — reads the root and runtime requirements files and the
-  root `package.json`. Declared packages are not proof that a feature is
-  installed or runnable.
+- **Dependencies** — reads root, runtime, core, and image-generation
+  requirements files plus the root `package.json`. Declarations are not proof
+  that a feature is installed or runnable.
 - **Modules** — resolves local Python imports using Python's AST and relative
   JavaScript/TypeScript imports using Babel's parser.
 - **Functions and classes** — parses Python syntax with `ast` and JavaScript,

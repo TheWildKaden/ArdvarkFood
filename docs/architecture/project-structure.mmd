@@ -1,36 +1,52 @@
 flowchart TB
   root["ArdvarkFood repository"]
-  AI_Runtime["AI-Runtime (25 analyzed source files)"]
+  Agent["Agent (9 analyzed source files)"]
   Architecture_generator["Architecture generator (20 analyzed source files)"]
-  FastAPI__src_web_["FastAPI (src/web) (5 analyzed source files)"]
-  Frontend_client["Frontend client (13 analyzed source files)"]
-  Frontend_server["Frontend server (9 analyzed source files)"]
-  Message_encoding["Message encoding (1 analyzed source files)"]
+  FastAPI_API["FastAPI API (5 analyzed source files)"]
+  Infrastructure["Infrastructure (4 analyzed source files)"]
+  Message_encoding["Message encoding (2 analyzed source files)"]
+  Packages["Packages (3 analyzed source files)"]
   Repository_root["Repository root (2 analyzed source files)"]
+  Runtime["Runtime (18 analyzed source files)"]
+  Stock_Watch_client["Stock Watch client (13 analyzed source files)"]
+  Stock_Watch_server["Stock Watch server (9 analyzed source files)"]
+  Website["Website (3 analyzed source files)"]
+  agent["agent (0 analyzed source files)"]
+  cli["cli (12 analyzed source files)"]
+  core["core (2 analyzed source files)"]
   docs["docs (0 analyzed source files)"]
-  frontend["frontend (2 analyzed source files)"]
-  scripts["scripts (3 analyzed source files)"]
-  src["src (4 analyzed source files)"]
-  static["static (1 analyzed source files)"]
+  infrastructure["infrastructure (0 analyzed source files)"]
+  packages["packages (0 analyzed source files)"]
+  runtime["runtime (0 analyzed source files)"]
+  services["services (1 analyzed source files)"]
   tests["tests (0 analyzed source files)"]
+  website["website (0 analyzed source files)"]
   app_py["app.py"]
   local_image_generator_py["local_image_generator.py"]
   README_md["README.md"]
   package_json["package.json"]
   requirements_txt["requirements.txt"]
-  root -->|"directory/component"| AI_Runtime
+  root -->|"directory/component"| Agent
   root -->|"directory/component"| Architecture_generator
-  root -->|"directory/component"| FastAPI__src_web_
-  root -->|"directory/component"| Frontend_client
-  root -->|"directory/component"| Frontend_server
+  root -->|"directory/component"| FastAPI_API
+  root -->|"directory/component"| Infrastructure
   root -->|"directory/component"| Message_encoding
+  root -->|"directory/component"| Packages
   root -->|"directory/component"| Repository_root
+  root -->|"directory/component"| Runtime
+  root -->|"directory/component"| Stock_Watch_client
+  root -->|"directory/component"| Stock_Watch_server
+  root -->|"directory/component"| Website
+  root -->|"directory/component"| agent
+  root -->|"directory/component"| cli
+  root -->|"directory/component"| core
   root -->|"directory/component"| docs
-  root -->|"directory/component"| frontend
-  root -->|"directory/component"| scripts
-  root -->|"directory/component"| src
-  root -->|"directory/component"| static
+  root -->|"directory/component"| infrastructure
+  root -->|"directory/component"| packages
+  root -->|"directory/component"| runtime
+  root -->|"directory/component"| services
   root -->|"directory/component"| tests
+  root -->|"directory/component"| website
   root -->|"repository file"| app_py
   root -->|"repository file"| local_image_generator_py
   root -->|"repository file"| README_md

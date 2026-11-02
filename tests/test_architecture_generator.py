@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from scripts.architecture.analyzers.dependencies import _read_requirements
-from scripts.architecture.generator import analyze_repository
-from scripts.architecture.index import SourceIndex
+from infrastructure.architecture.analyzers.dependencies import _read_requirements
+from infrastructure.architecture.generator import analyze_repository
+from infrastructure.architecture.index import SourceIndex
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,7 +61,7 @@ def test_source_index_uses_babel_for_javascript_and_python_ast_for_python() -> N
     assert languages == {"Python", "JavaScript/TypeScript"}
     server = next(
         item for item in index.javascript_modules
-        if item["path"].endswith("frontend/src/server/index.js")
+        if item["path"].endswith("website/stock-watch/src/server/index.js")
     )
     assert any(item["source"] == "fastify" for item in server["imports"])
 
@@ -87,7 +87,7 @@ def test_analyzer_output_is_json_serializable(analysis: dict) -> None:
 def test_javascript_indexer_reports_parse_errors(tmp_path: Path) -> None:
     invalid = tmp_path / "bad.jsx"
     invalid.write_text("const = ;", encoding="utf-8")
-    indexer = ROOT / "scripts" / "architecture" / "js_indexer.mjs"
+    indexer = ROOT / "infrastructure" / "architecture" / "js_indexer.mjs"
     result = subprocess.run(
         ["node", str(indexer)],
         input=json.dumps([str(invalid)]),
@@ -102,7 +102,7 @@ def test_javascript_indexer_reports_parse_errors(tmp_path: Path) -> None:
 
 @pytest.mark.parametrize(
     "filename",
-    ["app.py", "AI-Runtime/agent/agent.py", "src/encoding/encoding.py"],
+    ["app.py", "agent/agent.py", "core/encoding/encoding.py"],
 )
 def test_python_sources_are_indexed(filename: str) -> None:
     index = SourceIndex.build(ROOT)

@@ -15,9 +15,9 @@ documentation, testing, and thoughtful issue reports are welcome.
 
 1. Fork the repository and create a focused branch.
 2. Install the dependencies needed for the part of the project you are working
-   on. The LLM runtime dependencies are listed in
-   `AI-Runtime/requirements.txt`; the existing app dependencies are listed in
-   the root `requirements.txt`.
+   on. The root `requirements.txt` aggregates the runtime, core, and test
+   dependencies. The optional local image-generation dependencies are listed
+   separately in `packages/image_generation/requirements.txt`.
 3. Make the smallest complete change that fits the existing architecture.
    Avoid committing credentials, model weights, generated output, or local
    databases.
@@ -25,18 +25,18 @@ documentation, testing, and thoughtful issue reports are welcome.
 5. Run the relevant checks. For example:
 
    ```bash
-   python -m pytest -q tests AI-Runtime/tests
+   python -m pytest -q
    ```
 
    The standalone encoding suite is:
 
    ```bash
-   python -m pytest -q src/encoding/test_encoding.py
+   python -m pytest -q tests/core/test_encoding.py
    ```
 
-   Two example-based tests need fixtures under `src/inference/examples/`; if
-   the fixtures are unavailable, report that limitation rather than claiming
-   those cases passed.
+   Two optional encoding examples are skipped when their upstream fixtures are
+   unavailable; report that limitation rather than claiming those cases
+   passed.
 6. Open a pull request using the repository template and explain the change,
    tests, and any known limitations.
 

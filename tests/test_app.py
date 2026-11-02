@@ -50,7 +50,7 @@ def test_homepage_loads_separate_frontend_assets() -> None:
 
 def test_legacy_image_generator_import_remains_compatible() -> None:
     from local_image_generator import LocalImageGenerator as LegacyImageGenerator
-    from src.image_generation import LocalImageGenerator
+    from packages.image_generation import LocalImageGenerator
 
     assert LegacyImageGenerator is LocalImageGenerator
 

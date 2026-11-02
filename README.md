@@ -1,4 +1,4 @@
-<!-- Generated from scripts/architecture/templates/README.md.in by scripts/generate_architecture.py. Edit the template, not this file. -->
+<!-- Generated from infrastructure/architecture/templates/README.md.in by infrastructure/scripts/generate_architecture.py. Edit the template, not this file. -->
 
 # ArdvarkFood
 
@@ -25,58 +25,63 @@
 
 ## About
 
-ArdvarkFood is a FastAPI application with Ardvark chat and a local SD-Turbo
-image generator. Its existing app also mounts a modular LLM and agent runtime
-under `/api/runtime`; the runtime does not replace the original chat, image, or
-encoding modules.
+ArdvarkFood is a Python-first monorepo for a web application, CLI, AI agent,
+and shared runtime. The FastAPI application serves the Ardvark web interface
+and its API. The agent and model/tool runtime are separate Python packages
+mounted into that application under `/api/runtime`; core encoding and reusable
+integrations remain independent modules.
 
 The static project site can be published with GitHub Pages or Cloudflare Pages.
-For fork and hosting setup, see [FORKING.md](./FORKING.md). To preview the
-interactive Ardvark frontend and its API locally, run
-`./scripts/start-dev-preview.sh` (or the **Start Ardvark Dev Preview** task in
-VS Code), or run `.\startpreview.ps1` in PowerShell, then open
-`http://localhost:8000`. The FastAPI app serves the chat and image-generator
-interface from `static/index.html` at `/` and the Pages-style project overview
-from `docs/index.html` at `/project`. Build the static site with
-`npm run build:pages`; preview it with `npm run preview:pages` at
+For fork and hosting setup, see [FORKING.md](./FORKING.md). For local
+development, run `python -m cli serve --reload` or
+`./cli/start-dev-preview.sh` (the **Start Ardvark Dev Preview** VS Code task
+does the same). Open `http://localhost:8000`. The FastAPI app serves the
+interface from `website/` at `/`, its project overview from `docs/index.html`
+at `/project`, and API routes under `/api/`. Build the static project site
+with `npm run build:pages`; preview it with `npm run preview:pages` at
 `http://localhost:4173`.
 
 ## Project layout
 
 ```text
 .
-├── app.py                  Stable ASGI entry point
-├── src/
-│   ├── web/                FastAPI routes, schemas, and app factory
-│   ├── image_generation/   Local SD-Turbo integration
-│   └── encoding/           Message-format encoding implementation
-├── AI-Runtime/             LLM adapters, agent, tools, memory, and storage
-├── frontend/               Separate React/Fastify stock-watch source and assets
-├── static/                 Live Ardvark chat/image UI and assets served at /
-├── docs/                   Project site, architecture, and references
-├── scripts/                Build, preview, and architecture tools
-├── tests/                  Application and architecture tests
-└── portfolios/             Contributor profiles
+├── agent/                   Agent orchestration, context, planning, and memory
+├── cli/                     Python command-line entry point and preview launcher
+├── core/                    Shared foundations, including message encoding
+├── docs/                    Project site, architecture, and technical guides
+├── infrastructure/          Build/deployment scripts and architecture tooling
+├── packages/                 Reusable integrations, including image generation
+├── runtime/                 Model adapters, tools, config, API, and storage
+├── services/api/             FastAPI application routes and app factory
+├── tests/                    Application, runtime, agent, and architecture tests
+├── website/                  Ardvark UI and separate Stock Watch source
+├── app.py                    Stable ASGI entry point
+└── local_image_generator.py  Legacy image-generator import compatibility
 ```
 
 `local_image_generator.py` remains as a compatibility import for the image
-generator, whose implementation now lives in `src/image_generation/`.
-The live UI markup, styles, and client behavior are separated into
-`static/index.html` and `static/assets/`.
+generator, whose implementation now lives in `packages/image_generation/`.
+The live UI markup, styles, and client behavior are in `website/index.html` and
+`website/assets/`. `website/stock-watch/` retains a separate React/Fastify
+project, but its source references missing local packages and has no
+application dependency manifest; it is not currently a verified build target.
 Generated runtime images and SQLite state stay local and are ignored by Git.
 
-## Language responsibilities
+## Component boundaries
 
-The requested responsibility map is a target architecture, not a claim that
-every runtime is already implemented:
-
-| Language | Responsibility | Current status |
+| Component | Responsibility | Interface |
 | --- | --- | --- |
-| Python | AI reasoning, agents, code generation, and orchestration | Implemented in the FastAPI app and `AI-Runtime/` |
-| TypeScript | Web dashboard and development interface | Target for the separate frontend; its checked-in React source is currently JavaScript/JSX |
-| Rust | Runtime engine, hot-reloading, sandboxing, and performance | Not implemented |
-| Lisp | Dynamic evaluation, live code modification, and metaprogramming | Not implemented |
-| C++ | Low-level system access and native extensions | Not implemented |
+| `website/` | Browser UI and static project assets | HTTP from `services/api/` |
+| `cli/` | Developer-facing command-line entry point | Starts the stable `app:app` ASGI application |
+| `services/api/` | Web app factory and chat/image endpoints | FastAPI routes and the `ImageGenerator` protocol |
+| `agent/` | Context, planning, memory, and agent loop | Python interfaces consumed by `runtime/` |
+| `runtime/` | Model inference, tools, permissions, persistence, and runtime API | Python interfaces plus `/api/runtime/*` |
+| `core/` | Shared encoding and foundational logic | Importable Python modules |
+| `packages/` | Reusable integrations | Typed Python interfaces |
+| `infrastructure/` | Build, deployment, and architecture-generation tooling | CLI scripts and GitHub Actions |
+
+For the request flow, ownership boundaries, and state locations, see the
+[monorepo architecture guide](docs/architecture/monorepo.md).
 
 ## Architecture
 
@@ -192,16 +197,16 @@ Regenerate locally with `npm ci`, `npx puppeteer browsers install chrome`, and `
 
 ## Development
 
-Use Python 3.10+ and Node.js 22. Install the application/runtime dependencies
-with `python -m pip install -r AI-Runtime/requirements.txt`. The local image
-model is optional; install its dependencies separately with
+Use Python 3.10+ and Node.js 22. Install the application, runtime, core, and
+test dependencies with `python -m pip install -r requirements.txt`. The local
+image model is optional; install its dependencies separately with
 `python -m pip install -r requirements-image-generator.txt`. Install the
 Node.js tooling with `npm ci`.
 
 Run the API and interactive application locally:
 
 ```bash
-python -m uvicorn app:app --reload --host 0.0.0.0 --port 8000
+python -m cli serve --reload --host 0.0.0.0 --port 8000
 ```
 
 Build the static project site with `npm run build:pages`; serve that build with
@@ -209,17 +214,17 @@ Build the static project site with `npm run build:pages`; serve that build with
 with:
 
 ```bash
-python -m pytest -q tests AI-Runtime/tests
+python -m pytest -q
 ```
 
 The standalone encoding suite is:
 
 ```bash
-python -m pytest -q src/encoding/test_encoding.py
+python -m pytest -q tests/core/test_encoding.py
 ```
 
-Its two example-based tests also need fixtures under `src/inference/examples/`,
-which are not included in every checkout.
+Two optional example-based encoding tests are skipped when the upstream
+inference fixtures are not present under `tests/fixtures/inference/`.
 To contribute, fork the repository, create a focused branch, make and test your
 change, then open a pull request. Read [CONTRIBUTING.md](./CONTRIBUTING.md) for
 the full workflow and review expectations. Architecture diagrams can be
@@ -232,14 +237,14 @@ weights are bundled. Install the optional runtime dependencies and provide a
 GGUF model:
 
 ```bash
-pip install -r AI-Runtime/requirements.txt
+pip install -r runtime/requirements.txt
 export AI_RUNTIME_MODEL_PATH=/path/to/model.gguf
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
 
 `POST /api/runtime/models/load` loads the configured model; use
 `POST /api/runtime/models/unload` to release it. Model settings can be supplied
-through environment variables or `AI-Runtime/config/settings.json`. An
+through environment variables or `runtime/config/settings.json`. An
 OpenAI-compatible backend is available only when explicitly selected with
 `AI_RUNTIME_BACKEND=openai_compatible` and configured with
 `AI_RUNTIME_BASE_URL` (and, if needed, `AI_RUNTIME_API_KEY`). The existing
@@ -262,7 +267,7 @@ Replacing an existing workspace file through the agent also requires the
 current file's SHA-256, preventing a stale proposal from silently overwriting
 newer content. The runtime does not execute generated code or manage Git
 branches and commits as an autonomous self-modification workflow; see the
-[controlled code-change boundary](AI-Runtime/docs/SELF_EVOLUTION.md).
+[controlled code-change boundary](docs/agent/SELF_EVOLUTION.md).
 Python execution runs in a separate interpreter process but is **not** an OS
 sandbox; only grant approval in a trusted, private deployment. Network tools
 require an explicit `outbound_allowed_hosts` allowlist in runtime settings.
@@ -282,7 +287,7 @@ Runtime API endpoints:
   configuration and explicit long-term memory writes.
 
 SQLite stores conversations, messages, execution state, tool events, memory,
-and audit records under `AI-Runtime/storage/` by default. Interrupted runs are
+and audit records under `runtime/storage/` by default. Interrupted runs are
 marked when the runtime restarts. Text and PNG/JPEG/WebP image attachments are
 accepted; image inference requires a compatible multimodal GGUF model and CLIP
 projector. Audio and video are rejected with an explicit unsupported-modality
@@ -296,7 +301,7 @@ local image pipeline.
   agent loop.
 - Persistent conversation, execution, memory, and audit storage.
 - The original DeepSeek message-encoding implementation remains in
-  `src/encoding/`.
+  `core/encoding/`.
 
 See [docs/SOURCES.md](./docs/SOURCES.md) for upstream model, runtime, and
 framework references.
@@ -321,7 +326,7 @@ read from the contributors API when available; otherwise local commit author
 names are used without publishing email addresses.
 
 <table>
-<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />60 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
+<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />63 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
 </table>
 
 ---

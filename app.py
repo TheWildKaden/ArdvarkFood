@@ -1,12 +1,12 @@
-"""Stable ASGI entry point; application modules live under ``src.web``."""
+"""Stable ASGI entry point; application modules live under ``services.api``."""
 
 from pathlib import Path
 
 import httpx
 from fastapi import FastAPI
 
-from src.image_generation import ImageGenerator
-from src.web.app_factory import (
+from packages.image_generation import ImageGenerator
+from services.api.app_factory import (
     DEFAULT_GENERATED_IMAGE_DIR,
     REPOSITORY_ROOT,
     create_app as _create_app,

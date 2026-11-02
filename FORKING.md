@@ -1,9 +1,10 @@
 # Forking and hosting ArdvarkFood
 
 Forks are welcome. The project overview site is static and can be deployed to
-GitHub Pages or Cloudflare Pages. The FastAPI application, Node frontend, model
-inference, and image generation are separate services; static Pages hosting
-does not run those backends.
+GitHub Pages or Cloudflare Pages. The FastAPI application, model inference, and
+image generation are separate from that site; static Pages hosting does not
+run those backends. The separate Stock Watch source is not currently a verified
+build target.
 
 ## GitHub Pages
 
@@ -40,7 +41,8 @@ npm run preview:pages
 ```
 
 The preview serves the generated `dist/` folder at <http://localhost:4173>.
-Alternatively, `./scripts/preview-pages.sh` serves the source `docs/` folder.
+Alternatively, `./infrastructure/scripts/preview-pages.sh` serves the source
+`docs/` folder.
 
 ## Running the application
 

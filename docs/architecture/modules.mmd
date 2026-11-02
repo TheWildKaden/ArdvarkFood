@@ -1,19 +1,29 @@
 flowchart LR
-  AI_Runtime["AI-Runtime (25 source files)"]
+  Agent["Agent (9 source files)"]
   Architecture_generator["Architecture generator (20 source files)"]
-  FastAPI__src_web_["FastAPI (src/web) (5 source files)"]
-  Frontend_client["Frontend client (13 source files)"]
-  Frontend_server["Frontend server (9 source files)"]
-  Message_encoding["Message encoding (1 source files)"]
+  FastAPI_API["FastAPI API (5 source files)"]
+  Infrastructure["Infrastructure (4 source files)"]
+  Message_encoding["Message encoding (2 source files)"]
+  Packages["Packages (3 source files)"]
   Repository_root["Repository root (2 source files)"]
-  frontend["frontend (2 source files)"]
-  scripts["scripts (3 source files)"]
-  src["src (4 source files)"]
-  static["static (1 source files)"]
-  FastAPI__src_web_ -->|"2 detected imports"| src
-  Repository_root -->|"1 detected imports"| FastAPI__src_web_
-  Repository_root -->|"2 detected imports"| src
-  frontend -->|"1 detected imports"| Frontend_server
+  Runtime["Runtime (18 source files)"]
+  Stock_Watch_client["Stock Watch client (13 source files)"]
+  Stock_Watch_server["Stock Watch server (9 source files)"]
+  Website["Website (3 source files)"]
+  cli["cli (12 source files)"]
+  core["core (2 source files)"]
+  services["services (1 source files)"]
+  Agent -->|"21 detected imports"| Runtime
+  Architecture_generator -->|"12 detected imports"| Infrastructure
+  FastAPI_API -->|"4 detected imports"| Packages
+  FastAPI_API -->|"2 detected imports"| Runtime
+  FastAPI_API -->|"3 detected imports"| services
+  Infrastructure -->|"1 detected imports"| Architecture_generator
+  Repository_root -->|"1 detected imports"| FastAPI_API
+  Repository_root -->|"4 detected imports"| Packages
+  Repository_root -->|"1 detected imports"| services
+  Runtime -->|"4 detected imports"| Agent
+  Website -->|"1 detected imports"| Stock_Watch_server
   analysis_note_0["Edges are resolved relative/local imports detected by Python AST or Babel parser."]
   class analysis_note_0 note
   classDef note fill:#fff7d6,stroke:#b38b00,color:#333

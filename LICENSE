@@ -1,24 +1,45 @@
-This is free and unencumbered software released into the public domain.
+ArdvarkFood Public Use License (APUL) 1.0
 
-Anyone is free to copy, modify, publish, use, compile, sell, or
-distribute this software, either in source code form or as a compiled
-binary, for any purpose, commercial or non-commercial, and by any
-means.
+Copyright © 2026 TheWildKaden
 
-In jurisdictions that recognize copyright laws, the author or authors
-of this software dedicate any and all copyright interest in the
-software to the public domain. We make this dedication for the benefit
-of the public at large and to the detriment of our heirs and
-successors. We intend this dedication to be an overt act of
-relinquishment in perpetuity of all present and future rights to this
-software under copyright law.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to
+use, copy, modify, compile, and run the Software for personal, educational,
+and non-commercial purposes, subject to the following conditions:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+Anyone is free to inspect, study, experiment with, and modify this Software.
+You may create private forks and derivative works for personal or
+non-commercial use.
+
+You may publish modifications and distribute copies of the Software for
+non-commercial purposes, provided that this license and the original
+copyright notice are included with all copies or substantial portions
+of the Software.
+
+You may not sell, commercially exploit, sublicense, or distribute the
+Software as part of a commercial product or paid service without explicit
+written permission from the copyright holder.
+
+The name "ArdvarkFood", its logos, branding, and official project identity
+may not be used to represent unofficial forks, modified versions, or
+derivative projects as the official ArdvarkFood project without
+explicit written permission.
+
+Contributions submitted to the official ArdvarkFood repository may be
+used, modified, incorporated, and distributed by the project author.
+Contributors retain ownership of their original contributions.
+
+Third-party libraries, dependencies, models, and assets remain subject
+to their respective licenses. This license does not override them.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
 OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-For more information, please refer to <https://unlicense.org>
+For permissions beyond those granted by this license, contact:
+
+https://github.com/TheWildKaden/ArdvarkFood

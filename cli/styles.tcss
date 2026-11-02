@@ -1,0 +1,78 @@
+#body {
+    height: 1fr;
+}
+
+#sidebar {
+    width: 20;
+    border-right: solid $primary;
+}
+
+#content {
+    width: 1fr;
+    height: 100%;
+}
+
+DashboardPane,
+NotesPane,
+SettingsPane {
+    height: 100%;
+    padding: 1 2;
+}
+
+/* Dashboard */
+#clock {
+    text-style: bold;
+    content-align: center middle;
+    height: 3;
+}
+
+#sysinfo {
+    color: $text-muted;
+    content-align: center middle;
+    height: 1;
+}
+
+/* Notes */
+NotesPane Horizontal {
+    height: 100%;
+}
+
+#notes-list-col {
+    width: 30;
+}
+
+#notes-list {
+    height: 1fr;
+}
+
+#notes-edit-col {
+    width: 1fr;
+    padding-left: 2;
+}
+
+#note-title {
+    margin-bottom: 1;
+}
+
+#note-body {
+    height: 1fr;
+}
+
+NotesPane Button {
+    margin-top: 1;
+    margin-right: 1;
+}
+
+/* Settings */
+#settings-row {
+    height: auto;
+}
+
+#settings-row Label {
+    padding: 1 2 0 0;
+}
+
+#data-dir {
+    margin-top: 1;
+    color: $text-muted;
+}

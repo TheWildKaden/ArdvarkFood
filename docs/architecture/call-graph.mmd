@@ -1,150 +1,150 @@
 flowchart LR
-  AI_Runtime_agent_agent_AgentRuntime_cancel["cancel · AI-Runtime/agent/agent.py:123"]
-  AI_Runtime_agent_agent_AgentRuntime_close["close · AI-Runtime/agent/agent.py:144"]
-  AI_Runtime_agent_agent_AgentRuntime_execute["execute · AI-Runtime/agent/agent.py:83"]
-  AI_Runtime_agent_agent_AgentRuntime_notify["notify · AI-Runtime/agent/agent.py:80"]
-  AI_Runtime_agent_agent_AgentRuntime_start["start · AI-Runtime/agent/agent.py:63"]
-  AI_Runtime_agent_context_context_builder_ContextBuilder_build["build · AI-Runtime/agent/context/context_builder.py:22"]
-  AI_Runtime_agent_loop_agent_loop_AgentLoop__generate["_generate · AI-Runtime/agent/loop/agent_loop.py:129"]
-  AI_Runtime_agent_loop_agent_loop_AgentLoop_run["run · AI-Runtime/agent/loop/agent_loop.py:38"]
-  AI_Runtime_api_routes_chat__event_stream["_event_stream · AI-Runtime/api/routes/chat.py:23"]
-  AI_Runtime_api_routes_chat__runtime["_runtime · AI-Runtime/api/routes/chat.py:16"]
-  AI_Runtime_api_routes_chat_chat["chat · AI-Runtime/api/routes/chat.py:185"]
-  AI_Runtime_memory_memory_manager_MemoryManager_retrieve["retrieve · AI-Runtime/memory/memory_manager.py:12"]
-  AI_Runtime_memory_retrieval_retriever_MemoryRetriever_retrieve["retrieve · AI-Runtime/memory/retrieval/retriever.py:10"]
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model["_require_model · AI-Runtime/models/adapters/llama_cpp.py:155"]
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__sampling_params["_sampling_params · AI-Runtime/models/adapters/llama_cpp.py:161"]
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_generate["generate · AI-Runtime/models/adapters/llama_cpp.py:84"]
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_stream["stream · AI-Runtime/models/adapters/llama_cpp.py:103"]
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__headers["_headers · AI-Runtime/models/adapters/openai_compatible.py:154"]
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload["_payload · AI-Runtime/models/adapters/openai_compatible.py:125"]
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request["_request · AI-Runtime/models/adapters/openai_compatible.py:109"]
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client["_require_client · AI-Runtime/models/adapters/openai_compatible.py:160"]
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url["_url · AI-Runtime/models/adapters/openai_compatible.py:151"]
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream["stream · AI-Runtime/models/adapters/openai_compatible.py:75"]
-  AI_Runtime_models_inference_InferenceEngine_fit_context["fit_context · AI-Runtime/models/inference.py:85"]
-  AI_Runtime_storage_storage_manager_StorageManager__connect["_connect · AI-Runtime/storage/storage_manager.py:16"]
-  AI_Runtime_storage_storage_manager_StorageManager_add_memory["add_memory · AI-Runtime/storage/storage_manager.py:216"]
-  AI_Runtime_storage_storage_manager_StorageManager_new_id["new_id · AI-Runtime/storage/storage_manager.py:72"]
-  AI_Runtime_tools_executor_executor_ToolExecutor__register_builtin_tools["_register_builtin_tools · AI-Runtime/tools/executor/executor.py:153"]
-  AI_Runtime_tools_executor_executor_ToolExecutor__resolve_path["_resolve_path · AI-Runtime/tools/executor/executor.py:295"]
-  AI_Runtime_tools_executor_executor_ToolExecutor_execute["execute · AI-Runtime/tools/executor/executor.py:41"]
-  frontend_scripts_dev_js_stop["stop · frontend/scripts/dev.js:14"]
-  frontend_src_client_services_api_js_request["request · frontend/src/client/services/api.js:1"]
-  frontend_src_server_services_database_js_db["db · frontend/src/server/services/database.js:7"]
-  frontend_src_server_services_database_js_getWatchlist["getWatchlist · frontend/src/server/services/database.js:11"]
-  frontend_src_server_services_market_data_js_cached["cached · frontend/src/server/services/market-data.js:130"]
-  frontend_src_server_services_market_data_js_callback_174["callback@174 · frontend/src/server/services/market-data.js:174"]
-  frontend_src_server_services_market_data_js_fetchJson["fetchJson · frontend/src/server/services/market-data.js:27"]
-  frontend_src_server_services_market_data_js_fetchYahooJson["fetchYahooJson · frontend/src/server/services/market-data.js:55"]
-  frontend_src_server_services_market_data_js_getChart["getChart · frontend/src/server/services/market-data.js:305"]
-  frontend_src_server_services_market_data_js_getCompanyNews["getCompanyNews · frontend/src/server/services/market-data.js:328"]
-  frontend_src_server_services_market_data_js_getNasdaqAsset["getNasdaqAsset · frontend/src/server/services/market-data.js:80"]
-  frontend_src_server_services_market_data_js_getNasdaqChart["getNasdaqChart · frontend/src/server/services/market-data.js:263"]
-  frontend_src_server_services_market_data_js_getNasdaqQuote["getNasdaqQuote · frontend/src/server/services/market-data.js:91"]
-  frontend_src_server_services_market_data_js_getNasdaqSummary["getNasdaqSummary · frontend/src/server/services/market-data.js:123"]
-  frontend_src_server_services_market_data_js_getQuote["getQuote · frontend/src/server/services/market-data.js:172"]
-  frontend_src_server_services_market_data_js_getStockDetails["getStockDetails · frontend/src/server/services/market-data.js:344"]
-  frontend_src_server_services_market_data_js_getYahooChart["getYahooChart · frontend/src/server/services/market-data.js:227"]
-  frontend_src_server_services_market_data_js_parseNumber["parseNumber · frontend/src/server/services/market-data.js:73"]
-  frontend_src_server_services_market_data_js_validateSymbol["validateSymbol · frontend/src/server/services/market-data.js:23"]
-  scripts_architecture_analyzers_runtime_analyze["analyze · scripts/architecture/analyzers/runtime.py:117"]
-  scripts_architecture_contributors_generate["generate · scripts/architecture/contributors.py:120"]
-  scripts_architecture_generator__render_readme["_render_readme · scripts/architecture/generator.py:237"]
-  scripts_architecture_generator_analyze_repository["analyze_repository · scripts/architecture/generator.py:277"]
-  scripts_architecture_generator_generate["generate · scripts/architecture/generator.py:324"]
-  scripts_architecture_index_SourceIndex_python_symbols["python_symbols · scripts/architecture/index.py:109"]
-  scripts_architecture_validate_validate_generated["validate_generated · scripts/architecture/validate.py:103"]
-  scripts_SVG_Path_dumper_js_add["add · scripts/SVG_Path_dumper.js:28"]
-  scripts_SVG_Path_dumper_js_domPath["domPath · scripts/SVG_Path_dumper.js:5"]
-  src_encoding_encoding__encode_messages_text["_encode_messages_text · src/encoding/encoding.py:759"]
-  src_encoding_encoding__process_image_blocks["_process_image_blocks · src/encoding/encoding.py:319"]
-  src_encoding_encoding__split_tool_name["_split_tool_name · src/encoding/encoding.py:101"]
-  src_encoding_encoding__tool_name_for_encoding["_tool_name_for_encoding · src/encoding/encoding.py:116"]
-  src_encoding_encoding_decode_dsml_to_arguments["decode_dsml_to_arguments · src/encoding/encoding.py:156"]
-  src_encoding_encoding_encode_messages["encode_messages · src/encoding/encoding.py:806"]
-  src_encoding_encoding_parse_message_from_completion_text["parse_message_from_completion_text · src/encoding/encoding.py:935"]
-  src_encoding_encoding_parse_tool_calls["parse_tool_calls · src/encoding/encoding.py:879"]
-  src_encoding_encoding_process_image_messages["process_image_messages · src/encoding/encoding.py:366"]
-  src_encoding_encoding_render_message["render_message · src/encoding/encoding.py:574"]
-  src_encoding_encoding_to_json["to_json · src/encoding/encoding.py:76"]
-  src_sample_body["body · src/sample.py:62"]
-  src_sample_sample_sequence["sample_sequence · src/sample.py:43"]
-  src_sample_top_k_logits["top_k_logits · src/sample.py:5"]
-  static_assets_app_js_callback_126["callback@126 · static/assets/app.js:126"]
-  static_assets_app_js_resizeComposer["resizeComposer · static/assets/app.js:49"]
-  static_assets_app_js_setStatus["setStatus · static/assets/app.js:26"]
-  static_assets_app_js_showView["showView · static/assets/app.js:31"]
-  AI_Runtime_agent_agent_AgentRuntime_close -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_cancel
-  AI_Runtime_agent_agent_AgentRuntime_execute -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
-  AI_Runtime_agent_agent_AgentRuntime_execute -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
-  AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_execute
-  AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_agent_AgentRuntime_notify
-  AI_Runtime_agent_agent_AgentRuntime_start -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop_run
-  AI_Runtime_agent_context_context_builder_ContextBuilder_build -->|"detected call"| AI_Runtime_memory_memory_manager_MemoryManager_retrieve
-  AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_context_context_builder_ContextBuilder_build
-  AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_agent_loop_agent_loop_AgentLoop__generate
-  AI_Runtime_agent_loop_agent_loop_AgentLoop_run -->|"detected call"| AI_Runtime_tools_executor_executor_ToolExecutor_execute
-  AI_Runtime_api_routes_chat_chat -->|"detected call"| AI_Runtime_api_routes_chat__event_stream
-  AI_Runtime_api_routes_chat_chat -->|"detected call"| AI_Runtime_api_routes_chat__runtime
-  AI_Runtime_memory_memory_manager_MemoryManager_retrieve -->|"detected call"| AI_Runtime_memory_retrieval_retriever_MemoryRetriever_retrieve
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_generate -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_generate -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__sampling_params
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model
-  AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_llama_cpp_LlamaCppAdapter__sampling_params
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__headers
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__headers
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__payload
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__require_client
-  AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream -->|"detected call"| AI_Runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__url
-  AI_Runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager__connect
-  AI_Runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| AI_Runtime_storage_storage_manager_StorageManager_new_id
-  frontend_src_server_services_database_js_getWatchlist -->|"detected call"| frontend_src_server_services_database_js_db
-  frontend_src_server_services_market_data_js_callback_174 -->|"detected call"| frontend_src_server_services_market_data_js_fetchYahooJson
-  frontend_src_server_services_market_data_js_callback_174 -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqQuote
-  frontend_src_server_services_market_data_js_fetchYahooJson -->|"detected call"| frontend_src_server_services_market_data_js_fetchJson
-  frontend_src_server_services_market_data_js_getChart -->|"detected call"| frontend_src_server_services_market_data_js_cached
-  frontend_src_server_services_market_data_js_getChart -->|"detected call"| frontend_src_server_services_market_data_js_validateSymbol
-  frontend_src_server_services_market_data_js_getCompanyNews -->|"detected call"| frontend_src_server_services_market_data_js_cached
-  frontend_src_server_services_market_data_js_getCompanyNews -->|"detected call"| frontend_src_server_services_market_data_js_validateSymbol
-  frontend_src_server_services_market_data_js_getNasdaqChart -->|"detected call"| frontend_src_server_services_market_data_js_fetchJson
-  frontend_src_server_services_market_data_js_getNasdaqChart -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqAsset
-  frontend_src_server_services_market_data_js_getNasdaqChart -->|"detected call"| frontend_src_server_services_market_data_js_getQuote
-  frontend_src_server_services_market_data_js_getNasdaqQuote -->|"detected call"| frontend_src_server_services_market_data_js_fetchJson
-  frontend_src_server_services_market_data_js_getNasdaqQuote -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqAsset
-  frontend_src_server_services_market_data_js_getNasdaqQuote -->|"detected call"| frontend_src_server_services_market_data_js_parseNumber
-  frontend_src_server_services_market_data_js_getNasdaqSummary -->|"detected call"| frontend_src_server_services_market_data_js_fetchJson
-  frontend_src_server_services_market_data_js_getNasdaqSummary -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqAsset
-  frontend_src_server_services_market_data_js_getQuote -->|"detected call"| frontend_src_server_services_market_data_js_cached
-  frontend_src_server_services_market_data_js_getQuote -->|"detected call"| frontend_src_server_services_market_data_js_validateSymbol
-  frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_getChart
-  frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_getCompanyNews
-  frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_getNasdaqSummary
-  frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_getQuote
-  frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_parseNumber
-  frontend_src_server_services_market_data_js_getStockDetails -->|"detected call"| frontend_src_server_services_market_data_js_validateSymbol
-  frontend_src_server_services_market_data_js_getYahooChart -->|"detected call"| frontend_src_server_services_market_data_js_fetchYahooJson
-  scripts_architecture_generator_generate -->|"detected call"| scripts_architecture_generator__render_readme
-  scripts_architecture_generator_generate -->|"detected call"| scripts_architecture_generator_analyze_repository
-  src_encoding_encoding__encode_messages_text -->|"detected call"| src_encoding_encoding_render_message
-  src_encoding_encoding__tool_name_for_encoding -->|"detected call"| src_encoding_encoding__split_tool_name
-  src_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| src_encoding_encoding__split_tool_name
-  src_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| src_encoding_encoding_to_json
-  src_encoding_encoding_encode_messages -->|"detected call"| src_encoding_encoding__encode_messages_text
-  src_encoding_encoding_encode_messages -->|"detected call"| src_encoding_encoding_process_image_messages
-  src_encoding_encoding_parse_message_from_completion_text -->|"detected call"| src_encoding_encoding_parse_tool_calls
-  src_encoding_encoding_parse_tool_calls -->|"detected call"| src_encoding_encoding_decode_dsml_to_arguments
-  src_encoding_encoding_process_image_messages -->|"detected call"| src_encoding_encoding__process_image_blocks
-  src_encoding_encoding_render_message -->|"detected call"| src_encoding_encoding__tool_name_for_encoding
-  src_encoding_encoding_render_message -->|"detected call"| src_encoding_encoding_to_json
-  src_sample_body -->|"detected call"| src_sample_top_k_logits
-  src_sample_sample_sequence -->|"detected call"| src_sample_body
-  src_sample_sample_sequence -->|"detected call"| src_sample_top_k_logits
-  static_assets_app_js_callback_126 -->|"detected call"| static_assets_app_js_resizeComposer
-  static_assets_app_js_callback_126 -->|"detected call"| static_assets_app_js_setStatus
+  agent_agent_AgentRuntime_cancel["cancel · agent/agent.py:123"]
+  agent_agent_AgentRuntime_close["close · agent/agent.py:144"]
+  agent_agent_AgentRuntime_execute["execute · agent/agent.py:83"]
+  agent_agent_AgentRuntime_notify["notify · agent/agent.py:80"]
+  agent_agent_AgentRuntime_start["start · agent/agent.py:63"]
+  agent_context_context_builder_ContextBuilder_build["build · agent/context/context_builder.py:22"]
+  agent_loop_agent_loop_AgentLoop__generate["_generate · agent/loop/agent_loop.py:129"]
+  agent_loop_agent_loop_AgentLoop_run["run · agent/loop/agent_loop.py:38"]
+  agent_memory_memory_manager_MemoryManager_retrieve["retrieve · agent/memory/memory_manager.py:12"]
+  agent_memory_retrieval_retriever_MemoryRetriever_retrieve["retrieve · agent/memory/retrieval/retriever.py:10"]
+  cli_modules_notes_NotesPane__delete_current["_delete_current · cli/modules/notes.py:88"]
+  cli_modules_notes_NotesPane__refresh_list["_refresh_list · cli/modules/notes.py:37"]
+  cli_modules_notes_NotesPane__save_current["_save_current · cli/modules/notes.py:76"]
+  cli_modules_notes_NotesPane__show["_show · cli/modules/notes.py:47"]
+  cli_modules_notes_NotesPane_on_button_pressed["on_button_pressed · cli/modules/notes.py:65"]
+  core_bpe_encoder_Encoder_bpe["bpe · core/bpe_encoder.py:55"]
+  core_encoding_encoding__decode_value["_decode_value · core/encoding/encoding.py:167"]
+  core_encoding_encoding__drop_thinking_messages["_drop_thinking_messages · core/encoding/encoding.py:738"]
+  core_encoding_encoding__encode_messages_text["_encode_messages_text · core/encoding/encoding.py:759"]
+  core_encoding_encoding__process_image_blocks["_process_image_blocks · core/encoding/encoding.py:319"]
+  core_encoding_encoding__read_until_stop["_read_until_stop · core/encoding/encoding.py:395"]
+  core_encoding_encoding__split_tool_name["_split_tool_name · core/encoding/encoding.py:101"]
+  core_encoding_encoding__tool_name_for_encoding["_tool_name_for_encoding · core/encoding/encoding.py:116"]
+  core_encoding_encoding_decode_dsml_to_arguments["decode_dsml_to_arguments · core/encoding/encoding.py:156"]
+  core_encoding_encoding_encode_arguments_to_dsml["encode_arguments_to_dsml · core/encoding/encoding.py:520"]
+  core_encoding_encoding_encode_messages["encode_messages · core/encoding/encoding.py:806"]
+  core_encoding_encoding_find_last_user_index["find_last_user_index · core/encoding/encoding.py:558"]
+  core_encoding_encoding_parse_message_from_completion_text["parse_message_from_completion_text · core/encoding/encoding.py:935"]
+  core_encoding_encoding_parse_tool_calls["parse_tool_calls · core/encoding/encoding.py:879"]
+  core_encoding_encoding_process_image_messages["process_image_messages · core/encoding/encoding.py:366"]
+  core_encoding_encoding_render_message["render_message · core/encoding/encoding.py:574"]
+  core_encoding_encoding_render_tools["render_tools · core/encoding/encoding.py:505"]
+  core_encoding_encoding_to_json["to_json · core/encoding/encoding.py:76"]
+  infrastructure_architecture_analyzers_runtime_analyze["analyze · infrastructure/architecture/analyzers/runtime.py:117"]
+  infrastructure_architecture_contributors_generate["generate · infrastructure/architecture/contributors.py:120"]
+  infrastructure_architecture_generator__render_readme["_render_readme · infrastructure/architecture/generator.py:248"]
+  infrastructure_architecture_generator_analyze_repository["analyze_repository · infrastructure/architecture/generator.py:288"]
+  infrastructure_architecture_generator_generate["generate · infrastructure/architecture/generator.py:335"]
+  infrastructure_architecture_index_SourceIndex_python_symbols["python_symbols · infrastructure/architecture/index.py:105"]
+  infrastructure_architecture_validate_validate_generated["validate_generated · infrastructure/architecture/validate.py:103"]
+  infrastructure_scripts_SVG_Path_dumper_js_add["add · infrastructure/scripts/SVG_Path_dumper.js:28"]
+  infrastructure_scripts_SVG_Path_dumper_js_domPath["domPath · infrastructure/scripts/SVG_Path_dumper.js:5"]
+  runtime_api_routes_chat__runtime["_runtime · runtime/api/routes/chat.py:16"]
+  runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model["_require_model · runtime/models/adapters/llama_cpp.py:155"]
+  runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request["_request · runtime/models/adapters/openai_compatible.py:109"]
+  runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream["stream · runtime/models/adapters/openai_compatible.py:75"]
+  runtime_models_inference_InferenceEngine_fit_context["fit_context · runtime/models/inference.py:85"]
+  runtime_storage_storage_manager_StorageManager__connect["_connect · runtime/storage/storage_manager.py:16"]
+  runtime_storage_storage_manager_StorageManager_add_memory["add_memory · runtime/storage/storage_manager.py:216"]
+  runtime_storage_storage_manager_StorageManager_new_id["new_id · runtime/storage/storage_manager.py:72"]
+  runtime_tools_executor_executor_ToolExecutor__register_builtin_tools["_register_builtin_tools · runtime/tools/executor/executor.py:153"]
+  runtime_tools_executor_executor_ToolExecutor__resolve_path["_resolve_path · runtime/tools/executor/executor.py:295"]
+  runtime_tools_executor_executor_ToolExecutor_execute["execute · runtime/tools/executor/executor.py:41"]
+  website_assets_app_js_callback_126["callback@126 · website/assets/app.js:126"]
+  website_assets_app_js_resizeComposer["resizeComposer · website/assets/app.js:49"]
+  website_assets_app_js_setStatus["setStatus · website/assets/app.js:26"]
+  website_assets_app_js_showView["showView · website/assets/app.js:31"]
+  website_stock_watch_scripts_dev_js_stop["stop · website/stock-watch/scripts/dev.js:14"]
+  website_stock_watch_src_client_services_api_js_request["request · website/stock-watch/src/client/services/api.js:1"]
+  website_stock_watch_src_server_services_database_js_db["db · website/stock-watch/src/server/services/database.js:7"]
+  website_stock_watch_src_server_services_database_js_getWatchlist["getWatchlist · website/stock-watch/src/server/services/database.js:11"]
+  website_stock_watch_src_server_services_market_data_js_cached["cached · website/stock-watch/src/server/services/market-data.js:130"]
+  website_stock_watch_src_server_services_market_data_js_callback_174["callback@174 · website/stock-watch/src/server/services/market-data.js:174"]
+  website_stock_watch_src_server_services_market_data_js_fetchJson["fetchJson · website/stock-watch/src/server/services/market-data.js:27"]
+  website_stock_watch_src_server_services_market_data_js_fetchYahooJson["fetchYahooJson · website/stock-watch/src/server/services/market-data.js:55"]
+  website_stock_watch_src_server_services_market_data_js_getChart["getChart · website/stock-watch/src/server/services/market-data.js:305"]
+  website_stock_watch_src_server_services_market_data_js_getCompanyNews["getCompanyNews · website/stock-watch/src/server/services/market-data.js:328"]
+  website_stock_watch_src_server_services_market_data_js_getNasdaqAsset["getNasdaqAsset · website/stock-watch/src/server/services/market-data.js:80"]
+  website_stock_watch_src_server_services_market_data_js_getNasdaqChart["getNasdaqChart · website/stock-watch/src/server/services/market-data.js:263"]
+  website_stock_watch_src_server_services_market_data_js_getNasdaqQuote["getNasdaqQuote · website/stock-watch/src/server/services/market-data.js:91"]
+  website_stock_watch_src_server_services_market_data_js_getNasdaqSummary["getNasdaqSummary · website/stock-watch/src/server/services/market-data.js:123"]
+  website_stock_watch_src_server_services_market_data_js_getQuote["getQuote · website/stock-watch/src/server/services/market-data.js:172"]
+  website_stock_watch_src_server_services_market_data_js_getStockDetails["getStockDetails · website/stock-watch/src/server/services/market-data.js:344"]
+  website_stock_watch_src_server_services_market_data_js_getYahooChart["getYahooChart · website/stock-watch/src/server/services/market-data.js:227"]
+  website_stock_watch_src_server_services_market_data_js_parseNumber["parseNumber · website/stock-watch/src/server/services/market-data.js:73"]
+  website_stock_watch_src_server_services_market_data_js_validateSymbol["validateSymbol · website/stock-watch/src/server/services/market-data.js:23"]
+  agent_agent_AgentRuntime_close -->|"detected call"| agent_agent_AgentRuntime_cancel
+  agent_agent_AgentRuntime_execute -->|"detected call"| agent_agent_AgentRuntime_notify
+  agent_agent_AgentRuntime_execute -->|"detected call"| agent_loop_agent_loop_AgentLoop_run
+  agent_agent_AgentRuntime_start -->|"detected call"| agent_agent_AgentRuntime_execute
+  agent_agent_AgentRuntime_start -->|"detected call"| agent_agent_AgentRuntime_notify
+  agent_agent_AgentRuntime_start -->|"detected call"| agent_loop_agent_loop_AgentLoop_run
+  agent_context_context_builder_ContextBuilder_build -->|"detected call"| agent_memory_memory_manager_MemoryManager_retrieve
+  agent_loop_agent_loop_AgentLoop_run -->|"detected call"| agent_context_context_builder_ContextBuilder_build
+  agent_loop_agent_loop_AgentLoop_run -->|"detected call"| agent_loop_agent_loop_AgentLoop__generate
+  agent_loop_agent_loop_AgentLoop_run -->|"detected call"| runtime_tools_executor_executor_ToolExecutor_execute
+  agent_memory_memory_manager_MemoryManager_retrieve -->|"detected call"| agent_memory_retrieval_retriever_MemoryRetriever_retrieve
+  cli_modules_notes_NotesPane__delete_current -->|"detected call"| cli_modules_notes_NotesPane__refresh_list
+  cli_modules_notes_NotesPane__refresh_list -->|"detected call"| cli_modules_notes_NotesPane__show
+  cli_modules_notes_NotesPane__save_current -->|"detected call"| cli_modules_notes_NotesPane__refresh_list
+  cli_modules_notes_NotesPane_on_button_pressed -->|"detected call"| cli_modules_notes_NotesPane__delete_current
+  cli_modules_notes_NotesPane_on_button_pressed -->|"detected call"| cli_modules_notes_NotesPane__refresh_list
+  cli_modules_notes_NotesPane_on_button_pressed -->|"detected call"| cli_modules_notes_NotesPane__save_current
+  core_encoding_encoding__decode_value -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding__drop_thinking_messages -->|"detected call"| core_encoding_encoding_find_last_user_index
+  core_encoding_encoding__encode_messages_text -->|"detected call"| core_encoding_encoding__drop_thinking_messages
+  core_encoding_encoding__encode_messages_text -->|"detected call"| core_encoding_encoding_render_message
+  core_encoding_encoding__tool_name_for_encoding -->|"detected call"| core_encoding_encoding__split_tool_name
+  core_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| core_encoding_encoding__decode_value
+  core_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| core_encoding_encoding__split_tool_name
+  core_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_encode_arguments_to_dsml -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_encode_messages -->|"detected call"| core_encoding_encoding__encode_messages_text
+  core_encoding_encoding_encode_messages -->|"detected call"| core_encoding_encoding_process_image_messages
+  core_encoding_encoding_parse_message_from_completion_text -->|"detected call"| core_encoding_encoding__read_until_stop
+  core_encoding_encoding_parse_message_from_completion_text -->|"detected call"| core_encoding_encoding_parse_tool_calls
+  core_encoding_encoding_parse_tool_calls -->|"detected call"| core_encoding_encoding__read_until_stop
+  core_encoding_encoding_parse_tool_calls -->|"detected call"| core_encoding_encoding_decode_dsml_to_arguments
+  core_encoding_encoding_process_image_messages -->|"detected call"| core_encoding_encoding__process_image_blocks
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding__tool_name_for_encoding
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_encode_arguments_to_dsml
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_find_last_user_index
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_render_tools
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_render_tools -->|"detected call"| core_encoding_encoding_to_json
+  infrastructure_architecture_generator_generate -->|"detected call"| infrastructure_architecture_generator__render_readme
+  infrastructure_architecture_generator_generate -->|"detected call"| infrastructure_architecture_generator_analyze_repository
+  runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| runtime_storage_storage_manager_StorageManager__connect
+  runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| runtime_storage_storage_manager_StorageManager_new_id
+  website_assets_app_js_callback_126 -->|"detected call"| website_assets_app_js_resizeComposer
+  website_assets_app_js_callback_126 -->|"detected call"| website_assets_app_js_setStatus
+  website_stock_watch_src_server_services_database_js_getWatchlist -->|"detected call"| website_stock_watch_src_server_services_database_js_db
+  website_stock_watch_src_server_services_market_data_js_callback_174 -->|"detected call"| website_stock_watch_src_server_services_market_data_js_fetchYahooJson
+  website_stock_watch_src_server_services_market_data_js_callback_174 -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getNasdaqQuote
+  website_stock_watch_src_server_services_market_data_js_fetchYahooJson -->|"detected call"| website_stock_watch_src_server_services_market_data_js_fetchJson
+  website_stock_watch_src_server_services_market_data_js_getChart -->|"detected call"| website_stock_watch_src_server_services_market_data_js_cached
+  website_stock_watch_src_server_services_market_data_js_getChart -->|"detected call"| website_stock_watch_src_server_services_market_data_js_validateSymbol
+  website_stock_watch_src_server_services_market_data_js_getCompanyNews -->|"detected call"| website_stock_watch_src_server_services_market_data_js_cached
+  website_stock_watch_src_server_services_market_data_js_getCompanyNews -->|"detected call"| website_stock_watch_src_server_services_market_data_js_validateSymbol
+  website_stock_watch_src_server_services_market_data_js_getNasdaqChart -->|"detected call"| website_stock_watch_src_server_services_market_data_js_fetchJson
+  website_stock_watch_src_server_services_market_data_js_getNasdaqChart -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getNasdaqAsset
+  website_stock_watch_src_server_services_market_data_js_getNasdaqChart -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getQuote
+  website_stock_watch_src_server_services_market_data_js_getNasdaqQuote -->|"detected call"| website_stock_watch_src_server_services_market_data_js_fetchJson
+  website_stock_watch_src_server_services_market_data_js_getNasdaqQuote -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getNasdaqAsset
+  website_stock_watch_src_server_services_market_data_js_getNasdaqQuote -->|"detected call"| website_stock_watch_src_server_services_market_data_js_parseNumber
+  website_stock_watch_src_server_services_market_data_js_getNasdaqSummary -->|"detected call"| website_stock_watch_src_server_services_market_data_js_fetchJson
+  website_stock_watch_src_server_services_market_data_js_getNasdaqSummary -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getNasdaqAsset
+  website_stock_watch_src_server_services_market_data_js_getQuote -->|"detected call"| website_stock_watch_src_server_services_market_data_js_cached
+  website_stock_watch_src_server_services_market_data_js_getQuote -->|"detected call"| website_stock_watch_src_server_services_market_data_js_validateSymbol
+  website_stock_watch_src_server_services_market_data_js_getStockDetails -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getChart
+  website_stock_watch_src_server_services_market_data_js_getStockDetails -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getCompanyNews
+  website_stock_watch_src_server_services_market_data_js_getStockDetails -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getNasdaqSummary
+  website_stock_watch_src_server_services_market_data_js_getStockDetails -->|"detected call"| website_stock_watch_src_server_services_market_data_js_getQuote
+  website_stock_watch_src_server_services_market_data_js_getStockDetails -->|"detected call"| website_stock_watch_src_server_services_market_data_js_parseNumber
+  website_stock_watch_src_server_services_market_data_js_getStockDetails -->|"detected call"| website_stock_watch_src_server_services_market_data_js_validateSymbol
+  website_stock_watch_src_server_services_market_data_js_getYahooChart -->|"detected call"| website_stock_watch_src_server_services_market_data_js_fetchYahooJson
   analysis_note_0["Edges resolve direct call syntax to a unique local function or an instance attribute assigned a local class."]
   class analysis_note_0 note
   analysis_note_1["Unqualified calls resolve only within the same source file; dynamic dispatch, reflection, imported calls, unr…"]

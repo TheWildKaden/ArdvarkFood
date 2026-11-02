@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build:pages": "node scripts/build-pages.mjs",
-    "preview:pages": "bash scripts/preview-pages.sh",
-    "architecture:generate": "python3 scripts/generate_architecture.py",
-    "architecture:validate": "python3 scripts/generate_architecture.py --validate-only"
+    "build:pages": "node infrastructure/scripts/build-pages.mjs",
+    "preview:pages": "bash infrastructure/scripts/preview-pages.sh",
+    "architecture:generate": "python3 infrastructure/scripts/generate_architecture.py",
+    "architecture:validate": "python3 infrastructure/scripts/generate_architecture.py --validate-only"
   },
   "devDependencies": {
     "@babel/parser": "^8.0.10",

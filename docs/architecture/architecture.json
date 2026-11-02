@@ -1,18 +1,18 @@
 {
   "repository": "TheWildKaden/ArdvarkFood",
   "analysis": {
-    "source_files": 85,
-    "python_modules": 56,
+    "source_files": 103,
+    "python_modules": 74,
     "javascript_modules": 29,
-    "functions": 517,
-    "classes": 57,
+    "functions": 538,
+    "classes": 64,
     "api_routes": [
       {
         "method": "GET",
         "path": "/",
         "handler": "home",
-        "source": "src/web/app_factory.py",
-        "line": 39,
+        "source": "services/api/app_factory.py",
+        "line": 40,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
       },
@@ -20,7 +20,7 @@
         "method": "POST",
         "path": "/api/chat",
         "handler": "chat",
-        "source": "src/web/routes.py",
+        "source": "services/api/routes.py",
         "line": 32,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -29,7 +29,7 @@
         "method": "GET",
         "path": "/api/health",
         "handler": "health",
-        "source": "src/web/routes.py",
+        "source": "services/api/routes.py",
         "line": 28,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -38,7 +38,7 @@
         "method": "POST",
         "path": "/api/images/generate",
         "handler": "generate_image",
-        "source": "src/web/routes.py",
+        "source": "services/api/routes.py",
         "line": 45,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -47,7 +47,7 @@
         "method": "GET",
         "path": "/api/images/status",
         "handler": "image_status",
-        "source": "src/web/routes.py",
+        "source": "services/api/routes.py",
         "line": 36,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -56,7 +56,7 @@
         "method": "GET",
         "path": "/api/images/{filename}",
         "handler": "get_generated_image",
-        "source": "src/web/routes.py",
+        "source": "services/api/routes.py",
         "line": 74,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -65,7 +65,7 @@
         "method": "POST",
         "path": "/api/runtime/chat",
         "handler": "chat",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 185,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -74,7 +74,7 @@
         "method": "GET",
         "path": "/api/runtime/config",
         "handler": "get_runtime_config",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 81,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -83,7 +83,7 @@
         "method": "GET",
         "path": "/api/runtime/conversations",
         "handler": "list_conversations",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 153,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -92,7 +92,7 @@
         "method": "POST",
         "path": "/api/runtime/conversations",
         "handler": "create_conversation",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 158,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -101,7 +101,7 @@
         "method": "DELETE",
         "path": "/api/runtime/conversations/{conversation_id}",
         "handler": "delete_conversation",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 178,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -110,7 +110,7 @@
         "method": "GET",
         "path": "/api/runtime/conversations/{conversation_id}",
         "handler": "get_conversation",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 165,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -119,7 +119,7 @@
         "method": "GET",
         "path": "/api/runtime/executions/{execution_id}",
         "handler": "execution_status",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 112,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -128,7 +128,7 @@
         "method": "POST",
         "path": "/api/runtime/executions/{execution_id}/cancel",
         "handler": "cancel_execution",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 120,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -137,7 +137,7 @@
         "method": "POST",
         "path": "/api/runtime/executions/{execution_id}/tools/{tool_call_id}/approval",
         "handler": "resolve_approval",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 127,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -146,7 +146,7 @@
         "method": "POST",
         "path": "/api/runtime/memory",
         "handler": "add_memory",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 142,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -155,7 +155,7 @@
         "method": "GET",
         "path": "/api/runtime/models",
         "handler": "model_status",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 52,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -164,7 +164,7 @@
         "method": "POST",
         "path": "/api/runtime/models/load",
         "handler": "load_model",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 57,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -173,7 +173,7 @@
         "method": "POST",
         "path": "/api/runtime/models/unload",
         "handler": "unload_model",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 73,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -182,7 +182,7 @@
         "method": "GET",
         "path": "/api/runtime/status",
         "handler": "runtime_status",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 42,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -191,7 +191,7 @@
         "method": "GET",
         "path": "/api/runtime/tools",
         "handler": "list_tools",
-        "source": "AI-Runtime/api/routes/chat.py",
+        "source": "runtime/api/routes/chat.py",
         "line": 101,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
@@ -200,8 +200,8 @@
         "method": "GET",
         "path": "/project",
         "handler": "project_site",
-        "source": "src/web/app_factory.py",
-        "line": 43,
+        "source": "services/api/app_factory.py",
+        "line": 44,
         "framework": "FastAPI",
         "confidence": "detected (Python AST decorator)"
       },
@@ -209,7 +209,7 @@
         "method": "GET",
         "path": "/api/health",
         "line": 9,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/index.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/index.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -218,7 +218,7 @@
         "method": "GET",
         "path": "/api/logger/events",
         "line": 30,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/logger.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -227,7 +227,7 @@
         "method": "GET",
         "path": "/api/logger/incidents",
         "line": 20,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/logger.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -236,7 +236,7 @@
         "method": "GET",
         "path": "/api/logger/logs",
         "line": 25,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/logger.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -245,7 +245,7 @@
         "method": "GET",
         "path": "/api/logger/metrics",
         "line": 35,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/logger.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -254,7 +254,7 @@
         "method": "GET",
         "path": "/api/logger/monitors",
         "line": 19,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/logger.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -263,7 +263,7 @@
         "method": "GET",
         "path": "/api/logger/status",
         "line": 18,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/logger.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/logger.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -272,7 +272,7 @@
         "method": "GET",
         "path": "/api/market",
         "line": 23,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/market.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/market.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -281,7 +281,7 @@
         "method": "GET",
         "path": "/api/metrics",
         "line": 15,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/index.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/index.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -290,7 +290,7 @@
         "method": "GET",
         "path": "/api/search",
         "line": 10,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/stocks.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -299,7 +299,7 @@
         "method": "GET",
         "path": "/api/settings",
         "line": 17,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/settings.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/settings.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -308,7 +308,7 @@
         "method": "PATCH",
         "path": "/api/settings",
         "line": 18,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/settings.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/settings.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -317,7 +317,7 @@
         "method": "GET",
         "path": "/api/stocks/:symbol",
         "line": 15,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/stocks.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -326,7 +326,7 @@
         "method": "GET",
         "path": "/api/stocks/:symbol/chart",
         "line": 28,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/stocks.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -335,7 +335,7 @@
         "method": "GET",
         "path": "/api/stocks/:symbol/news",
         "line": 34,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/stocks.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -344,7 +344,7 @@
         "method": "GET",
         "path": "/api/stocks/:symbol/quote",
         "line": 23,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/stocks.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/stocks.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -353,7 +353,7 @@
         "method": "GET",
         "path": "/api/watchlist",
         "line": 8,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/watchlist.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -362,7 +362,7 @@
         "method": "POST",
         "path": "/api/watchlist",
         "line": 14,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/watchlist.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -371,7 +371,7 @@
         "method": "DELETE",
         "path": "/api/watchlist/:symbol",
         "line": 21,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/watchlist.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -380,7 +380,7 @@
         "method": "PUT",
         "path": "/api/watchlist/reorder",
         "line": 26,
-        "source": "/workspaces/ArdvarkFood/frontend/src/server/routes/watchlist.js",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/server/routes/watchlist.js",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -389,7 +389,7 @@
         "method": "GET",
         "path": "/settings",
         "line": 19,
-        "source": "/workspaces/ArdvarkFood/frontend/src/client/App.jsx",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/App.jsx",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -398,7 +398,7 @@
         "method": "GET",
         "path": "/watchlist",
         "line": 19,
-        "source": "/workspaces/ArdvarkFood/frontend/src/client/App.jsx",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/App.jsx",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -407,7 +407,7 @@
         "method": "GET",
         "path": "/watchlist",
         "line": 38,
-        "source": "/workspaces/ArdvarkFood/frontend/src/client/pages/StockPage.jsx",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/pages/StockPage.jsx",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
@@ -416,208 +416,114 @@
         "method": "POST",
         "path": "/watchlist",
         "line": 37,
-        "source": "/workspaces/ArdvarkFood/frontend/src/client/pages/StockPage.jsx",
+        "source": "/workspaces/ArdvarkFood/website/stock-watch/src/client/pages/StockPage.jsx",
         "framework": "Fastify (method call syntax)",
         "handler": "route callback",
         "confidence": "detected (Babel AST call)"
       }
     ],
     "module_groups": {
-      "AI-Runtime": 25,
+      "Agent": 9,
       "Architecture generator": 20,
-      "FastAPI (src/web)": 5,
-      "Frontend client": 13,
-      "Frontend server": 9,
-      "Message encoding": 1,
+      "FastAPI API": 5,
+      "Infrastructure": 4,
+      "Message encoding": 2,
+      "Packages": 3,
       "Repository root": 2,
-      "frontend": 2,
-      "scripts": 3,
-      "src": 4,
-      "static": 1
+      "Runtime": 18,
+      "Stock Watch client": 13,
+      "Stock Watch server": 9,
+      "Website": 3,
+      "cli": 12,
+      "core": 2,
+      "services": 1
     },
     "module_import_edges": [
       {
-        "from": "FastAPI (src/web)",
-        "to": "src",
+        "from": "Agent",
+        "to": "Runtime",
+        "imports": 21
+      },
+      {
+        "from": "Architecture generator",
+        "to": "Infrastructure",
+        "imports": 12
+      },
+      {
+        "from": "FastAPI API",
+        "to": "Packages",
+        "imports": 4
+      },
+      {
+        "from": "FastAPI API",
+        "to": "Runtime",
         "imports": 2
       },
       {
-        "from": "Repository root",
-        "to": "FastAPI (src/web)",
+        "from": "FastAPI API",
+        "to": "services",
+        "imports": 3
+      },
+      {
+        "from": "Infrastructure",
+        "to": "Architecture generator",
         "imports": 1
       },
       {
         "from": "Repository root",
-        "to": "src",
-        "imports": 2
+        "to": "FastAPI API",
+        "imports": 1
       },
       {
-        "from": "frontend",
-        "to": "Frontend server",
+        "from": "Repository root",
+        "to": "Packages",
+        "imports": 4
+      },
+      {
+        "from": "Repository root",
+        "to": "services",
+        "imports": 1
+      },
+      {
+        "from": "Runtime",
+        "to": "Agent",
+        "imports": 4
+      },
+      {
+        "from": "Website",
+        "to": "Stock Watch server",
         "imports": 1
       }
     ],
     "dependencies": {
       "requirements-image-generator.txt": [
-        "torch",
-        "diffusers",
-        "transformers",
-        "accelerate",
-        "safetensors",
-        "Pillow"
+        "-r"
       ],
       "requirements.txt": [
-        "aiohappyeyeballs",
-        "aiohttp",
-        "aiosignal",
-        "aiosqlite",
-        "annotated-types",
-        "anyio",
-        "appdirs",
-        "asttokens",
-        "attrs",
-        "audioop-lts",
-        "backcall",
-        "bcrypt",
-        "beautifulsoup4",
-        "bleach",
-        "blinker",
-        "brotli",
-        "bs4",
-        "capsolver",
-        "certifi",
-        "cffi",
-        "charset-normalizer",
-        "click",
-        "colorama",
-        "crypto",
-        "cryptography",
-        "ddgs",
-        "decorator",
-        "defusedxml",
-        "discord.py",
-        "docopt",
-        "dpkt",
-        "duckduckgo_search",
-        "executing",
-        "fake-useragent",
-        "fastjsonschema",
-        "filelock",
-        "Flask",
-        "frozenlist",
-        "fsspec",
-        "h11",
-        "h2",
-        "hpack",
-        "httpcore",
-        "httpx",
-        "httpx-sse",
-        "hyperframe",
-        "idna",
-        "invoke",
-        "ipython",
-        "ipython_pygments_lexers",
-        "itsdangerous",
-        "jedi",
-        "Jinja2",
-        "jsonschema",
-        "jsonschema-specifications",
-        "jupyter_client",
-        "jupyter_core",
-        "jupyterlab_pygments",
-        "libimobiledevice",
-        "loguru",
-        "lxml",
-        "markdown-it-py",
-        "MarkupSafe",
-        "matplotlib-inline",
-        "mcp",
-        "mdurl",
-        "mistune",
-        "mpmath",
-        "multidict",
-        "Naked",
-        "nbclient",
-        "nbconvert",
-        "nbformat",
-        "networkx",
-        "numpy",
-        "packaging",
-        "pandocfilters",
-        "paramiko",
-        "parso",
-        "pickleshare",
-        "pillow",
-        "pipreqs",
-        "platformdirs",
-        "primp",
-        "prompt_toolkit",
-        "propcache",
-        "psutil",
-        "pure_eval",
-        "pycparser",
-        "pycryptodome",
-        "pydantic",
-        "pydantic-settings",
-        "pydantic_core",
-        "Pygments",
-        "PyJWT",
-        "PyNaCl",
-        "PyOpenGL",
-        "PyOpenGL-accelerate",
-        "pyshark",
-        "PySide6",
-        "PySide6_Addons",
-        "PySide6_Essentials",
-        "python-dateutil",
-        "python-dotenv",
-        "python-multipart",
-        "pywin32",
-        "PyYAML",
-        "pyzmq",
-        "referencing",
-        "requests",
-        "rich",
-        "rpds-py",
-        "scapy",
-        "scipy",
-        "setuptools",
-        "shellescape",
-        "shiboken6",
-        "six",
-        "socksio",
-        "soundfile",
-        "soupsieve",
-        "sse-starlette",
-        "stack-data",
-        "starlette",
-        "sympy",
-        "termcolor",
-        "tinycss2",
-        "torch",
-        "tornado",
-        "traitlets",
-        "typing-inspection",
-        "typing_extensions",
-        "urllib3",
-        "uvicorn",
-        "wcwidth",
-        "webencodings",
-        "Werkzeug",
-        "win32_setctime",
-        "yarg",
-        "yarl",
-        "zstandard"
+        "-r",
+        "-r",
+        "pytest",
+        "textual"
       ],
-      "AI-Runtime/requirements.txt": [
+      "runtime/requirements.txt": [
         "fastapi",
         "uvicorn",
         "httpx",
         "pydantic",
         "jsonschema",
         "llama-cpp-python",
-        "mcp",
-        "pytest"
+        "mcp"
+      ],
+      "core/requirements.txt": [
+        "regex"
+      ],
+      "packages/image_generation/requirements.txt": [
+        "torch",
+        "diffusers",
+        "transformers",
+        "accelerate",
+        "safetensors",
+        "Pillow"
       ],
       "package.json:devDependencies": [
         "@babel/parser",
@@ -645,127 +551,127 @@
     ],
     "runtime_constructor_edges": [
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "InferenceEngine",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:43"
+        "evidence": "constructor at agent/agent.py:43"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "MemoryManager",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:44"
+        "evidence": "constructor at agent/agent.py:44"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "Planner",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:45"
+        "evidence": "constructor at agent/agent.py:45"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "ContextBuilder",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:46"
+        "evidence": "constructor at agent/agent.py:46"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "PermissionManager",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:48"
+        "evidence": "constructor at agent/agent.py:48"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "ToolExecutor",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:53"
+        "evidence": "constructor at agent/agent.py:53"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "MCPManager",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:56"
+        "evidence": "constructor at agent/agent.py:56"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "InputRouter",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:57"
+        "evidence": "constructor at agent/agent.py:57"
       },
       {
-        "from": "AI-Runtime.agent.agent.AgentRuntime",
+        "from": "agent.agent.AgentRuntime",
         "to": "AgentLoop",
-        "evidence": "constructor at AI-Runtime/agent/agent.py:58"
+        "evidence": "constructor at agent/agent.py:58"
       }
     ],
     "runtime_adapter_edges": [
       {
         "from": "ModelManager",
         "to": "LlamaCppAdapter",
-        "evidence": "explicit backend import at AI-Runtime/models/model_manager.py:108"
+        "evidence": "explicit backend import at runtime/models/model_manager.py:108"
       },
       {
         "from": "ModelManager",
         "to": "OpenAICompatibleAdapter",
-        "evidence": "explicit backend import at AI-Runtime/models/model_manager.py:112"
+        "evidence": "explicit backend import at runtime/models/model_manager.py:112"
       }
     ],
     "compiler_components": [
       {
         "name": "bytes_to_unicode",
-        "path": "src/encoder.py",
+        "path": "core/bpe_encoder.py",
         "line": 9
       },
       {
         "name": "get_pairs",
-        "path": "src/encoder.py",
+        "path": "core/bpe_encoder.py",
         "line": 30
       },
       {
         "name": "bpe",
-        "path": "src/encoder.py",
+        "path": "core/bpe_encoder.py",
         "line": 55
       },
       {
         "name": "encode",
-        "path": "src/encoder.py",
+        "path": "core/bpe_encoder.py",
         "line": 96
       },
       {
         "name": "decode",
-        "path": "src/encoder.py",
+        "path": "core/bpe_encoder.py",
         "line": 103
       },
       {
         "name": "parse_tagged_text",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 269
       },
       {
         "name": "_read_until_stop",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 395
       },
       {
         "name": "render_message",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 574
       },
       {
         "name": "_encode_messages_text",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 759
       },
       {
         "name": "encode_messages",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 806
       },
       {
         "name": "encode_case",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 861
       },
       {
         "name": "parse_tool_calls",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 879
       },
       {
         "name": "parse_message_from_completion_text",
-        "path": "src/encoding/encoding.py",
+        "path": "core/encoding/encoding.py",
         "line": 935
       }
     ],
@@ -782,10 +688,10 @@
     },
     "build": {
       "package_scripts": {
-        "build:pages": "node scripts/build-pages.mjs",
-        "preview:pages": "bash scripts/preview-pages.sh",
-        "architecture:generate": "python3 scripts/generate_architecture.py",
-        "architecture:validate": "python3 scripts/generate_architecture.py --validate-only"
+        "build:pages": "node infrastructure/scripts/build-pages.mjs",
+        "preview:pages": "bash infrastructure/scripts/preview-pages.sh",
+        "architecture:generate": "python3 infrastructure/scripts/generate_architecture.py",
+        "architecture:validate": "python3 infrastructure/scripts/generate_architecture.py --validate-only"
       },
       "workflows": [
         {

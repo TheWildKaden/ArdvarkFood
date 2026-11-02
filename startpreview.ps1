@@ -35,14 +35,14 @@ foreach ($candidate in $pythonCandidates) {
 }
 
 if (-not $python) {
-    throw "Python with Uvicorn was not found. Install the app dependencies with: python -m pip install -r AI-Runtime/requirements.txt"
+    throw "Python with Uvicorn was not found. Install the app dependencies with: python -m pip install -r requirements.txt"
 }
 
 Write-Host "Starting Ardvark preview at http://localhost:$port"
 Write-Host "Press Ctrl+C to stop the server."
 Push-Location $PSScriptRoot
 try {
-    & $python.Path @($python.Prefix) -m uvicorn app:app --reload --host 0.0.0.0 --port $port
+    & $python.Path @($python.Prefix) -m cli serve --reload --host 0.0.0.0 --port $port
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
     }
