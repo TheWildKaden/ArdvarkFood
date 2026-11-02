@@ -1,164 +1,156 @@
 flowchart LR
+  agent_agent_AgentRuntime_cancel["cancel · agent/agent.py:123"]
+  agent_agent_AgentRuntime_close["close · agent/agent.py:144"]
+  agent_agent_AgentRuntime_execute["execute · agent/agent.py:83"]
+  agent_agent_AgentRuntime_notify["notify · agent/agent.py:80"]
+  agent_agent_AgentRuntime_start["start · agent/agent.py:63"]
+  agent_context_context_builder_ContextBuilder_build["build · agent/context/context_builder.py:22"]
+  agent_loop_agent_loop_AgentLoop__generate["_generate · agent/loop/agent_loop.py:129"]
+  agent_loop_agent_loop_AgentLoop_run["run · agent/loop/agent_loop.py:38"]
+  agent_memory_memory_manager_MemoryManager_retrieve["retrieve · agent/memory/memory_manager.py:12"]
+  agent_memory_retrieval_retriever_MemoryRetriever_retrieve["retrieve · agent/memory/retrieval/retriever.py:10"]
+  cli_modules_notes_NotesPane__delete_current["_delete_current · cli/modules/notes.py:88"]
+  cli_modules_notes_NotesPane__refresh_list["_refresh_list · cli/modules/notes.py:37"]
+  cli_modules_notes_NotesPane__save_current["_save_current · cli/modules/notes.py:76"]
+  cli_modules_notes_NotesPane__show["_show · cli/modules/notes.py:47"]
+  cli_modules_notes_NotesPane_on_button_pressed["on_button_pressed · cli/modules/notes.py:65"]
+  core_bpe_encoder_Encoder_bpe["bpe · core/bpe_encoder.py:55"]
+  core_encoding_encoding__decode_value["_decode_value · core/encoding/encoding.py:167"]
+  core_encoding_encoding__drop_thinking_messages["_drop_thinking_messages · core/encoding/encoding.py:738"]
+  core_encoding_encoding__encode_messages_text["_encode_messages_text · core/encoding/encoding.py:759"]
+  core_encoding_encoding__process_image_blocks["_process_image_blocks · core/encoding/encoding.py:319"]
+  core_encoding_encoding__read_until_stop["_read_until_stop · core/encoding/encoding.py:395"]
+  core_encoding_encoding__split_tool_name["_split_tool_name · core/encoding/encoding.py:101"]
+  core_encoding_encoding__tool_name_for_encoding["_tool_name_for_encoding · core/encoding/encoding.py:116"]
+  core_encoding_encoding_decode_dsml_to_arguments["decode_dsml_to_arguments · core/encoding/encoding.py:156"]
+  core_encoding_encoding_encode_arguments_to_dsml["encode_arguments_to_dsml · core/encoding/encoding.py:520"]
+  core_encoding_encoding_encode_messages["encode_messages · core/encoding/encoding.py:806"]
+  core_encoding_encoding_find_last_user_index["find_last_user_index · core/encoding/encoding.py:558"]
+  core_encoding_encoding_parse_message_from_completion_text["parse_message_from_completion_text · core/encoding/encoding.py:935"]
+  core_encoding_encoding_parse_tool_calls["parse_tool_calls · core/encoding/encoding.py:879"]
+  core_encoding_encoding_process_image_messages["process_image_messages · core/encoding/encoding.py:366"]
+  core_encoding_encoding_render_message["render_message · core/encoding/encoding.py:574"]
+  core_encoding_encoding_render_tools["render_tools · core/encoding/encoding.py:505"]
+  core_encoding_encoding_to_json["to_json · core/encoding/encoding.py:76"]
+  core_encoding_encoding_tool_calls_from_openai_format["tool_calls_from_openai_format · core/encoding/encoding.py:124"]
+  core_encoding_encoding_tools_from_openai_format["tools_from_openai_format · core/encoding/encoding.py:84"]
+  infrastructure_architecture_analyzers_modules_analyze["analyze · infrastructure/architecture/analyzers/modules.py:70"]
+  infrastructure_architecture_analyzers_runtime_analyze["analyze · infrastructure/architecture/analyzers/runtime.py:117"]
+  infrastructure_architecture_contributors__git["_git · infrastructure/architecture/contributors.py:22"]
+  infrastructure_architecture_contributors_generate["generate · infrastructure/architecture/contributors.py:120"]
+  infrastructure_architecture_contributors_repository_name["repository_name · infrastructure/architecture/contributors.py:33"]
+  infrastructure_architecture_diagram_flowchart["flowchart · infrastructure/architecture/diagram.py:21"]
+  infrastructure_architecture_generator__render_readme["_render_readme · infrastructure/architecture/generator.py:252"]
+  infrastructure_architecture_generator_analyze_repository["analyze_repository · infrastructure/architecture/generator.py:292"]
+  infrastructure_architecture_generator_generate["generate · infrastructure/architecture/generator.py:339"]
+  infrastructure_architecture_generator_main["main · infrastructure/architecture/generator.py:421"]
+  infrastructure_architecture_index_SourceIndex_python_symbols["python_symbols · infrastructure/architecture/index.py:105"]
+  infrastructure_architecture_validate__validate_readme_links["_validate_readme_links · infrastructure/architecture/validate.py:68"]
+  infrastructure_architecture_validate_validate_generated["validate_generated · infrastructure/architecture/validate.py:103"]
+  infrastructure_architecture_js_indexer_mjs_nameOf["nameOf · infrastructure/architecture/js_indexer.mjs:7"]
+  infrastructure_scripts_SVG_Path_dumper_js_add["add · infrastructure/scripts/SVG_Path_dumper.js:28"]
+  infrastructure_scripts_SVG_Path_dumper_js_callback_36["callback@36 · infrastructure/scripts/SVG_Path_dumper.js:36"]
+  infrastructure_scripts_SVG_Path_dumper_js_callback_50["callback@50 · infrastructure/scripts/SVG_Path_dumper.js:50"]
+  infrastructure_scripts_SVG_Path_dumper_js_callback_67["callback@67 · infrastructure/scripts/SVG_Path_dumper.js:67"]
+  infrastructure_scripts_SVG_Path_dumper_js_domPath["domPath · infrastructure/scripts/SVG_Path_dumper.js:5"]
   runtime_api_routes_chat__runtime["_runtime · runtime/api/routes/chat.py:16"]
+  runtime_models_adapters_llama_cpp_LlamaCppAdapter__require_model["_require_model · runtime/models/adapters/llama_cpp.py:155"]
+  runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter__request["_request · runtime/models/adapters/openai_compatible.py:109"]
+  runtime_models_adapters_openai_compatible_OpenAICompatibleAdapter_stream["stream · runtime/models/adapters/openai_compatible.py:75"]
+  runtime_models_inference_InferenceEngine_fit_context["fit_context · runtime/models/inference.py:85"]
   runtime_storage_storage_manager_StorageManager__connect["_connect · runtime/storage/storage_manager.py:16"]
-  website_js_highlight_DnWwF2T8_js_callback_8["callback@8 · website/js/highlight-DnWwF2T8.js:8"]
-  website_js_index_C7tppToL_js_V["V · website/js/index-C7tppToL.js:2"]
-  website_js_index_C7tppToL_js_callback_48["callback@48 · website/js/index-C7tppToL.js:48"]
-  website_js_index_C7tppToL_js_callback_6["callback@6 · website/js/index-C7tppToL.js:6"]
-  website_js_index_C7tppToL_js_o["o · website/js/index-C7tppToL.js:48"]
-  website_js_index_C7tppToL_js_s["s · website/js/index-C7tppToL.js:2"]
-  website_js_katex_Dpfoupes_js_A["A · website/js/katex-Dpfoupes.js:255"]
-  website_js_katex_Dpfoupes_js_He_consume["consume · website/js/katex-Dpfoupes.js:260"]
-  website_js_katex_Dpfoupes_js_He_fetch["fetch · website/js/katex-Dpfoupes.js:260"]
-  website_js_katex_Dpfoupes_js_He_parseGroup["parseGroup · website/js/katex-Dpfoupes.js:260"]
-  website_js_katex_Dpfoupes_js_P["P · website/js/katex-Dpfoupes.js:255"]
-  website_js_katex_Dpfoupes_js_T0_extend["extend · website/js/katex-Dpfoupes.js:255"]
-  website_js_katex_Dpfoupes_js_callback_256["callback@256 · website/js/katex-Dpfoupes.js:256"]
-  website_js_katex_Dpfoupes_js_d4_expandOnce["expandOnce · website/js/katex-Dpfoupes.js:260"]
-  website_js_katex_Dpfoupes_js_handler["handler · website/js/katex-Dpfoupes.js:256"]
-  website_js_katex_Dpfoupes_js_htmlBuilder["htmlBuilder · website/js/katex-Dpfoupes.js:256"]
-  website_js_katex_Dpfoupes_js_mathmlBuilder["mathmlBuilder · website/js/katex-Dpfoupes.js:256"]
-  website_js_katex_Dpfoupes_js_o0["o0 · website/js/katex-Dpfoupes.js:255"]
-  website_js_katex_Dpfoupes_js_t0["t0 · website/js/katex-Dpfoupes.js:255"]
-  website_js_pdfjs_1UVhggrJ_js__["$ · website/js/pdfjs-1UVhggrJ.js:1"]
-  website_js_pdfjs_1UVhggrJ_js_F["F · website/js/pdfjs-1UVhggrJ.js:1"]
-  website_js_pdfjs_1UVhggrJ_js_N["N · website/js/pdfjs-1UVhggrJ.js:1"]
-  website_js_pdfjs_1UVhggrJ_js_Q["Q · website/js/pdfjs-1UVhggrJ.js:1"]
-  website_js_pdfjs_1UVhggrJ_js_U["U · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_pdfjs_1UVhggrJ_js_Xt_compose["compose · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_pdfjs_1UVhggrJ_js_Xt_paintInlineImageXObject["paintInlineImageXObject · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_pdfjs_1UVhggrJ_js_Xt_setGState["setGState · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_pdfjs_1UVhggrJ_js_q__createPopup["_createPopup · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_pdfjs_1UVhggrJ_js_qi_bind["bind · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_pdfjs_1UVhggrJ_js_ui_abort["abort · website/js/pdfjs-1UVhggrJ.js:2"]
-  website_js_radix_ui_B3BDZ7LM_js_callback_1["callback@1 · website/js/radix-ui-B3BDZ7LM.js:1"]
-  website_js_react_icons_DklJ_slT_js_r["r · website/js/react-icons-DklJ-slT.js:1"]
-  website_js_vendor_U_R19qKe_js__n["$n · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Ah["Ah · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_An["An · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_At["At · website/js/vendor-U_R19qKe.js:38"]
-  website_js_vendor_U_R19qKe_js_Dt["Dt · website/js/vendor-U_R19qKe.js:38"]
-  website_js_vendor_U_R19qKe_js_Ei["Ei · website/js/vendor-U_R19qKe.js:225"]
-  website_js_vendor_U_R19qKe_js_F["F · website/js/vendor-U_R19qKe.js:229"]
-  website_js_vendor_U_R19qKe_js_Fh["Fh · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Fo["Fo · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Hv["Hv · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_K3_slice["slice · website/js/vendor-U_R19qKe.js:234"]
-  website_js_vendor_U_R19qKe_js_Kt["Kt · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Mv["Mv · website/js/vendor-U_R19qKe.js:38"]
-  website_js_vendor_U_R19qKe_js_Pa["Pa · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Qv["Qv · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_S["S · website/js/vendor-U_R19qKe.js:266"]
-  website_js_vendor_U_R19qKe_js_Sr["Sr · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Tt["Tt · website/js/vendor-U_R19qKe.js:234"]
-  website_js_vendor_U_R19qKe_js_Uc["Uc · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Wv["Wv · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_Xe["Xe · website/js/vendor-U_R19qKe.js:234"]
-  website_js_vendor_U_R19qKe_js_Xn["Xn · website/js/vendor-U_R19qKe.js:234"]
-  website_js_vendor_U_R19qKe_js_Yt["Yt · website/js/vendor-U_R19qKe.js:38"]
-  website_js_vendor_U_R19qKe_js_a["a · website/js/vendor-U_R19qKe.js:266"]
-  website_js_vendor_U_R19qKe_js_callback_227["callback@227 · website/js/vendor-U_R19qKe.js:227"]
-  website_js_vendor_U_R19qKe_js_callback_229["callback@229 · website/js/vendor-U_R19qKe.js:229"]
-  website_js_vendor_U_R19qKe_js_callback_233["callback@233 · website/js/vendor-U_R19qKe.js:233"]
-  website_js_vendor_U_R19qKe_js_callback_37["callback@37 · website/js/vendor-U_R19qKe.js:37"]
-  website_js_vendor_U_R19qKe_js_callback_38["callback@38 · website/js/vendor-U_R19qKe.js:38"]
-  website_js_vendor_U_R19qKe_js_callback_40["callback@40 · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_gh["gh · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_gt["gt · website/js/vendor-U_R19qKe.js:234"]
-  website_js_vendor_U_R19qKe_js_h["h · website/js/vendor-U_R19qKe.js:266"]
-  website_js_vendor_U_R19qKe_js_jh["jh · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_jt["jt · website/js/vendor-U_R19qKe.js:225"]
-  website_js_vendor_U_R19qKe_js_l["l · website/js/vendor-U_R19qKe.js:38"]
-  website_js_vendor_U_R19qKe_js_lt["lt · website/js/vendor-U_R19qKe.js:266"]
-  website_js_vendor_U_R19qKe_js_qv["qv · website/js/vendor-U_R19qKe.js:40"]
-  website_js_vendor_U_R19qKe_js_rt["rt · website/js/vendor-U_R19qKe.js:229"]
-  website_js_vendor_U_R19qKe_js_s["s · website/js/vendor-U_R19qKe.js:266"]
-  website_js_vendor_U_R19qKe_js_wy["wy · website/js/vendor-U_R19qKe.js:225"]
-  website_js_vendor_U_R19qKe_js_yt["yt · website/js/vendor-U_R19qKe.js:234"]
-  website_js_index_C7tppToL_js_callback_48 -->|"detected call"| website_js_index_C7tppToL_js_V
-  website_js_index_C7tppToL_js_callback_48 -->|"detected call"| website_js_index_C7tppToL_js_o
-  website_js_index_C7tppToL_js_callback_48 -->|"detected call"| website_js_index_C7tppToL_js_s
-  website_js_index_C7tppToL_js_callback_6 -->|"detected call"| website_js_index_C7tppToL_js_o
-  website_js_index_C7tppToL_js_callback_6 -->|"detected call"| website_js_index_C7tppToL_js_s
-  website_js_index_C7tppToL_js_o -->|"detected call"| website_js_index_C7tppToL_js_s
-  website_js_katex_Dpfoupes_js_He_parseGroup -->|"detected call"| website_js_katex_Dpfoupes_js_He_consume
-  website_js_katex_Dpfoupes_js_He_parseGroup -->|"detected call"| website_js_katex_Dpfoupes_js_He_fetch
-  website_js_katex_Dpfoupes_js_callback_256 -->|"detected call"| website_js_katex_Dpfoupes_js_A
-  website_js_katex_Dpfoupes_js_callback_256 -->|"detected call"| website_js_katex_Dpfoupes_js_P
-  website_js_katex_Dpfoupes_js_callback_256 -->|"detected call"| website_js_katex_Dpfoupes_js_o0
-  website_js_katex_Dpfoupes_js_callback_256 -->|"detected call"| website_js_katex_Dpfoupes_js_t0
-  website_js_katex_Dpfoupes_js_htmlBuilder -->|"detected call"| website_js_katex_Dpfoupes_js_A
-  website_js_katex_Dpfoupes_js_htmlBuilder -->|"detected call"| website_js_katex_Dpfoupes_js_P
-  website_js_katex_Dpfoupes_js_htmlBuilder -->|"detected call"| website_js_katex_Dpfoupes_js_t0
-  website_js_katex_Dpfoupes_js_mathmlBuilder -->|"detected call"| website_js_katex_Dpfoupes_js_A
-  website_js_katex_Dpfoupes_js_mathmlBuilder -->|"detected call"| website_js_katex_Dpfoupes_js_o0
-  website_js_katex_Dpfoupes_js_t0 -->|"detected call"| website_js_katex_Dpfoupes_js_P
-  website_js_pdfjs_1UVhggrJ_js_Q -->|"detected call"| website_js_pdfjs_1UVhggrJ_js__
-  website_js_pdfjs_1UVhggrJ_js_Xt_paintInlineImageXObject -->|"detected call"| website_js_pdfjs_1UVhggrJ_js_U
-  website_js_pdfjs_1UVhggrJ_js_Xt_paintInlineImageXObject -->|"detected call"| website_js_pdfjs_1UVhggrJ_js_Xt_compose
-  website_js_pdfjs_1UVhggrJ_js_qi_bind -->|"detected call"| website_js_pdfjs_1UVhggrJ_js_F
-  website_js_vendor_U_R19qKe_js_Ah -->|"detected call"| website_js_vendor_U_R19qKe_js_Kt
-  website_js_vendor_U_R19qKe_js_Ei -->|"detected call"| website_js_vendor_U_R19qKe_js_jt
-  website_js_vendor_U_R19qKe_js_Fh -->|"detected call"| website_js_vendor_U_R19qKe_js__n
-  website_js_vendor_U_R19qKe_js_Fh -->|"detected call"| website_js_vendor_U_R19qKe_js_An
-  website_js_vendor_U_R19qKe_js_Fh -->|"detected call"| website_js_vendor_U_R19qKe_js_Fo
-  website_js_vendor_U_R19qKe_js_Fh -->|"detected call"| website_js_vendor_U_R19qKe_js_Pa
-  website_js_vendor_U_R19qKe_js_Fh -->|"detected call"| website_js_vendor_U_R19qKe_js_jh
-  website_js_vendor_U_R19qKe_js_Fh -->|"detected call"| website_js_vendor_U_R19qKe_js_rt
-  website_js_vendor_U_R19qKe_js_Fo -->|"detected call"| website_js_vendor_U_R19qKe_js_Dt
-  website_js_vendor_U_R19qKe_js_Hv -->|"detected call"| website_js_vendor_U_R19qKe_js_At
-  website_js_vendor_U_R19qKe_js_Kt -->|"detected call"| website_js_vendor_U_R19qKe_js__n
-  website_js_vendor_U_R19qKe_js_Kt -->|"detected call"| website_js_vendor_U_R19qKe_js_An
-  website_js_vendor_U_R19qKe_js_Mv -->|"detected call"| website_js_vendor_U_R19qKe_js_An
-  website_js_vendor_U_R19qKe_js_Mv -->|"detected call"| website_js_vendor_U_R19qKe_js_F
-  website_js_vendor_U_R19qKe_js_Mv -->|"detected call"| website_js_vendor_U_R19qKe_js_Sr
-  website_js_vendor_U_R19qKe_js_Pa -->|"detected call"| website_js_vendor_U_R19qKe_js_Kt
-  website_js_vendor_U_R19qKe_js_Qv -->|"detected call"| website_js_vendor_U_R19qKe_js_Dt
-  website_js_vendor_U_R19qKe_js_S -->|"detected call"| website_js_vendor_U_R19qKe_js_K3_slice
-  website_js_vendor_U_R19qKe_js_S -->|"detected call"| website_js_vendor_U_R19qKe_js_Xe
-  website_js_vendor_U_R19qKe_js_S -->|"detected call"| website_js_vendor_U_R19qKe_js_gt
-  website_js_vendor_U_R19qKe_js_S -->|"detected call"| website_js_vendor_U_R19qKe_js_yt
-  website_js_vendor_U_R19qKe_js_Sr -->|"detected call"| website_js_vendor_U_R19qKe_js__n
-  website_js_vendor_U_R19qKe_js_Wv -->|"detected call"| website_js_vendor_U_R19qKe_js_At
-  website_js_vendor_U_R19qKe_js_Wv -->|"detected call"| website_js_vendor_U_R19qKe_js_Dt
-  website_js_vendor_U_R19qKe_js_Yt -->|"detected call"| website_js_vendor_U_R19qKe_js_l
-  website_js_vendor_U_R19qKe_js_a -->|"detected call"| website_js_vendor_U_R19qKe_js_Tt
-  website_js_vendor_U_R19qKe_js_a -->|"detected call"| website_js_vendor_U_R19qKe_js_Xe
-  website_js_vendor_U_R19qKe_js_a -->|"detected call"| website_js_vendor_U_R19qKe_js_Xn
-  website_js_vendor_U_R19qKe_js_a -->|"detected call"| website_js_vendor_U_R19qKe_js_gt
-  website_js_vendor_U_R19qKe_js_a -->|"detected call"| website_js_vendor_U_R19qKe_js_yt
-  website_js_vendor_U_R19qKe_js_callback_227 -->|"detected call"| website_js_vendor_U_R19qKe_js_Ei
-  website_js_vendor_U_R19qKe_js_callback_227 -->|"detected call"| website_js_vendor_U_R19qKe_js_jt
-  website_js_vendor_U_R19qKe_js_callback_229 -->|"detected call"| website_js_vendor_U_R19qKe_js_F
-  website_js_vendor_U_R19qKe_js_callback_229 -->|"detected call"| website_js_vendor_U_R19qKe_js_K3_slice
-  website_js_vendor_U_R19qKe_js_callback_229 -->|"detected call"| website_js_vendor_U_R19qKe_js_rt
-  website_js_vendor_U_R19qKe_js_callback_38 -->|"detected call"| website_js_vendor_U_R19qKe_js_An
-  website_js_vendor_U_R19qKe_js_callback_38 -->|"detected call"| website_js_vendor_U_R19qKe_js_Sr
-  website_js_vendor_U_R19qKe_js_callback_38 -->|"detected call"| website_js_vendor_U_R19qKe_js_l
-  website_js_vendor_U_R19qKe_js_callback_38 -->|"detected call"| website_js_vendor_U_R19qKe_js_rt
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js__n
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_An
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_At
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_F
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_Hv
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_K3_slice
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_Pa
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_Sr
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_Uc
-  website_js_vendor_U_R19qKe_js_callback_40 -->|"detected call"| website_js_vendor_U_R19qKe_js_gh
-  website_js_vendor_U_R19qKe_js_h -->|"detected call"| website_js_vendor_U_R19qKe_js_Tt
-  website_js_vendor_U_R19qKe_js_h -->|"detected call"| website_js_vendor_U_R19qKe_js_Xe
-  website_js_vendor_U_R19qKe_js_h -->|"detected call"| website_js_vendor_U_R19qKe_js_gt
-  website_js_vendor_U_R19qKe_js_qv -->|"detected call"| website_js_vendor_U_R19qKe_js_Sr
-  website_js_vendor_U_R19qKe_js_s -->|"detected call"| website_js_vendor_U_R19qKe_js_K3_slice
-  website_js_vendor_U_R19qKe_js_s -->|"detected call"| website_js_vendor_U_R19qKe_js_Tt
-  website_js_vendor_U_R19qKe_js_s -->|"detected call"| website_js_vendor_U_R19qKe_js_Xe
-  website_js_vendor_U_R19qKe_js_s -->|"detected call"| website_js_vendor_U_R19qKe_js_gt
-  website_js_vendor_U_R19qKe_js_s -->|"detected call"| website_js_vendor_U_R19qKe_js_jt
-  website_js_vendor_U_R19qKe_js_s -->|"detected call"| website_js_vendor_U_R19qKe_js_yt
-  website_js_vendor_U_R19qKe_js_wy -->|"detected call"| website_js_vendor_U_R19qKe_js_Ei
-  website_js_vendor_U_R19qKe_js_wy -->|"detected call"| website_js_vendor_U_R19qKe_js_K3_slice
-  website_js_vendor_U_R19qKe_js_wy -->|"detected call"| website_js_vendor_U_R19qKe_js_jt
+  runtime_storage_storage_manager_StorageManager_add_memory["add_memory · runtime/storage/storage_manager.py:216"]
+  runtime_storage_storage_manager_StorageManager_new_id["new_id · runtime/storage/storage_manager.py:72"]
+  runtime_tools_executor_executor_ToolExecutor__register_builtin_tools["_register_builtin_tools · runtime/tools/executor/executor.py:153"]
+  runtime_tools_executor_executor_ToolExecutor__resolve_path["_resolve_path · runtime/tools/executor/executor.py:295"]
+  runtime_tools_executor_executor_ToolExecutor_execute["execute · runtime/tools/executor/executor.py:41"]
+  website_assets_app_js_callback_272["callback@272 · website/assets/app.js:272"]
+  website_assets_app_js_callback_308["callback@308 · website/assets/app.js:308"]
+  website_assets_app_js_clearNotice["clearNotice · website/assets/app.js:68"]
+  website_assets_app_js_generateImage["generateImage · website/assets/app.js:201"]
+  website_assets_app_js_renderMessages["renderMessages · website/assets/app.js:90"]
+  website_assets_app_js_responseError["responseError · website/assets/app.js:78"]
+  website_assets_app_js_saveMessages["saveMessages · website/assets/app.js:55"]
+  website_assets_app_js_sendMessage["sendMessage · website/assets/app.js:126"]
+  website_assets_app_js_setConnection["setConnection · website/assets/app.js:73"]
+  website_assets_app_js_showNotice["showNotice · website/assets/app.js:63"]
+  website_assets_app_js_switchView["switchView · website/assets/app.js:170"]
+  agent_agent_AgentRuntime_close -->|"detected call"| agent_agent_AgentRuntime_cancel
+  agent_agent_AgentRuntime_execute -->|"detected call"| agent_agent_AgentRuntime_notify
+  agent_agent_AgentRuntime_execute -->|"detected call"| agent_loop_agent_loop_AgentLoop_run
+  agent_agent_AgentRuntime_start -->|"detected call"| agent_agent_AgentRuntime_execute
+  agent_agent_AgentRuntime_start -->|"detected call"| agent_agent_AgentRuntime_notify
+  agent_agent_AgentRuntime_start -->|"detected call"| agent_loop_agent_loop_AgentLoop_run
+  agent_context_context_builder_ContextBuilder_build -->|"detected call"| agent_memory_memory_manager_MemoryManager_retrieve
+  agent_loop_agent_loop_AgentLoop_run -->|"detected call"| agent_context_context_builder_ContextBuilder_build
+  agent_loop_agent_loop_AgentLoop_run -->|"detected call"| agent_loop_agent_loop_AgentLoop__generate
+  agent_loop_agent_loop_AgentLoop_run -->|"detected call"| runtime_tools_executor_executor_ToolExecutor_execute
+  agent_memory_memory_manager_MemoryManager_retrieve -->|"detected call"| agent_memory_retrieval_retriever_MemoryRetriever_retrieve
+  cli_modules_notes_NotesPane__delete_current -->|"detected call"| cli_modules_notes_NotesPane__refresh_list
+  cli_modules_notes_NotesPane__refresh_list -->|"detected call"| cli_modules_notes_NotesPane__show
+  cli_modules_notes_NotesPane__save_current -->|"detected call"| cli_modules_notes_NotesPane__refresh_list
+  cli_modules_notes_NotesPane_on_button_pressed -->|"detected call"| cli_modules_notes_NotesPane__delete_current
+  cli_modules_notes_NotesPane_on_button_pressed -->|"detected call"| cli_modules_notes_NotesPane__refresh_list
+  cli_modules_notes_NotesPane_on_button_pressed -->|"detected call"| cli_modules_notes_NotesPane__save_current
+  core_encoding_encoding__decode_value -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding__drop_thinking_messages -->|"detected call"| core_encoding_encoding_find_last_user_index
+  core_encoding_encoding__encode_messages_text -->|"detected call"| core_encoding_encoding__drop_thinking_messages
+  core_encoding_encoding__encode_messages_text -->|"detected call"| core_encoding_encoding_render_message
+  core_encoding_encoding__tool_name_for_encoding -->|"detected call"| core_encoding_encoding__split_tool_name
+  core_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| core_encoding_encoding__decode_value
+  core_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| core_encoding_encoding__split_tool_name
+  core_encoding_encoding_decode_dsml_to_arguments -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_encode_arguments_to_dsml -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_encode_messages -->|"detected call"| core_encoding_encoding__encode_messages_text
+  core_encoding_encoding_encode_messages -->|"detected call"| core_encoding_encoding_process_image_messages
+  core_encoding_encoding_parse_message_from_completion_text -->|"detected call"| core_encoding_encoding__read_until_stop
+  core_encoding_encoding_parse_message_from_completion_text -->|"detected call"| core_encoding_encoding_parse_tool_calls
+  core_encoding_encoding_parse_tool_calls -->|"detected call"| core_encoding_encoding__read_until_stop
+  core_encoding_encoding_parse_tool_calls -->|"detected call"| core_encoding_encoding_decode_dsml_to_arguments
+  core_encoding_encoding_process_image_messages -->|"detected call"| core_encoding_encoding__process_image_blocks
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding__tool_name_for_encoding
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_encode_arguments_to_dsml
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_find_last_user_index
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_render_tools
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_tool_calls_from_openai_format
+  core_encoding_encoding_render_message -->|"detected call"| core_encoding_encoding_tools_from_openai_format
+  core_encoding_encoding_render_tools -->|"detected call"| core_encoding_encoding_to_json
+  core_encoding_encoding_tool_calls_from_openai_format -->|"detected call"| core_encoding_encoding__split_tool_name
+  core_encoding_encoding_tools_from_openai_format -->|"detected call"| core_encoding_encoding__tool_name_for_encoding
+  infrastructure_architecture_contributors_generate -->|"detected call"| infrastructure_architecture_contributors__git
+  infrastructure_architecture_contributors_generate -->|"detected call"| infrastructure_architecture_contributors_repository_name
+  infrastructure_architecture_contributors_repository_name -->|"detected call"| infrastructure_architecture_contributors__git
+  infrastructure_architecture_generator_generate -->|"detected call"| infrastructure_architecture_generator__render_readme
+  infrastructure_architecture_generator_generate -->|"detected call"| infrastructure_architecture_generator_analyze_repository
+  infrastructure_architecture_generator_main -->|"detected call"| infrastructure_architecture_generator_generate
+  infrastructure_architecture_validate_validate_generated -->|"detected call"| infrastructure_architecture_validate__validate_readme_links
+  infrastructure_scripts_SVG_Path_dumper_js_callback_36 -->|"detected call"| infrastructure_scripts_SVG_Path_dumper_js_add
+  infrastructure_scripts_SVG_Path_dumper_js_callback_36 -->|"detected call"| infrastructure_scripts_SVG_Path_dumper_js_domPath
+  infrastructure_scripts_SVG_Path_dumper_js_callback_50 -->|"detected call"| infrastructure_scripts_SVG_Path_dumper_js_add
+  infrastructure_scripts_SVG_Path_dumper_js_callback_50 -->|"detected call"| infrastructure_scripts_SVG_Path_dumper_js_domPath
+  infrastructure_scripts_SVG_Path_dumper_js_callback_67 -->|"detected call"| infrastructure_scripts_SVG_Path_dumper_js_add
+  infrastructure_scripts_SVG_Path_dumper_js_callback_67 -->|"detected call"| infrastructure_scripts_SVG_Path_dumper_js_domPath
+  runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| runtime_storage_storage_manager_StorageManager__connect
+  runtime_storage_storage_manager_StorageManager_add_memory -->|"detected call"| runtime_storage_storage_manager_StorageManager_new_id
+  website_assets_app_js_callback_272 -->|"detected call"| website_assets_app_js_clearNotice
+  website_assets_app_js_callback_272 -->|"detected call"| website_assets_app_js_renderMessages
+  website_assets_app_js_callback_272 -->|"detected call"| website_assets_app_js_saveMessages
+  website_assets_app_js_callback_272 -->|"detected call"| website_assets_app_js_switchView
+  website_assets_app_js_callback_308 -->|"detected call"| website_assets_app_js_clearNotice
+  website_assets_app_js_callback_308 -->|"detected call"| website_assets_app_js_renderMessages
+  website_assets_app_js_callback_308 -->|"detected call"| website_assets_app_js_saveMessages
+  website_assets_app_js_callback_308 -->|"detected call"| website_assets_app_js_switchView
+  website_assets_app_js_generateImage -->|"detected call"| website_assets_app_js_clearNotice
+  website_assets_app_js_generateImage -->|"detected call"| website_assets_app_js_responseError
+  website_assets_app_js_generateImage -->|"detected call"| website_assets_app_js_showNotice
+  website_assets_app_js_saveMessages -->|"detected call"| website_assets_app_js_showNotice
+  website_assets_app_js_sendMessage -->|"detected call"| website_assets_app_js_clearNotice
+  website_assets_app_js_sendMessage -->|"detected call"| website_assets_app_js_renderMessages
+  website_assets_app_js_sendMessage -->|"detected call"| website_assets_app_js_responseError
+  website_assets_app_js_sendMessage -->|"detected call"| website_assets_app_js_saveMessages
+  website_assets_app_js_sendMessage -->|"detected call"| website_assets_app_js_setConnection
+  website_assets_app_js_sendMessage -->|"detected call"| website_assets_app_js_showNotice
   analysis_note_0["Edges resolve direct call syntax to a unique local function or an instance attribute assigned a local class."]
   class analysis_note_0 note
   analysis_note_1["Unqualified calls resolve only within the same source file; dynamic dispatch, reflection, imported calls, unr…"]

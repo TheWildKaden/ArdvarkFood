@@ -1,11 +1,11 @@
 {
   "repository": "TheWildKaden/ArdvarkFood",
   "analysis": {
-    "source_files": 86,
+    "source_files": 79,
     "python_modules": 74,
-    "javascript_modules": 12,
-    "functions": 7123,
-    "classes": 262,
+    "javascript_modules": 5,
+    "functions": 311,
+    "classes": 62,
     "api_routes": [
       {
         "method": "GET",
@@ -215,7 +215,7 @@
       "Packages": 3,
       "Repository root": 2,
       "Runtime": 18,
-      "Website": 8,
+      "Website": 1,
       "cli": 12,
       "core": 2,
       "services": 1
