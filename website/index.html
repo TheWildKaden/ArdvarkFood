@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#11130f">
+    <meta name="description" content="A thoughtful AI workspace for chat and locally generated images.">
+    <title>Ardvark — your AI workspace</title>
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/assets/app.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <div class="workspace">
+      <aside class="sidebar" aria-label="Workspace">
+        <a class="brand" href="/" aria-label="Ardvark home">
+          <span class="brand-mark" aria-hidden="true">a</span>
+          <span class="brand-name">ardvark<span class="brand-period">.</span></span>
+        </a>
+
+        <button class="new-chat" id="new-chat" type="button">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+          <span>New conversation</span>
+          <kbd>⌘ K</kbd>
+        </button>
+
+        <p class="nav-label">WORKSPACE</p>
+        <nav class="tool-nav" aria-label="Tools">
+          <button class="nav-item is-active" id="chat-tab" type="button" aria-current="page">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3 4.75A1.75 1.75 0 0 1 4.75 3h10.5A1.75 1.75 0 0 1 17 4.75v7.5A1.75 1.75 0 0 1 15.25 14H9l-4.5 3v-3.1a1.75 1.75 0 0 1-1.5-1.65z"/></svg>
+            <span>Chat</span>
+          </button>
+          <button class="nav-item" id="image-tab" type="button">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 1.75 5.25L17 9l-5.25 1.75L10 16l-1.75-5.25L3 9l5.25-1.75L10 2Z"/><path d="m15.5 13 .75 2.25 2.25.75-2.25.75-.75 2.25-.75-2.25-2.25-.75 2.25-.75z"/></svg>
+            <span>Image studio</span>
+            <span class="local-tag">LOCAL</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="connection" id="connection" data-state="checking">
+            <span class="connection-dot" aria-hidden="true"></span>
+            <span id="connection-label">Connecting to Ardvark</span>
+          </div>
+          <a class="project-link" href="/project">
+            <span>About ArdvarkFood</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 3h8v8M13 3 6 10M11 9v4H3V5h4"/></svg>
+          </a>
+        </div>
+      </aside>
+
+      <main class="main-panel">
+        <header class="topbar">
+          <div class="breadcrumbs"><span>Workspace</span><span class="crumb-divider">/</span><strong id="page-title">Chat</strong></div>
+          <div class="provider-badge"><span class="provider-dot" aria-hidden="true"></span><span>Private workspace</span></div>
+        </header>
+
+        <section class="view chat-view" id="chat-view" aria-label="Chat with Ardvark">
+          <div class="conversation" id="conversation">
+            <div class="welcome" id="welcome">
+              <div class="welcome-emblem" aria-hidden="true">a</div>
+              <p class="eyebrow">A THOUGHTFUL PLACE TO START</p>
+              <h1>What’s on your mind?</h1>
+              <p class="welcome-copy">Bring a question, an idea, or a knot you’d like to untangle.</p>
+              <div class="suggestions" aria-label="Suggested prompts">
+                <button class="suggestion" type="button" data-prompt="Help me think through an idea I have.">
+                  <span class="suggestion-icon" aria-hidden="true">↗</span>
+                  <span><strong>Explore an idea</strong><small>Think through something together</small></span>
+                </button>
+                <button class="suggestion" type="button" data-prompt="Help me make a clear, realistic plan for this week.">
+                  <span class="suggestion-icon" aria-hidden="true">☷</span>
+                  <span><strong>Make a plan</strong><small>Turn a goal into next steps</small></span>
+                </button>
+                <button class="suggestion" type="button" data-prompt="Explain a complicated topic in plain language.">
+                  <span class="suggestion-icon" aria-hidden="true">◇</span>
+                  <span><strong>Learn something</strong><small>Make a complex topic clearer</small></span>
+                </button>
+              </div>
+            </div>
+            <div class="messages" id="messages" aria-live="polite"></div>
+          </div>
+
+          <div class="composer-area">
+            <p class="notice" id="chat-notice" role="status" hidden></p>
+            <form class="composer" id="chat-form">
+              <label class="sr-only" for="prompt">Message Ardvark</label>
+              <textarea id="prompt" name="message" rows="1" maxlength="8000" placeholder="Message Ardvark…" required></textarea>
+              <div class="composer-footer">
+                <span class="composer-hint">Enter to send <span aria-hidden="true">·</span> Shift + Enter for a new line</span>
+                <button class="send-button" id="send" type="submit" aria-label="Send message">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 15V5m0 0L5.5 9.5M10 5l4.5 4.5"/></svg>
+                </button>
+              </div>
+            </form>
+            <p class="disclaimer">AI can make mistakes. Check important information.</p>
+          </div>
+        </section>
+
+        <section class="view image-view" id="image-view" aria-labelledby="image-title" hidden>
+          <div class="image-content">
+            <div class="image-heading">
+              <p class="eyebrow">IMAGE STUDIO <span class="local-badge">RUNS LOCALLY</span></p>
+              <h1 id="image-title">Make an image.</h1>
+              <p>Describe what you imagine. Ardvark creates it on this machine with SD-Turbo—no hosted image API or API key.</p>
+              <div class="model-status" id="model-status" data-state="checking">
+                <span class="connection-dot" aria-hidden="true"></span>
+                <span id="model-status-label">Checking local image model…</span>
+              </div>
+            </div>
+
+            <form class="image-form" id="image-form">
+              <label class="field-label" for="image-prompt">Describe your image</label>
+              <textarea id="image-prompt" maxlength="4000" placeholder="A tiny red panda astronaut tending a moon garden, cinematic storybook illustration…" required></textarea>
+              <div class="image-controls">
+                <label class="field-label" for="image-steps">Detail
+                  <select id="image-steps">
+                    <option value="1">Fast · 1 step</option>
+                    <option value="2">Balanced · 2 steps</option>
+                    <option value="4">More detail · 4 steps</option>
+                  </select>
+                </label>
+                <label class="field-label seed-field" for="image-seed">Seed <span class="optional-label">optional</span>
+                  <input id="image-seed" type="number" min="0" max="4294967295" inputmode="numeric" placeholder="Random">
+                </label>
+                <button class="generate-button" id="generate-image" type="submit">
+                  <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2 1.75 5.25L17 9l-5.25 1.75L10 16l-1.75-5.25L3 9l5.25-1.75L10 2Z"/></svg>
+                  <span>Generate image</span>
+                </button>
+              </div>
+            </form>
+
+            <p class="notice image-notice" id="image-notice" role="status" hidden></p>
+            <div class="image-result" id="image-result" aria-live="polite"></div>
+            <p class="image-footnote">512 × 512 pixels · Runs on this machine’s available CPU or GPU</p>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
