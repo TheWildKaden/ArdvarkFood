@@ -154,7 +154,8 @@ class LearningStore:
     def new_id() -> str:
         return uuid4().hex
 
-    def set_conversation_learning(self, conversation_id: str, enabled: bool) -> None:
+    def set_conversation_learning(self, conversation_id: str, enabled: bool) -> list[str]:
+        dataset_paths: list[str] = []
         with self._connect() as db:
             if not db.execute(
                 "SELECT 1 FROM conversations WHERE id=?", (conversation_id,)
@@ -167,6 +168,32 @@ class LearningStore:
                 (conversation_id, int(enabled)),
             )
             if not enabled:
+                affected = db.execute(
+                    "SELECT DISTINCT d.id, d.artifact_path FROM dataset_versions d "
+                    "JOIN dataset_examples de ON de.dataset_id=d.id "
+                    "JOIN training_examples e ON e.id=de.example_id "
+                    "WHERE e.conversation_id=?",
+                    (conversation_id,),
+                ).fetchall()
+                dataset_ids = [row["id"] for row in affected]
+                dataset_paths = [row["artifact_path"] for row in affected]
+                if dataset_ids:
+                    placeholders = ",".join("?" for _ in dataset_ids)
+                    db.execute(
+                        f"UPDATE dataset_versions SET status='withdrawn' WHERE id IN ({placeholders})",
+                        dataset_ids,
+                    )
+                    db.execute(
+                        f"UPDATE training_jobs SET status='cancelled', "
+                        f"error='Source conversation opted out', "
+                        f"completed_at=CURRENT_TIMESTAMP WHERE dataset_id IN ({placeholders}) "
+                        "AND status IN ('queued','running')",
+                        dataset_ids,
+                    )
+                    db.execute(
+                        f"DELETE FROM dataset_examples WHERE dataset_id IN ({placeholders})",
+                        dataset_ids,
+                    )
                 db.execute(
                     "UPDATE learning_queue SET status='cancelled', "
                     "updated_at=CURRENT_TIMESTAMP WHERE conversation_id=? "
@@ -174,10 +201,10 @@ class LearningStore:
                     (conversation_id,),
                 )
                 db.execute(
-                    "DELETE FROM training_examples WHERE conversation_id=? "
-                    "AND status != 'approved'",
+                    "DELETE FROM training_examples WHERE conversation_id=?",
                     (conversation_id,),
                 )
+        return dataset_paths
 
     def conversation_learning_enabled(self, conversation_id: str) -> bool:
         with self._connect() as db:
@@ -446,6 +473,127 @@ class LearningStore:
                 (job_id, dataset_id, base_model, json.dumps(config, ensure_ascii=False)),
             )
         return job_id
+
+    def claim_training_job(self) -> dict[str, Any] | None:
+        with self._connect() as db:
+            row = db.execute(
+                "SELECT id, dataset_id, base_model, config FROM training_jobs "
+                "WHERE status='queued' ORDER BY created_at LIMIT 1"
+            ).fetchone()
+            if row is None:
+                return None
+            result = db.execute(
+                "UPDATE training_jobs SET status='running', started_at=CURRENT_TIMESTAMP "
+                "WHERE id=? AND status='queued'",
+                (row["id"],),
+            )
+            if result.rowcount != 1:
+                return None
+            job = dict(row)
+            job["config"] = json.loads(job["config"])
+            dataset = db.execute(
+                "SELECT artifact_path, status, metadata FROM dataset_versions WHERE id=?",
+                (job["dataset_id"],),
+            ).fetchone()
+            if dataset is None or dataset["status"] != "active":
+                db.execute(
+                    "UPDATE training_jobs SET status='cancelled', "
+                    "error='Training dataset is unavailable', "
+                    "completed_at=CURRENT_TIMESTAMP WHERE id=?",
+                    (job["id"],),
+                )
+                return None
+            job["dataset_path"] = dataset["artifact_path"]
+            return job
+
+    def finish_training_job(
+        self,
+        job_id: str,
+        *,
+        status: str,
+        metrics: dict[str, Any] | None = None,
+        model_id: str | None = None,
+        error: str | None = None,
+    ) -> None:
+        if status not in {"completed", "failed", "cancelled"}:
+            raise ValueError("Invalid training job final status.")
+        with self._connect() as db:
+            db.execute(
+                "UPDATE training_jobs SET status=?, metrics=?, model_id=?, error=?, "
+                "completed_at=CURRENT_TIMESTAMP WHERE id=? AND status='running'",
+                (
+                    status,
+                    json.dumps(metrics or {}, ensure_ascii=False),
+                    model_id,
+                    error[:500] if error else None,
+                    job_id,
+                ),
+            )
+
+    def add_model(
+        self,
+        *,
+        base_model: str,
+        method: str,
+        artifact_path: str,
+        dataset_id: str,
+        training_config: dict[str, Any],
+        evaluation_metrics: dict[str, Any],
+        export_format: str,
+        compatible: bool,
+    ) -> str:
+        model_id = self.new_id()
+        with self._connect() as db:
+            db.execute(
+                "INSERT INTO model_registry"
+                "(id, base_model, method, adapter_path, dataset_id, training_config, "
+                "evaluation_metrics, export_format, compatible, status) "
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, 'candidate')",
+                (
+                    model_id,
+                    base_model,
+                    method,
+                    artifact_path,
+                    dataset_id,
+                    json.dumps(training_config, ensure_ascii=False),
+                    json.dumps(evaluation_metrics, ensure_ascii=False),
+                    export_format,
+                    int(compatible),
+                ),
+            )
+        return model_id
+
+    def activate_model(self, model_id: str) -> bool:
+        with self._connect() as db:
+            model = db.execute(
+                "SELECT compatible, status, evaluation_metrics FROM model_registry WHERE id=?",
+                (model_id,),
+            ).fetchone()
+            if model is None or not model["compatible"]:
+                return False
+            metrics = json.loads(model["evaluation_metrics"])
+            if metrics.get("passed") is not True:
+                return False
+            db.execute(
+                "UPDATE model_registry SET status='previous' WHERE status='active'"
+            )
+            db.execute(
+                "UPDATE model_registry SET status='active', activated_at=CURRENT_TIMESTAMP "
+                "WHERE id=?",
+                (model_id,),
+            )
+        return True
+
+    def rollback_model_id(self) -> str | None:
+        with self._connect() as db:
+            row = db.execute(
+                "SELECT id FROM model_registry WHERE status='previous' AND compatible=1 "
+                "ORDER BY activated_at DESC LIMIT 1"
+            ).fetchone()
+        return str(row["id"]) if row else None
+
+    def get_model(self, model_id: str) -> dict[str, Any] | None:
+        return next((model for model in self.list_models() if model["id"] == model_id), None)
 
     def list_training_jobs(self, limit: int = 100) -> list[dict[str, Any]]:
         with self._connect() as db:
