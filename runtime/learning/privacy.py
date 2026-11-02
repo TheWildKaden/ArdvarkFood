@@ -11,7 +11,7 @@ _SENSITIVE_PATTERNS = (
     ),
     re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
     re.compile(
-        r"(?i)\b(?:api[_-]?key|access[_-]?token|password|passwd|secret|authorization)"
+        r"(?i)\b(?:api[_-]?key|access[_-]?token|token|password|passwd|secret|authorization)"
         r"\s*[:=]\s*['\"]?(?!\[REDACTED\])[^\s,'\";]{6,}"
     ),
     re.compile(r"\b(?:sk|ghp|github_pat)_[A-Za-z0-9_-]{16,}\b"),

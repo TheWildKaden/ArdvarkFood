@@ -384,7 +384,7 @@ class LearningStore:
             result = db.execute(
                 "INSERT OR IGNORE INTO training_examples"
                 "(id, message_ids, messages, tools, prompt, response, content_hash, source_kind, "
-                "source_ref, status, quality_score) VALUES(?, '[]', ?, ?, ?, ?, "
+                "source_ref, status, quality_score) VALUES(?, '[]', ?, ?, ?, ?, ?, "
                 "'huggingface', ?, 'pending_review', ?)",
                 (
                     self.new_id(),
@@ -499,7 +499,7 @@ class LearningStore:
     def approved_examples(self) -> list[dict[str, Any]]:
         with self._connect() as db:
             rows = db.execute(
-                "SELECT id, conversation_id, message_ids, messages, source_kind, source_ref "
+                "SELECT id, conversation_id, message_ids, messages, tools, source_kind, source_ref "
                 "FROM training_examples WHERE status='approved' ORDER BY created_at, id"
             ).fetchall()
         result = []
@@ -507,6 +507,7 @@ class LearningStore:
             item = dict(row)
             item["message_ids"] = json.loads(item["message_ids"])
             item["messages"] = json.loads(item["messages"])
+            item["tools"] = json.loads(item["tools"])
             result.append(item)
         return result
 

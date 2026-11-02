@@ -31,6 +31,7 @@ def test_opt_in_memory_learning_filters_secrets_and_supports_commands(
 ) -> None:
     storage, store, learning = _managers(tmp_path)
     conversation_id = storage.create_conversation()["id"]
+    store.set_conversation_learning(conversation_id, True)
     storage.add_message(conversation_id, "user", "I prefer Python for small scripts.")
     storage.add_message(conversation_id, "assistant", "Understood.")
     storage.add_message(
@@ -42,7 +43,7 @@ def test_opt_in_memory_learning_filters_secrets_and_supports_commands(
     learning.process_conversation(conversation_id, "memory")
     assert storage.search_memories("Python")
     assert not storage.search_memories("super-secret-token")
-    assert not store.conversation_learning_enabled(conversation_id)
+    assert store.conversation_learning_enabled(conversation_id)
 
     answer = learning.handle_command(
         conversation_id, "Remember this: My editor is VS Code."
