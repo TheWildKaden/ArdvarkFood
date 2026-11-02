@@ -47,12 +47,16 @@ class LearningStore:
                     ON learning_queue(status, created_at);
                 CREATE TABLE IF NOT EXISTS training_examples (
                     id TEXT PRIMARY KEY,
-                    conversation_id TEXT NOT NULL
+                    conversation_id TEXT
                         REFERENCES conversations(id) ON DELETE CASCADE,
-                    message_ids TEXT NOT NULL,
+                    message_ids TEXT NOT NULL DEFAULT '[]',
+                    messages TEXT NOT NULL DEFAULT '[]',
+                    tools TEXT NOT NULL DEFAULT '[]',
                     prompt TEXT NOT NULL,
                     response TEXT NOT NULL,
                     content_hash TEXT NOT NULL UNIQUE,
+                    source_kind TEXT NOT NULL DEFAULT 'conversation',
+                    source_ref TEXT NOT NULL DEFAULT '',
                     status TEXT NOT NULL DEFAULT 'pending_review',
                     quality_score REAL NOT NULL,
                     review_note TEXT,
@@ -68,6 +72,7 @@ class LearningStore:
                     sha256 TEXT NOT NULL,
                     sample_count INTEGER NOT NULL,
                     metadata TEXT NOT NULL DEFAULT '{}',
+                    status TEXT NOT NULL DEFAULT 'active',
                     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
                 );
                 CREATE TABLE IF NOT EXISTS dataset_examples (
@@ -108,6 +113,33 @@ class LearningStore:
                     ON model_registry(status, created_at);
                 """
             )
+            example_columns = {
+                row["name"] for row in db.execute("PRAGMA table_info(training_examples)")
+            }
+            if "messages" not in example_columns:
+                db.execute(
+                    "ALTER TABLE training_examples ADD COLUMN messages TEXT NOT NULL DEFAULT '[]'"
+                )
+            if "tools" not in example_columns:
+                db.execute(
+                    "ALTER TABLE training_examples ADD COLUMN tools TEXT NOT NULL DEFAULT '[]'"
+                )
+            if "source_kind" not in example_columns:
+                db.execute(
+                    "ALTER TABLE training_examples ADD COLUMN source_kind TEXT NOT NULL "
+                    "DEFAULT 'conversation'"
+                )
+            if "source_ref" not in example_columns:
+                db.execute(
+                    "ALTER TABLE training_examples ADD COLUMN source_ref TEXT NOT NULL DEFAULT ''"
+                )
+            dataset_columns = {
+                row["name"] for row in db.execute("PRAGMA table_info(dataset_versions)")
+            }
+            if "status" not in dataset_columns:
+                db.execute(
+                    "ALTER TABLE dataset_versions ADD COLUMN status TEXT NOT NULL DEFAULT 'active'"
+                )
             db.execute(
                 "UPDATE learning_queue SET status='queued', updated_at=CURRENT_TIMESTAMP "
                 "WHERE status='running'"
@@ -211,8 +243,9 @@ class LearningStore:
         self, status: str | None = None, limit: int = 100
     ) -> list[dict[str, Any]]:
         query = (
-            "SELECT id, conversation_id, message_ids, prompt, response, status, "
-            "quality_score, review_note, created_at, updated_at FROM training_examples"
+            "SELECT id, conversation_id, message_ids, messages, tools, prompt, response, "
+            "source_kind, source_ref, status, quality_score, review_note, created_at, "
+            "updated_at FROM training_examples"
         )
         parameters: list[Any] = []
         if status is not None:
@@ -228,30 +261,78 @@ class LearningStore:
         for row in rows:
             item = dict(row)
             item["message_ids"] = json.loads(item["message_ids"])
+            item["messages"] = json.loads(item["messages"])
+            item["tools"] = json.loads(item["tools"])
             results.append(item)
         return results
 
     def add_example(
         self,
-        conversation_id: str,
+        conversation_id: str | None,
         message_ids: list[int],
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]],
         prompt: str,
         response: str,
         content_hash: str,
         quality_score: float,
+        *,
+        source_kind: str = "conversation",
+        source_ref: str = "",
     ) -> bool:
         with self._connect() as db:
             result = db.execute(
                 "INSERT OR IGNORE INTO training_examples"
-                "(id, conversation_id, message_ids, prompt, response, content_hash, quality_score) "
-                "VALUES(?, ?, ?, ?, ?, ?, ?)",
+                "(id, conversation_id, message_ids, messages, tools, prompt, response, content_hash, "
+                "source_kind, source_ref, quality_score) "
+                "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
                 (
                     self.new_id(),
                     conversation_id,
                     json.dumps(message_ids),
+                    json.dumps(messages, ensure_ascii=False),
+                    json.dumps(tools, ensure_ascii=False),
                     prompt,
                     response,
                     content_hash,
+                    source_kind,
+                    source_ref,
+                    quality_score,
+                ),
+            )
+        return result.rowcount == 1
+
+    def add_external_example(
+        self,
+        *,
+        messages: list[dict[str, Any]],
+        tools: list[dict[str, Any]],
+        source_ref: str,
+        content_hash: str,
+        quality_score: float,
+    ) -> bool:
+        serialized = messages
+        prompt = next(
+            (item["content"] for item in messages if item["role"] == "user"), ""
+        )
+        response = next(
+            (item["content"] for item in reversed(messages) if item["role"] == "assistant"),
+            "",
+        )
+        with self._connect() as db:
+            result = db.execute(
+                "INSERT OR IGNORE INTO training_examples"
+                "(id, message_ids, messages, tools, prompt, response, content_hash, source_kind, "
+                "source_ref, status, quality_score) VALUES(?, '[]', ?, ?, ?, ?, "
+                "'huggingface', ?, 'pending_review', ?)",
+                (
+                    self.new_id(),
+                    json.dumps(serialized, ensure_ascii=False),
+                    json.dumps(tools, ensure_ascii=False),
+                    prompt if isinstance(prompt, str) else json.dumps(prompt, ensure_ascii=False),
+                    response if isinstance(response, str) else json.dumps(response, ensure_ascii=False),
+                    content_hash,
+                    source_ref,
                     quality_score,
                 ),
             )
@@ -317,7 +398,7 @@ class LearningStore:
     def list_datasets(self, limit: int = 100) -> list[dict[str, Any]]:
         with self._connect() as db:
             rows = db.execute(
-                "SELECT id, version, artifact_path, sha256, sample_count, metadata, created_at "
+                "SELECT id, version, artifact_path, sha256, sample_count, metadata, status, created_at "
                 "FROM dataset_versions ORDER BY version DESC LIMIT ?",
                 (min(max(limit, 1), 500),),
             ).fetchall()
@@ -326,6 +407,33 @@ class LearningStore:
             item = dict(row)
             item["metadata"] = json.loads(item["metadata"])
             result.append(item)
+        return result
+
+    def approved_examples(self) -> list[dict[str, Any]]:
+        with self._connect() as db:
+            rows = db.execute(
+                "SELECT id, conversation_id, message_ids, messages, source_kind, source_ref "
+                "FROM training_examples WHERE status='approved' ORDER BY created_at, id"
+            ).fetchall()
+        result = []
+        for row in rows:
+            item = dict(row)
+            item["message_ids"] = json.loads(item["message_ids"])
+            item["messages"] = json.loads(item["messages"])
+            result.append(item)
+        return result
+
+    def get_dataset(self, dataset_id: str) -> dict[str, Any] | None:
+        with self._connect() as db:
+            row = db.execute(
+                "SELECT id, version, artifact_path, sha256, sample_count, metadata, status "
+                "FROM dataset_versions WHERE id=?",
+                (dataset_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        result = dict(row)
+        result["metadata"] = json.loads(result["metadata"])
         return result
 
     def create_training_job(
