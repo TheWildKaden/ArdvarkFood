@@ -31,7 +31,7 @@ runtime/api/ ──creates──> agent/ ──uses──> runtime/models, runti
 
 | Directory | Owns | Depends on |
 | --- | --- | --- |
-| `website/` | Ardvark HTML, browser assets, and the separately retained Stock Watch source | HTTP API contract |
+| `website/` | Ardvark HTML, styles, and browser client | HTTP API contract |
 | `cli/` | Textual terminal workbench, CLI parsing, and local server command | `app:app` target; optional Textual dependency |
 | `services/api/` | FastAPI routes, request schemas, and app factory | `packages/`, `runtime/api/`, `website/` |
 | `agent/` | Agent loop, context, planning, memory, and multimodal input routing | `runtime/` contracts |
@@ -59,10 +59,6 @@ with fake model adapters and temporary storage.
 - `npm run build:pages` publishes only `docs/` into `dist/`. GitHub Pages and
   Cloudflare Pages therefore host the static project site, not the FastAPI
   application or model runtime.
-- The source and checked-in bundle under `website/stock-watch/` are retained
-  as a separate project, but are not currently a supported build target: the
-  source imports local logger/monitoring packages that are absent from this
-  repository, and the directory has no application dependency manifest.
 
 ## Validation
 

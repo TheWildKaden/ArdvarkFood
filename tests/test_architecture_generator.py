@@ -78,11 +78,15 @@ def test_source_index_uses_babel_for_javascript_and_python_ast_for_python() -> N
         for path in [*index.python_modules, *(Path(item["path"]) for item in index.javascript_modules)]
     }
     assert languages == {"Python", "JavaScript/TypeScript"}
-    server = next(
+    app = next(
         item for item in index.javascript_modules
-        if item["path"].endswith("website/stock-watch/src/server/index.js")
+        if item["path"].endswith("website/assets/app.js")
     )
-    assert any(item["source"] == "fastify" for item in server["imports"])
+    assert app["imports"] == []
+    assert not any(
+        item["path"].startswith("website/stock-watch/")
+        for item in index.javascript_modules
+    )
 
 
 def test_utf16_requirements_manifest_is_parsed(tmp_path: Path) -> None:

@@ -54,7 +54,7 @@ with `npm run build:pages`; preview it with `npm run preview:pages` at
 ├── runtime/                 Model adapters, tools, config, API, and storage
 ├── services/api/             FastAPI application routes and app factory
 ├── tests/                    Application, runtime, agent, and architecture tests
-├── website/                  Ardvark UI and separate Stock Watch source
+├── website/                  Ardvark web interface and browser assets
 ├── app.py                    Stable ASGI entry point
 └── local_image_generator.py  Legacy image-generator import compatibility
 ```
@@ -62,10 +62,8 @@ with `npm run build:pages`; preview it with `npm run preview:pages` at
 `local_image_generator.py` remains as a compatibility import for the image
 generator, whose implementation now lives in `packages/image_generation/`.
 The live UI markup, styles, and client behavior are in `website/index.html` and
-`website/assets/`. `website/stock-watch/` retains a separate React/Fastify
-project, but its source references missing local packages and has no
-application dependency manifest; it is not currently a verified build target.
-Generated runtime images and SQLite state stay local and are ignored by Git.
+`website/assets/`. Generated runtime images and SQLite state stay local and are
+ignored by Git.
 
 ## Component boundaries
 
@@ -333,7 +331,7 @@ read from the contributors API when available; otherwise local commit author
 names are used without publishing email addresses.
 
 <table>
-<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />66 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
+<tr><td align="center"><img src="docs/architecture/assets/contributors/86b346e793a6.svg" width="72" height="72" alt="Tide Sync Bot avatar" /><br /><sub>Tide Sync Bot<br />70 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/ce889fc0a8a6.svg" width="72" height="72" alt="Vlint avatar" /><br /><sub>Vlint<br />7 contributions</sub></td><td align="center"><img src="docs/architecture/assets/contributors/a3e534c0d6da.svg" width="72" height="72" alt="AcHamm avatar" /><br /><sub>AcHamm<br />1 contributions</sub></td></tr>
 </table>
 
 ---
