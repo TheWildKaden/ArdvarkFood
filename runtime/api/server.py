@@ -18,6 +18,7 @@ def mount_runtime(application: FastAPI) -> None:
             app.state.agent_runtime = runtime
             try:
                 await runtime.mcp.start()
+                runtime.start_background_workers()
                 yield
             finally:
                 await runtime.close()

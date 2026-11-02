@@ -1,11 +1,16 @@
 import asyncio
 import logging
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
 
 from agent.memory.memory_manager import MemoryManager
 from agent.multimodal.input_router import InputRouter
 from runtime.config.settings import RuntimeSettings
+from runtime.compiler import ArtifactCompiler, ArtifactWatcher
+from runtime.learning.manager import ConversationLearningManager
+from runtime.learning.store import LearningStore
+from runtime.learning.training import TrainingJobManager
 from runtime.models.inference import InferenceEngine, SamplingConfig
 from runtime.models.model_manager import ModelManager
 from runtime.storage.storage_manager import StorageManager
@@ -39,6 +44,23 @@ class AgentRuntime:
     ) -> None:
         self.settings = settings
         self.storage = storage or StorageManager(settings.storage.database_path)
+        self.learning_store = LearningStore(self.storage.database_path)
+        self.learning = ConversationLearningManager(
+            self.storage,
+            self.learning_store,
+            minimum_training_examples=settings.learning.minimum_training_examples,
+            maximum_dataset_examples=settings.learning.maximum_dataset_examples,
+        )
+        self.training = TrainingJobManager(
+            self.learning_store,
+            output_directory=self.storage.database_path.parent
+            / "learning"
+            / "models",
+            minimum_examples=settings.learning.minimum_training_examples,
+            max_sequence_length=settings.learning.max_sequence_length,
+        )
+        self.compiler = ArtifactCompiler()
+        self.watcher: ArtifactWatcher | None = None
         self.model_manager = model_manager or ModelManager(settings.model)
         self.inference = InferenceEngine(self.model_manager)
         self.memory = MemoryManager(self.storage)
@@ -56,9 +78,19 @@ class AgentRuntime:
         self.mcp = MCPManager(settings, self.tool_registry)
         self.input_router = InputRouter()
         self.loop = AgentLoop(
-            settings, self.inference, self.tool_executor, self.context, self.storage
+            settings,
+            self.inference,
+            self.tool_executor,
+            self.context,
+            self.storage,
+            self.learning,
         )
         self._executions: dict[str, ExecutionHandle] = {}
+
+    def start_background_workers(self) -> None:
+        if self.settings.learning.enabled:
+            self.learning.start_worker()
+            self.training.start_worker()
 
     async def start(
         self,
@@ -68,6 +100,7 @@ class AgentRuntime:
         sampling: SamplingConfig | None = None,
         stream_tokens: bool = True,
     ) -> ExecutionHandle:
+        self.start_background_workers()
         if not self.storage.conversation_exists(conversation_id):
             raise KeyError("Conversation not found.")
         if len(user_input) > 32000:
@@ -150,4 +183,9 @@ class AgentRuntime:
                 return_exceptions=True,
             )
         await self.mcp.close()
+        if self.watcher is not None:
+            await asyncio.to_thread(self.watcher.stop)
+            self.watcher = None
+        await self.learning.close()
+        await self.training.close()
         await self.model_manager.unload()

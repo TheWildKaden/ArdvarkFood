@@ -14,6 +14,7 @@ from runtime.models.inference import (
 )
 from runtime.storage.storage_manager import StorageManager
 from runtime.tools.executor.executor import ToolExecutor
+from runtime.learning.manager import ConversationLearningManager
 
 
 logger = logging.getLogger(__name__)
@@ -28,12 +29,14 @@ class AgentLoop:
         tools: ToolExecutor,
         context: ContextBuilder,
         storage: StorageManager,
+        learning: ConversationLearningManager,
     ) -> None:
         self.settings = settings
         self.inference = inference
         self.tools = tools
         self.context = context
         self.storage = storage
+        self.learning = learning
 
     async def run(
         self,
@@ -50,6 +53,23 @@ class AgentLoop:
             user_input,
             {"attachments": attachments} if attachments else None,
         )
+        command_response = self.learning.handle_command(
+            state.conversation_id, user_input
+        )
+        if command_response is not None:
+            state.final_response = command_response
+            state.status = "completed"
+            self.storage.add_message(
+                state.conversation_id, "assistant", command_response
+            )
+            self.storage.update_execution(
+                state.execution_id, "completed", state.snapshot()
+            )
+            await notify(
+                "final",
+                {"execution_id": state.execution_id, "content": command_response},
+            )
+            return command_response
         messages = self.context.build(state.conversation_id, user_input)
         adapter = self.inference.model_manager.get_adapter()
         if attachments and not adapter.metadata.capabilities.get("vision", False):
@@ -79,6 +99,7 @@ class AgentLoop:
                 self.storage.update_execution(
                     state.execution_id, "completed", state.snapshot()
                 )
+                self.learning.queue_memory(state.conversation_id)
                 await notify("final", {"execution_id": state.execution_id, "content": final})
                 return final
 

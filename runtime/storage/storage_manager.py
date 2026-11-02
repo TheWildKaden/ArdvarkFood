@@ -289,6 +289,13 @@ class StorageManager:
             result = db.execute("DELETE FROM memories WHERE id=?", (memory_id,))
         return result.rowcount == 1
 
+    def delete_memories_for_conversation(self, conversation_id: str) -> int:
+        with self._connect() as db:
+            result = db.execute(
+                "DELETE FROM memories WHERE conversation_id=?", (conversation_id,)
+            )
+        return result.rowcount
+
     def delete_memory_by_content(self, content: str) -> int:
         normalized = " ".join(content.casefold().split())
         with self._connect() as db:

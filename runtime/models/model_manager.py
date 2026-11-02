@@ -67,20 +67,23 @@ class ModelManager:
             self._status = "loading"
             self._last_error = None
             try:
-                if current is not None:
-                    await current.unload()
-                    self._adapter = None
                 adapter = self._make_adapter(target)
                 await adapter.load()
             except Exception as error:
-                self._status = "error"
+                self._status = "loaded" if current is not None else "error"
                 self._last_error = str(error)
                 logger.exception("Language model failed to load.")
                 raise
 
-            self.settings = target
             self._adapter = adapter
+            self.settings = target
             self._status = "loaded"
+            if current is not None:
+                try:
+                    await current.unload()
+                except Exception as error:
+                    self._last_error = f"Previous model cleanup failed: {error}"
+                    logger.exception("Previous model failed to unload after replacement.")
             logger.info("Loaded model %s using %s.", adapter.metadata.name, target.backend)
             return self.status
 

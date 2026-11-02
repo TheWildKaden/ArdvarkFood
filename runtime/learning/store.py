@@ -111,6 +111,16 @@ class LearningStore:
                 );
                 CREATE INDEX IF NOT EXISTS model_registry_status_idx
                     ON model_registry(status, created_at);
+                CREATE TABLE IF NOT EXISTS compiler_builds (
+                    id TEXT PRIMARY KEY,
+                    source_name TEXT NOT NULL,
+                    artifact_name TEXT NOT NULL,
+                    status TEXT NOT NULL,
+                    details TEXT NOT NULL DEFAULT '{}',
+                    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+                );
+                CREATE INDEX IF NOT EXISTS compiler_builds_created_idx
+                    ON compiler_builds(created_at);
                 """
             )
             example_columns = {
@@ -241,8 +251,9 @@ class LearningStore:
             db.execute(
                 "INSERT INTO learning_queue(id, conversation_id, kind) VALUES(?, ?, ?) "
                 "ON CONFLICT(conversation_id, kind) DO UPDATE SET "
-                "status=CASE WHEN learning_queue.status IN ('failed','cancelled') "
-                "THEN 'queued' ELSE learning_queue.status END, "
+                "status=CASE WHEN learning_queue.status IN "
+                "('failed','cancelled','processed') THEN 'queued' "
+                "ELSE learning_queue.status END, "
                 "updated_at=CURRENT_TIMESTAMP",
                 (job_id, conversation_id, kind),
             )
@@ -679,3 +690,35 @@ class LearningStore:
             if row["status"] in {"failed", "interrupted"}:
                 counts["failed_jobs"] += int(row["count"])
         return counts
+
+    def record_compiler_build(
+        self, source_name: str, artifact_name: str, status: str, details: dict[str, Any]
+    ) -> str:
+        build_id = self.new_id()
+        with self._connect() as db:
+            db.execute(
+                "INSERT INTO compiler_builds(id, source_name, artifact_name, status, details) "
+                "VALUES(?, ?, ?, ?, ?)",
+                (
+                    build_id,
+                    source_name[:256],
+                    artifact_name[:256],
+                    status[:32],
+                    json.dumps(details, ensure_ascii=False),
+                ),
+            )
+        return build_id
+
+    def list_compiler_builds(self, limit: int = 100) -> list[dict[str, Any]]:
+        with self._connect() as db:
+            rows = db.execute(
+                "SELECT id, source_name, artifact_name, status, details, created_at "
+                "FROM compiler_builds ORDER BY created_at DESC LIMIT ?",
+                (min(max(limit, 1), 500),),
+            ).fetchall()
+        result = []
+        for row in rows:
+            item = dict(row)
+            item["details"] = json.loads(item["details"])
+            result.append(item)
+        return result

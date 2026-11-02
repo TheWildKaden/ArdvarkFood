@@ -64,6 +64,7 @@ class ConversationLearningManager:
     def set_conversation_learning(self, conversation_id: str, enabled: bool) -> None:
         withdrawn_paths = self.store.set_conversation_learning(conversation_id, enabled)
         if not enabled:
+            self.storage.delete_memories_for_conversation(conversation_id)
             root = (self.store.database_path.parent / "learning" / "datasets").resolve()
             for value in withdrawn_paths:
                 artifact = Path(value).resolve()
@@ -84,6 +85,10 @@ class ConversationLearningManager:
 
     def queue_training_examples(self, conversation_id: str) -> str:
         return self.store.enqueue(conversation_id, "training_examples")
+
+    def queue_memory(self, conversation_id: str) -> None:
+        if self.store.conversation_learning_enabled(conversation_id):
+            self.store.enqueue(conversation_id, "memory")
 
     def handle_command(self, conversation_id: str, content: str) -> str | None:
         text = content.strip()
