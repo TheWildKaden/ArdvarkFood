@@ -173,11 +173,8 @@ async def delete_training_example(
     example_id: str, request: Request
 ) -> dict[str, bool]:
     runtime = _runtime(request)
-    if not runtime.learning_store.delete_example(example_id):
-        raise HTTPException(
-            status_code=404,
-            detail="Example not found or already included in a dataset; rebuild the dataset first.",
-        )
+    if not runtime.learning.delete_training_example(example_id):
+        raise HTTPException(status_code=404, detail="Training example not found.")
     runtime.storage.add_audit(None, "training_example.deleted", {"example_id": example_id})
     return {"deleted": True}
 

@@ -408,13 +408,39 @@ class LearningStore:
             )
         return result.rowcount == 1
 
-    def delete_example(self, example_id: str) -> bool:
+    def delete_example(self, example_id: str) -> list[str] | None:
         with self._connect() as db:
-            result = db.execute(
-                "DELETE FROM training_examples WHERE id=? AND status!='approved'",
+            row = db.execute(
+                "SELECT id FROM training_examples WHERE id=?", (example_id,)
+            ).fetchone()
+            if row is None:
+                return None
+            affected = db.execute(
+                "SELECT DISTINCT d.id, d.artifact_path FROM dataset_versions d "
+                "JOIN dataset_examples de ON de.dataset_id=d.id WHERE de.example_id=?",
                 (example_id,),
-            )
-        return result.rowcount == 1
+            ).fetchall()
+            dataset_ids = [item["id"] for item in affected]
+            paths = [item["artifact_path"] for item in affected]
+            if dataset_ids:
+                placeholders = ",".join("?" for _ in dataset_ids)
+                db.execute(
+                    f"UPDATE dataset_versions SET status='withdrawn' WHERE id IN ({placeholders})",
+                    dataset_ids,
+                )
+                db.execute(
+                    f"UPDATE training_jobs SET status='cancelled', "
+                    f"error='Training example was removed', "
+                    f"completed_at=CURRENT_TIMESTAMP WHERE dataset_id IN ({placeholders}) "
+                    "AND status IN ('queued','running')",
+                    dataset_ids,
+                )
+                db.execute(
+                    f"DELETE FROM dataset_examples WHERE dataset_id IN ({placeholders})",
+                    dataset_ids,
+                )
+            db.execute("DELETE FROM training_examples WHERE id=?", (example_id,))
+        return paths
 
     def create_dataset(
         self, artifact_path: str, sha256: str, sample_count: int, metadata: dict[str, Any]

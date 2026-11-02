@@ -65,26 +65,36 @@ class ConversationLearningManager:
         withdrawn_paths = self.store.set_conversation_learning(conversation_id, enabled)
         if not enabled:
             self.storage.delete_memories_for_conversation(conversation_id)
-            root = (self.store.database_path.parent / "learning" / "datasets").resolve()
-            for value in withdrawn_paths:
-                artifact = Path(value).resolve()
-                if root not in artifact.parents:
-                    logger.error("Skipped cleanup of a dataset outside the managed directory.")
-                    continue
-                paths = (
-                    artifact,
-                    Path(str(artifact) + ".manifest.json"),
-                    artifact.with_name(artifact.stem + ".source.jsonl"),
-                    Path(str(artifact) + ".previous"),
-                )
-                for path in paths:
-                    if path.exists() and root in path.resolve().parents:
-                        path.unlink()
+            self._remove_dataset_artifacts(withdrawn_paths)
         if enabled:
             self.store.enqueue(conversation_id, "memory")
 
     def queue_training_examples(self, conversation_id: str) -> str:
         return self.store.enqueue(conversation_id, "training_examples")
+
+    def delete_training_example(self, example_id: str) -> bool:
+        paths = self.store.delete_example(example_id)
+        if paths is None:
+            return False
+        self._remove_dataset_artifacts(paths)
+        return True
+
+    def _remove_dataset_artifacts(self, values: list[str]) -> None:
+        root = (self.store.database_path.parent / "learning" / "datasets").resolve()
+        for value in values:
+            artifact = Path(value).resolve()
+            if root not in artifact.parents:
+                logger.error("Skipped cleanup of a dataset outside the managed directory.")
+                continue
+            paths = (
+                artifact,
+                Path(str(artifact) + ".manifest.json"),
+                artifact.with_name(artifact.stem + ".source.jsonl"),
+                Path(str(artifact) + ".previous"),
+            )
+            for path in paths:
+                if path.exists() and root in path.resolve().parents:
+                    path.unlink()
 
     def queue_memory(self, conversation_id: str) -> None:
         if self.store.conversation_learning_enabled(conversation_id):
@@ -389,9 +399,9 @@ class ConversationLearningManager:
         examples = examples[: self.maximum_dataset_examples]
         dataset_directory = self.store.database_path.parent / "learning" / "datasets"
         dataset_directory.mkdir(parents=True, exist_ok=True)
-        version = len(self.store.list_datasets()) + 1
-        source = dataset_directory / f"dataset-v{version}.source.jsonl"
-        compiled = dataset_directory / f"dataset-v{version}.jsonl"
+        dataset_tag = self.store.new_id()
+        source = dataset_directory / f"dataset-{dataset_tag}.source.jsonl"
+        compiled = dataset_directory / f"dataset-{dataset_tag}.jsonl"
         temporary = source.with_name(source.name + ".tmp")
         with temporary.open("w", encoding="utf-8", newline="\n") as file:
             for example in examples:
