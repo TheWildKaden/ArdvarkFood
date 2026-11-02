@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-APP_NAME = "TUI Workbench"
+APP_NAME = "Ardvark Workbench"
 
 DATA_DIR = Path.home() / ".tuiapp"
 NOTES_FILE = DATA_DIR / "notes.json"

@@ -14,9 +14,55 @@
 
 DashboardPane,
 NotesPane,
-SettingsPane {
+SettingsPane,
+MemoryPane,
+LearningPane,
+CompilerPane,
+ModelsPane {
     height: 100%;
     padding: 1 2;
+}
+
+MemoryPane Static,
+LearningPane Static,
+CompilerPane Static,
+ModelsPane Static {
+    height: auto;
+    margin-bottom: 1;
+}
+
+MemoryPane Horizontal,
+LearningPane Horizontal,
+CompilerPane Horizontal,
+ModelsPane Horizontal {
+    height: auto;
+    margin-bottom: 1;
+}
+
+MemoryPane Input,
+LearningPane Input,
+CompilerPane Input,
+ModelsPane Input {
+    width: 1fr;
+    margin-right: 1;
+}
+
+LearningPane #learning-status,
+LearningPane #learning-examples,
+CompilerPane #compiler-results,
+ModelsPane #model-results,
+MemoryPane #memory-results {
+    height: 1fr;
+    overflow-y: auto;
+    border: round $primary;
+    padding: 1;
+}
+
+LearningPane Button,
+CompilerPane Button,
+ModelsPane Button,
+MemoryPane Button {
+    margin-right: 1;
 }
 
 /* Dashboard */

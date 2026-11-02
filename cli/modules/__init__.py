@@ -14,6 +14,10 @@ from typing import Type
 from textual.containers import Container
 
 from .dashboard import DashboardPane
+from .compiler import CompilerPane
+from .learning import LearningPane
+from .memory import MemoryPane
+from .models import ModelsPane
 from .notes import NotesPane
 from .settings import SettingsPane
 
@@ -27,6 +31,10 @@ class ModuleSpec:
 
 MODULES: tuple[ModuleSpec, ...] = (
     ModuleSpec("dashboard", "Dashboard", DashboardPane),
+    ModuleSpec("memory", "Memory", MemoryPane),
+    ModuleSpec("learning", "Learning", LearningPane),
+    ModuleSpec("compiler", "Compiler", CompilerPane),
+    ModuleSpec("models", "Models", ModelsPane),
     ModuleSpec("notes", "Notes", NotesPane),
     ModuleSpec("settings", "Settings", SettingsPane),
 )

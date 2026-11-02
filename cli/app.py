@@ -24,6 +24,10 @@ class TUIApp(App):
         Binding("f1", "show('dashboard')", "Dashboard"),
         Binding("f2", "show('notes')", "Notes"),
         Binding("f3", "show('settings')", "Settings"),
+        Binding("f4", "show('memory')", "Memory"),
+        Binding("f5", "show('learning')", "Learning"),
+        Binding("f6", "show('compiler')", "Compiler"),
+        Binding("f7", "show('models')", "Models"),
     ]
 
     def compose(self) -> ComposeResult:
